@@ -1,0 +1,52 @@
+import axios from "axios";
+import jwtDecode from "jwt-decode";
+import { LoginResponse } from "../../interfaces/login-response.interface";
+
+const API_URL = process.env.REACT_APP_API_URL;
+const API_VERSION = process.env.REACT_APP_API_VERSION;
+
+class AuthService {
+  // // Login user and retrieve JWT token
+  // async login(username: string, password: string): Promise<LoginResponse | null> {
+  //   try {
+  //     const response = await axios.post<LoginResponse>(`${API_URL}/login`, { username, password });
+  //     return response.data;
+  //   } catch (error) {
+  //     console.error("Login failed:", error);
+  //     return null;
+  //   }
+  // }
+  //
+  // // Save the JWT token in localStorage
+  // saveToken(token: string): void {
+  //   localStorage.setItem("token", token);
+  // }
+  //
+  // // Retrieve the JWT token from localStorage
+  // getToken(): string | null {
+  //   return localStorage.getItem("token");
+  // }
+  //
+  // // Remove the JWT token from localStorage
+  // removeToken(): void {
+  //   localStorage.removeItem("token");
+  // }
+  //
+  // // Check if the user is logged in
+  // isLoggedIn(): boolean {
+  //   const token = this.getToken();
+  //   return token !== null;
+  // }
+  //
+  // // Decode the JWT token and retrieve the user information
+  // getUser(): User | null {
+  //   const token = this.getToken();
+  //   if (token) {
+  //     const decoded: any = jwtDecode(token);
+  //     return { id: decoded.id, username: decoded.username };
+  //   }
+  //   return null;
+  // }
+}
+
+export default AuthService;
