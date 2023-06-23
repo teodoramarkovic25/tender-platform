@@ -1,4 +1,4 @@
-# Job Board and Application Platform
+# Tender Platform
 
 ## Quick Start
 
