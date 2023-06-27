@@ -9,6 +9,7 @@ import {toAbsoluteUrl} from '../../../../_metronic/helpers'
 import {PasswordMeterComponent} from '../../../../_metronic/assets/ts/components'
 import {useAuth} from '../core/Auth'
 
+//comment
 const initialValues = {
   firstname: '',
   lastname: '',
