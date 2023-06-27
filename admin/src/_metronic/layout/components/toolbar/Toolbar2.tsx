@@ -4,4 +4,4 @@ const Toolbar2: FC = () => {
   return <>Toolbar 2</>
 }
 
-export {Toolbar2}
+export {Toolbar2};

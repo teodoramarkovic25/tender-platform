@@ -6,7 +6,7 @@ To install this project follow the steps bellow:
 
 1. Clone this project.
 2. Go to `admin` folder
-3. Run `npm install`
+3. Run `yarn install`
 4. Go to `backend` folder
 5. Run `cp .env.example .env` to create .env file
 6. Run `yarn install` to install the dependencies
@@ -15,7 +15,7 @@ To install this project follow the steps bellow:
 
 ## Running the Project
 
-1. Run `npm run start` from `admin` folder
+1. Run `yarn start` from `admin` folder
 2. Run `yarn docker:dev` from `backend` folder
 
 
