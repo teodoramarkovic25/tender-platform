@@ -10,7 +10,7 @@ To install this project follow the steps bellow:
 4. Go to `backend` folder
 5. Run `cp .env.example .env` to create .env file
 6. Run `yarn install` to install the dependencies
-7. Run `yarn docker:dev` to run the API in dev mode
+7. Run `yarn docker:dev` to runzy the API in dev mode
 
 
 ## Running the Project
