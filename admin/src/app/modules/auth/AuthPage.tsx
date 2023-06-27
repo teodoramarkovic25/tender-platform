@@ -7,6 +7,7 @@ import {ForgotPassword} from './components/ForgotPassword'
 import {Login} from './components/Login'
 import {toAbsoluteUrl} from '../../../_metronic/helpers'
 import logo2 from "../../../_metronic/layout/logo/logo2.png"
+import favicon from "../../../_metronic/layout/favicon/favicon.png"
 
 const AuthLayout = () => {
   useEffect(() => {
@@ -17,17 +18,19 @@ const AuthLayout = () => {
   }, [])
 
   return (
+<div style={{display:"flex"}}>
+
     <div
-      className='d-flex flex-column flex-column-fluid bgi-position-y-bottom position-x-center bgi-no-repeat bgi-size-contain bgi-attachment-fixed'
-      style={{
-       // backgroundImage: `url(${toAbsoluteUrl('/media/illustrations/sketchy-1/14.png')})`,
+      className=' d-flex flex-column flex-column-fluid bgi-position-y-bottom position-x-center bgi-no-repeat bgi-size-contain bgi-attachment-fixed'
+      style={{marginTop:"20px",
+         backgroundImage: `url(${toAbsoluteUrl('/media/illustrations/sketchy-1/background.jpg')})`,
       }}
     >
       {/* begin::Content */}
       <div className='d-flex flex-center flex-column flex-column-fluid p-10 pb-lg-20'>
         {/* begin::Logo */}
         <a href='#' className='mb-12'>
-          <img alt='Logo'src={logo2}  className='h-45px' />
+          <img alt='Logo'src={favicon}  className='h-75px' />
         </a>
         {/* end::Logo */}
         {/* begin::Wrapper */}
@@ -55,6 +58,10 @@ const AuthLayout = () => {
       </div>
       {/* end::Footer */}
     </div>
+  <div>
+charts
+  </div>
+</div>
   )
 }
 
