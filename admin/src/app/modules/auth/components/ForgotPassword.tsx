@@ -80,6 +80,7 @@ export function ForgotPassword() {
         <div className='fv-row mb-10'>
           <label className='form-label fw-bolder text-gray-900 fs-6'>Email</label>
           <input
+              style={{border:'2px solid lightgray'}}
             type='email'
             placeholder=''
             autoComplete='off'
@@ -107,7 +108,12 @@ export function ForgotPassword() {
           <button
             type='submit'
             id='kt_password_reset_submit'
-            className='btn btn-lg btn-primary fw-bolder me-4'
+            style={
+              {
+                backgroundColor:"#ED6D04"
+              }
+            }
+            className='btn btn-lg  fw-bolder me-4'
           >
             <span className='indicator-label'>Submit</span>
             {loading && (
@@ -119,9 +125,10 @@ export function ForgotPassword() {
           </button>
           <Link to='/auth/login'>
             <button
+                style={{border:'2px solid lightgray'}}
               type='button'
               id='kt_login_password_reset_form_cancel_button'
-              className='btn btn-lg btn-light-primary fw-bolder'
+              className='btn btn-lg  fw-bolder'
               disabled={formik.isSubmitting || !formik.isValid}
             >
               Cancel

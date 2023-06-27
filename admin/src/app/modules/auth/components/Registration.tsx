@@ -95,7 +95,7 @@ export function Registration() {
         {/* begin::Link */}
         <div className='text-gray-400 fw-bold fs-4'>
           Already have an account?
-          <Link to='/auth/login' className='link-primary fw-bolder' style={{marginLeft: '5px'}}>
+          <Link  to='/auth/login' className=' fw-bolder' style={{marginLeft: '5px',color:'#ED6D04'}}>
             Forgot Password ?
           </Link>
         </div>
@@ -104,14 +104,7 @@ export function Registration() {
       {/* end::Heading */}
 
       {/* begin::Action */}
-      <button type='button' className='btn btn-light-primary fw-bolder w-100 mb-10'>
-        <img
-          alt='Logo'
-          src={toAbsoluteUrl('/media/svg/brand-logos/google-icon.svg')}
-          className='h-20px me-3'
-        />
-        Sign in with Google
-      </button>
+
       {/* end::Action */}
 
       <div className='d-flex align-items-center mb-10'>
@@ -132,6 +125,7 @@ export function Registration() {
           <label className='class="form-label fw-bolder text-dark fs-6'>First name</label>
           <input
             placeholder='First name'
+            style={{border:'2px solid lightgray'}}
             type='text'
             autoComplete='off'
             {...formik.getFieldProps('firstname')}
@@ -159,6 +153,7 @@ export function Registration() {
             <label className='form-label fw-bolder text-dark fs-6'>Last name</label>
             <input
               placeholder='Last name'
+              style={{border:'2px solid lightgray'}}
               type='text'
               autoComplete='off'
               {...formik.getFieldProps('lastname')}
@@ -189,6 +184,7 @@ export function Registration() {
       <div className='fv-row mb-7'>
         <label className='form-label fw-bolder text-dark fs-6'>Email</label>
         <input
+            style={{border:'2px solid lightgray'}}
           placeholder='Email'
           type='email'
           autoComplete='off'
@@ -218,6 +214,7 @@ export function Registration() {
           <div className='position-relative mb-3'>
             <input
               type='password'
+              style={{border:'2px solid lightgray'}}
               placeholder='Password'
               autoComplete='off'
               {...formik.getFieldProps('password')}
@@ -260,7 +257,7 @@ export function Registration() {
       {/* begin::Form group Confirm password */}
       <div className='fv-row mb-5'>
         <label className='form-label fw-bolder text-dark fs-6'>Confirm Password</label>
-        <input
+        <input style={{border:'2px solid lightgray'}}
           type='password'
           placeholder='Password confirmation'
           autoComplete='off'
@@ -299,7 +296,7 @@ export function Registration() {
             htmlFor='kt_login_toc_agree'
           >
             I Agree the{' '}
-            <Link to='/auth/terms' className='ms-1 link-primary'>
+            <Link to='/auth/terms' style={{color:'#ED6D04'}} className='ms-1'>
               terms and conditions
             </Link>
             .
@@ -317,10 +314,10 @@ export function Registration() {
 
       {/* begin::Form group */}
       <div className='text-center'>
-        <button
+        <button style={{backgroundColor:"#ED6D04"}}
           type='submit'
           id='kt_sign_up_submit'
-          className='btn btn-lg btn-primary w-100 mb-5'
+          className='btn btn-lg  w-100  mb-5'
           disabled={formik.isSubmitting || !formik.isValid || !formik.values.acceptTerms}
         >
           {!loading && <span className='indicator-label'>Submit</span>}
@@ -332,10 +329,10 @@ export function Registration() {
           )}
         </button>
         <Link to='/auth/login'>
-          <button
+          <button style={{color:'#ED6D04', border:'2px solid lightgray',opacity:'1'}}
             type='button'
             id='kt_login_signup_form_cancel_button'
-            className='btn btn-lg btn-light-primary w-100 mb-5'
+            className='btn btn-lg w-100 mb-5'
           >
             Cancel
           </button>

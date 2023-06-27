@@ -67,30 +67,36 @@ export function Login() {
         <h1 className='text-dark mb-3'>Sign In to Metronic</h1>
         <div className='text-gray-400 fw-bold fs-4'>
           New Here?{' '}
-          <Link to='/auth/registration' className='link-primary fw-bolder'>
+          <Link to='/auth/registration' style={{color:'#ED6D04'}} className=' fw-bolder'>
             Create an Account
           </Link>
         </div>
       </div>
       {/* begin::Heading */}
 
+      {/*
+
+      admin#demo. prikaz na ekranu sakriven
+
       {formik.status ? (
-        <div className='mb-lg-15 alert alert-danger'>
-          <div className='alert-text font-weight-bold'>{formik.status}</div>
-        </div>
-      ) : (
-        <div className='mb-10 bg-light-info p-8 rounded'>
-          <div className='text-info'>
-            Use account <strong>admin@demo.com</strong> and password <strong>demo</strong> to
-            continue.
+          <div className='mb-lg-15 alert alert-danger'>
+            <div className='alert-text font-weight-bold'>{formik.status}</div>
           </div>
-        </div>
+      ) : (
+          <div className='mb-10 bg-light-info p-8 rounded'>
+            <div className='text-info'>
+              Use account <strong>admin@demo.com</strong> and password <strong>demo</strong> to
+              continue.
+            </div>
+          </div>
       )}
 
+*/}
       {/* begin::Form group */}
       <div className='fv-row mb-10'>
         <label className='form-label fs-6 fw-bolder text-dark'>Email</label>
         <input
+            style={{border:'2px solid lightgray'}}
           placeholder='Email'
           {...formik.getFieldProps('email')}
           className={clsx(
@@ -122,8 +128,8 @@ export function Login() {
             {/* begin::Link */}
             <Link
               to='/auth/forgot-password'
-              className='link-primary fs-6 fw-bolder'
-              style={{marginLeft: '5px'}}
+              className=' fs-6 fw-bolder'
+              style={{marginLeft: '5px', color:'#ED6D04'}}
             >
               Forgot Password ?
             </Link>
@@ -131,6 +137,7 @@ export function Login() {
           </div>
         </div>
         <input
+            style={{border:'2px solid lightgray'}}
           type='password'
           autoComplete='off'
           {...formik.getFieldProps('password')}
@@ -158,8 +165,9 @@ export function Login() {
       <div className='text-center'>
         <button
           type='submit'
+          style={{backgroundColor:'#ED6D04'}}
           id='kt_sign_in_submit'
-          className='btn btn-lg btn-primary w-100 mb-5'
+          className='btn btn-lg w-100 mb-5'
           disabled={formik.isSubmitting || !formik.isValid}
         >
           {!loading && <span className='indicator-label'>Continue</span>}
