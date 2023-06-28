@@ -5,6 +5,7 @@ import TopBarProgress from 'react-topbar-progress-indicator'
 import {Dashboard} from '../pages/dashboard/Dashboard'
 import {getCSSVariableValue} from '../../_metronic/assets/ts/_utils'
 import {WithChildren} from '../../_metronic/helpers'
+import TenderProposals from "../pages/vendors/TenderProposals";
 
 const PrivateRoutes = () => {
     //const UsersPage = lazy(() => import('../modules/apps/user-management/UsersPage'))
@@ -25,6 +26,7 @@ const PrivateRoutes = () => {
                         </SuspensedView>
                     }
                 />*/}
+                <Route path='vendors' element={<TenderProposals/>}/>
                 {/* Page Not Found */}
                 <Route path='*' element={<Navigate to='/error/404'/>}/>
             </Route>

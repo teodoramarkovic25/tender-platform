@@ -64,10 +64,10 @@ export function Login() {
     >
       {/* begin::Heading */}
       <div className='text-center mb-10'>
-        <h1 className='text-dark mb-3'>Sign In to Metronic</h1>
+        <h1 className='text-dark mb-3'>Sign In to TenderPro</h1>
         <div className='text-gray-400 fw-bold fs-4'>
           New Here?{' '}
-          <Link to='/auth/registration' style={{color:'#ED6D04'}} className=' fw-bolder'>
+          <Link to='/auth/registration' className=' fw-bolder'>
             Create an Account
           </Link>
         </div>
@@ -129,7 +129,7 @@ export function Login() {
             <Link
               to='/auth/forgot-password'
               className=' fs-6 fw-bolder'
-              style={{marginLeft: '5px', color:'#ED6D04'}}
+              style={{marginLeft: '5px'}}
             >
               Forgot Password ?
             </Link>
@@ -137,7 +137,6 @@ export function Login() {
           </div>
         </div>
         <input
-            style={{border:'2px solid lightgray'}}
           type='password'
           autoComplete='off'
           {...formik.getFieldProps('password')}
@@ -165,7 +164,6 @@ export function Login() {
       <div className='text-center'>
         <button
           type='submit'
-          style={{backgroundColor:'#ED6D04'}}
           id='kt_sign_in_submit'
           className='btn btn-lg w-100 mb-5'
           disabled={formik.isSubmitting || !formik.isValid}
@@ -179,44 +177,8 @@ export function Login() {
           )}
         </button>
 
-        {/* begin::Separator */}
-        <div className='text-center text-muted text-uppercase fw-bolder mb-5'>or</div>
-        {/* end::Separator */}
 
-        {/* begin::Google link */}
-        <a href='#' className='btn btn-flex flex-center btn-light btn-lg w-100 mb-5'>
-          <img
-            alt='Logo'
-            src={toAbsoluteUrl('/media/svg/brand-logos/google-icon.svg')}
-            className='h-20px me-3'
-          />
-          Continue with Google
-        </a>
-        {/* end::Google link */}
-
-        {/* begin::Google link */}
-        <a href='#' className='btn btn-flex flex-center btn-light btn-lg w-100 mb-5'>
-          <img
-            alt='Logo'
-            src={toAbsoluteUrl('/media/svg/brand-logos/facebook-4.svg')}
-            className='h-20px me-3'
-          />
-          Continue with Facebook
-        </a>
-        {/* end::Google link */}
-
-        {/* begin::Google link */}
-        <a href='#' className='btn btn-flex flex-center btn-light btn-lg w-100'>
-          <img
-            alt='Logo'
-            src={toAbsoluteUrl('/media/svg/brand-logos/apple-black.svg')}
-            className='h-20px me-3'
-          />
-          Continue with Apple
-        </a>
-        {/* end::Google link */}
       </div>
-      {/* end::Action */}
     </form>
   )
 }
