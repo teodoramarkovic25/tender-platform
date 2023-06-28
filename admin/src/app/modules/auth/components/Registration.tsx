@@ -80,7 +80,9 @@ export function Registration() {
   }, [])
 
   return (
+
     <form
+
       className='form w-100 fv-plugins-bootstrap5 fv-plugins-framework'
       noValidate
       id='kt_login_signup_form'
@@ -95,7 +97,7 @@ export function Registration() {
         {/* begin::Link */}
         <div className='text-gray-400 fw-bold fs-4'>
           Already have an account?
-          <Link  to='/auth/login' className=' fw-bolder' style={{marginLeft: '5px',color:'#ED6D04'}}>
+          <Link  to='/auth/login' className=' fw-bolder' style={{marginLeft: '5px'}}>
             Forgot Password ?
           </Link>
         </div>
@@ -296,7 +298,7 @@ export function Registration() {
             htmlFor='kt_login_toc_agree'
           >
             I Agree the{' '}
-            <Link to='/auth/terms' style={{color:'#ED6D04'}} className='ms-1'>
+            <Link to='/auth/terms'  className='ms-1'>
               terms and conditions
             </Link>
             .
@@ -314,7 +316,7 @@ export function Registration() {
 
       {/* begin::Form group */}
       <div className='text-center'>
-        <button style={{backgroundColor:"#ED6D04"}}
+        <button
           type='submit'
           id='kt_sign_up_submit'
           className='btn btn-lg  w-100  mb-5'
@@ -329,7 +331,7 @@ export function Registration() {
           )}
         </button>
         <Link to='/auth/login'>
-          <button style={{color:'#ED6D04', border:'2px solid lightgray',opacity:'1'}}
+          <button style={{ border:'2px solid lightgray',opacity:'1'}}
             type='button'
             id='kt_login_signup_form_cancel_button'
             className='btn btn-lg w-100 mb-5'
