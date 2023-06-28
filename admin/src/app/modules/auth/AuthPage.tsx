@@ -21,9 +21,15 @@ const AuthLayout = () => {
 <div style={{display:"flex"}}>
 
     <div
-      className=' d-flex flex-column flex-column-fluid bgi-position-y-bottom position-x-center bgi-no-repeat bgi-size-contain bgi-attachment-fixed'
-      style={{marginTop:"20px",
-         backgroundImage: `url(${toAbsoluteUrl('/media/illustrations/sketchy-1/background.jpg')})`,
+      className='d-flex flex-column flex-column-fluid bgi-position-y-bottom position-x-center bgi-no-repeat bgi-size-contain bgi-attachment-fixed'
+      style={{
+        backgroundImage: `url(${toAbsoluteUrl('/media/illustrations/sketchy-1/background.png')})`,
+        position: "fixed",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        width: 100 + "%",
+        height: 100 + ""
       }}
     >
       {/* begin::Content */}
