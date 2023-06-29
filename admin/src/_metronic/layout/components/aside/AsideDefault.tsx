@@ -37,11 +37,7 @@ const AsideDefault: FC = () => {
                 {/* begin::Logo */}
                 {aside.theme === 'dark' && (
                     <Link to='/dashboard'>
-                        <img
-                            alt='Logo'
-                            className='h-25px logo'
-                            src={toAbsoluteUrl('/logo_light.png')}
-                        />
+                      { /* <img alt='Logo'className='h-25px logo'src={toAbsoluteUrl('/logo_light.png')}/>*/}
                     </Link>
                 )}
                 {aside.theme === 'light' && (
