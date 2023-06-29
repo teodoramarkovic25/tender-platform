@@ -8,6 +8,7 @@ export function MenuInner() {
     const intl = useIntl()
     return (
         <>
+        <MenuItem title='CreateTender' to='/create-tender' />
             {/*<MenuItem title={intl.formatMessage({id: 'MENU.DASHBOARD'})} to='/dashboard'/>
 
             <MenuInnerWithSub
@@ -20,5 +21,6 @@ export function MenuInner() {
                 <MegaMenu/>
             </MenuInnerWithSub>*/}
         </>
+        
     )
 }
