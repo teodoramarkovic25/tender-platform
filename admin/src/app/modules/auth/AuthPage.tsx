@@ -16,59 +16,51 @@ const AuthLayout = () => {
       document.body.classList.remove('bg-body')
     }
   }, [])
-
   return (
-<div style={{display:"flex"}}>
 
-    <div
-      className='d-flex flex-column flex-column-fluid bgi-position-y-bottom position-x-center bgi-no-repeat bgi-size-contain bgi-attachment-fixed'
-      style={{
-        backgroundImage: `url(${toAbsoluteUrl('/media/illustrations/sketchy-1/background.png')})`,
-        position: "fixed",
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        width: 100 + "%",
-        height: 100 + ""
-      }}
-    >
-      {/* begin::Content */}
-      <div className='d-flex flex-center flex-column flex-column-fluid p-10 pb-lg-20'>
-        {/* begin::Logo */}
-        <a href='#' className='mb-12'>
-          <img alt='Logo'src={favicon}  className='h-75px' />
-        </a>
-        {/* end::Logo */}
-        {/* begin::Wrapper */}
-        <div className='w-lg-500px bg-body shadow-sm rounded p-10 p-lg-15 mx-auto'>
-          <Outlet />
+      <div className='d-flex'>
+        <div
+            className='d-flex flex-column flex-column-fluid bgi-position-y-bottom position-x-center bgi-no-repeat bgi-size-contain bgi-attachment-fixed'
+            style={{
+              backgroundImage: `url(${toAbsoluteUrl('/media/illustrations/sketchy-1/index_picture.png')})`,
+            }}
+        >
         </div>
-        {/* end::Wrapper */}
-      </div>
-      {/* end::Content */}
-      {/* begin::Footer */}
-      <div className='d-flex flex-center flex-column-auto p-10'>
-        <div className='d-flex align-items-center fw-bold fs-6'>
-          <a href='#' className='text-muted px-2'>
-            About
-          </a>
+        <div style={{marginRight:"10rem"}}>{/* begin::Content */}
+          <div className='d-flex flex-center flex-column flex-column-fluid p-10 pb-lg-20'>
+            {/* begin::Logo */}
 
-          <a href='#' className='text-muted px-2'>
-            Contact
-          </a>
+            <a href='#' className='mb-12'>
+              <img alt='Logo'src={favicon}  className='h-75px' />
+            </a>
+            {/* end::Logo */}
+            {/* begin::Wrapper */}
 
-          <a href='#' className='text-muted px-2'>
-            Contact Us
-          </a>
-        </div>
+            <div className='w-lg-500px shadow-sm rounded p-10 p-lg-15 bg-body mx-auto'>
+              <Outlet />
+            </div>
+            {/* end::Wrapper */}
+          </div>
+          {/* end::Content */}
+          {/* begin::Footer */}
+          <div className='d-flex flex-center flex-column-auto p-10'>
+            <div className='d-flex align-items-center fw-bold fs-6'>
+              <a href='#' className='text-muted px-2'>
+                About
+              </a>
+
+              <a href='#' className='text-muted px-2'>
+                Contact
+              </a>
+
+              <a href='#' className='text-muted px-2'>
+                Contact Us
+              </a>
+            </div>
+          </div>
+          {/* end::Footer */}</div>
       </div>
-      {/* end::Footer */}
-    </div>
-  <div>
-charts
-  </div>
-</div>
-  )
+      )
 }
 
 const AuthPage = () => (
