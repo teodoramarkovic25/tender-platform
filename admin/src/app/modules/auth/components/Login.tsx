@@ -96,11 +96,10 @@ export function Login() {
       <div className='fv-row mb-10'>
         <label className='form-label fs-6 fw-bolder text-dark'>Email</label>
         <input
-            style={{border:'2px solid lightgray'}}
           placeholder='Email'
           {...formik.getFieldProps('email')}
           className={clsx(
-            'form-control form-control-lg form-control-solid',
+            'form-control form-control-lg form-control-solid border-gray-400',
             {'is-invalid': formik.touched.email && formik.errors.email},
             {
               'is-valid': formik.touched.email && !formik.errors.email,
@@ -141,7 +140,7 @@ export function Login() {
           autoComplete='off'
           {...formik.getFieldProps('password')}
           className={clsx(
-            'form-control form-control-lg form-control-solid',
+            'form-control form-control-lg form-control-solid border-gray-400',
             {
               'is-invalid': formik.touched.password && formik.errors.password,
             },
