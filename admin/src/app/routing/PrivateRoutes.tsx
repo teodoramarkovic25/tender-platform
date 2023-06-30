@@ -6,6 +6,7 @@ import {Dashboard} from '../pages/dashboard/Dashboard'
 import {getCSSVariableValue} from '../../_metronic/assets/ts/_utils'
 import {WithChildren} from '../../_metronic/helpers'
 import TenderProposals from "../pages/vendors/TenderProposals";
+import { CreateTender } from '../pages/create_tender_folder/CreateTender'
 
 const PrivateRoutes = () => {
     //const UsersPage = lazy(() => import('../modules/apps/user-management/UsersPage'))
@@ -27,6 +28,7 @@ const PrivateRoutes = () => {
                     }
                 />*/}
                 <Route path='vendors' element={<TenderProposals/>}/>
+                <Route path='create-tender' element={<CreateTender/>}/>
                 {/* Page Not Found */}
                 <Route path='*' element={<Navigate to='/error/404'/>}/>
             </Route>
