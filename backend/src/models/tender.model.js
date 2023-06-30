@@ -1,9 +1,8 @@
 const mongoose = require('mongoose');
-const validator = require('validator');
 const { toJSON, paginate } = require('./plugins');
-const { date } = require('joi');
 
-const createTenderSchema = mongoose.Schema(
+
+const tenderSchema = mongoose.Schema(
     {
       title: {
         type: String,
@@ -37,11 +36,11 @@ const createTenderSchema = mongoose.Schema(
       }
     }
 );
-createTenderSchema.plugin(toJSON);
-createTenderSchema.plugin(paginate);
+tenderSchema.plugin(toJSON);
+tenderSchema.plugin(paginate);
 
-//@typedef CreateTender
 
-const CreateTender= mongoose.model('CreateTender', userSchema);
+const Tender = mongoose.model('Tender',tenderSchema  );
 
-module.exports = CreateTender;
+
+module.exports = Tender;
