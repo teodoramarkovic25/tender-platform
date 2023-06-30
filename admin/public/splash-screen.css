@@ -35,9 +35,9 @@ body {
 
 [data-theme="dark"] .splash-screen {
   background-color: #151521;
-  color: #92929F;
+  color: rgb(239,25,7);
 }
 
 [data-theme="dark"] .splash-screen span {
-  color: #92929F;
+  color: rgb(239,25,7);
 }
