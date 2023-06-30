@@ -1,7 +1,7 @@
 const httpStatus = require('http-status');
 const {CreateTender}= require('../models')
 const ApiError = require('../utils/ApiError');
-const CreateTender = require('../models/createtender.model');
+const CreateTender = require('../models/tender.model');
 
 //@param {Object} userBody
  //@returns {Promise<CreateTender}
