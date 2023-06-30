@@ -44,7 +44,7 @@ export function ForgotPassword() {
 
   return (
     <>
-      <form
+      <form style={{marginTop:'8%'}}
         className='form w-100 fv-plugins-bootstrap5 fv-plugins-framework'
         noValidate
         id='kt_login_password_reset_form'
@@ -108,11 +108,6 @@ export function ForgotPassword() {
           <button
             type='submit'
             id='kt_password_reset_submit'
-            style={
-              {
-                backgroundColor:"#ED6D04"
-              }
-            }
             className='btn btn-lg  fw-bolder me-4'
           >
             <span className='indicator-label'>Submit</span>
