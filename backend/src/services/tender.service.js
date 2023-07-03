@@ -32,6 +32,8 @@ const queryTenders = async (filter, options) => {
  */
 const getTenderById = async (id) => {
   return Tender.findById(id);
+
+  queryTenders()
 };
 
 
