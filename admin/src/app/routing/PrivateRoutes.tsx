@@ -5,6 +5,7 @@ import TopBarProgress from 'react-topbar-progress-indicator'
 import {Dashboard} from '../pages/dashboard/Dashboard'
 import {getCSSVariableValue} from '../../_metronic/assets/ts/_utils'
 import {WithChildren} from '../../_metronic/helpers'
+import EvaluateTender from '../pages/evaluators/EvaluateTender'
 
 const PrivateRoutes = () => {
     //const UsersPage = lazy(() => import('../modules/apps/user-management/UsersPage'))
