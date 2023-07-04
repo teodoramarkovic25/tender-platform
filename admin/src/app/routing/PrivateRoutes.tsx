@@ -5,6 +5,7 @@ import TopBarProgress from 'react-topbar-progress-indicator'
 import {Dashboard} from '../pages/dashboard/Dashboard'
 import {getCSSVariableValue} from '../../_metronic/assets/ts/_utils'
 import {WithChildren} from '../../_metronic/helpers'
+import CreateTender from "../pages/create_tender_folder/CreateTender";
 import EvaluateTender from '../pages/evaluators/EvaluateTender'
 
 const PrivateRoutes = () => {
@@ -16,6 +17,7 @@ const PrivateRoutes = () => {
                 {/* Redirect to Dashboard after success login/registration */}
                 <Route path='auth/*' element={<Navigate to='/dashboard'/>}/>
                 {/* Pages */}
+                <Route path='dashboard/' element={<Dashboard/>}/>
                 <Route path='evaluators' element={<EvaluateTender/>}/>
                 {/* Lazy Modules */}
                 {/*<Route
@@ -26,6 +28,7 @@ const PrivateRoutes = () => {
                         </SuspensedView>
                     }
                 />*/}
+                <Route path='create-tender' element={<CreateTender/>}/>
                 {/* Page Not Found */}
                 <Route path='*' element={<Navigate to='/error/404'/>}/>
             </Route>

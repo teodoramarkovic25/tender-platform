@@ -1,38 +1,38 @@
 const express = require('express');
 const auth = require('../../middlewares/auth');
 const validate = require('../../middlewares/validate');
-const userValidation = require('../../validations/user.validation');
-const userController = require('../../controllers/user.controller');
+const tenderValidation = require('../../validations/tender.validation');
+const tenderController = require('../../controllers/tender.controller');
 
 const router = express.Router();
 
 router
   .route('/')
-  .post(auth('manageUsers'), validate(userValidation.createUser), userController.createUser)
-  .get(auth('getUsers'), validate(userValidation.getUsers), userController.getUsers);
+  .post(auth('manageTenders'), validate(tenderValidation.createTender), tenderController.createTender)
+  .get(auth('getTenders'), validate(tenderValidation.getTenders), tenderController.getTenders);
 
 router
-  .route('/:userId')
-  .get(auth('getUsers'), validate(userValidation.getUser), userController.getUser)
-  .patch(auth('manageUsers'), validate(userValidation.updateUser), userController.updateUser)
-  .delete(auth('manageUsers'), validate(userValidation.deleteUser), userController.deleteUser);
+  .route('/:tenderId')
+  .get(auth('getTenders'), validate(tenderValidation.getTender), tenderController.getTender)
+  .patch(auth('manageTenders'), validate(tenderValidation.updateTender), tenderController.updateTender)
+  .delete(auth('manageTenders'), validate(tenderValidation.deleteTender), tenderController.deleteTender);
 
 module.exports = router;
 
 /**
  * @swagger
  * tags:
- *   name: Users
- *   description: User management and retrieval
+ *   name: Tenders
+ *   description: Tender management and retrieval
  */
 
 /**
  * @swagger
- * /users:
+ * /tenders:
  *   post:
- *     summary: Create a user
- *     description: Only admins can create other users.
- *     tags: [Users]
+ *     summary: Create a tender
+ *     description: Only admins can create other tenders.
+ *     tags: [Tenders]
  *     security:
  *       - bearerAuth: []
  *     requestBody:
@@ -42,73 +42,60 @@ module.exports = router;
  *           schema:
  *             type: object
  *             required:
- *               - name
- *               - email
- *               - password
- *               - role
+ *               - title
+ *               - description
+ *               - deadline
+ *               - documents
+ *               - criteria
+ *               - weightage
  *             properties:
- *               name:
+ *               title:
  *                 type: string
- *               email:
+ *               description:
  *                 type: string
- *                 format: email
- *                 description: must be unique
- *               password:
- *                 type: string
- *                 format: password
- *                 minLength: 8
- *                 description: At least one number and one letter
- *               role:
- *                  type: string
- *                  enum: [user, admin]
- *             example:
- *               name: fake name
- *               email: fake@example.com
- *               password: password1
- *               role: user
- *     responses:
- *       "201":
- *         description: Created
- *         content:
- *           application/json:
- *             schema:
- *                $ref: '#/components/schemas/User'
- *       "400":
- *         $ref: '#/components/responses/DuplicateEmail'
- *       "401":
- *         $ref: '#/components/responses/Unauthorized'
- *       "403":
- *         $ref: '#/components/responses/Forbidden'
+ *
+ *               deadline:
+ *                 type: Date
+ *
+ *               documents:
+ *                  type: File
+ *               criteria:
+ *                  type: String
+ *               weightage:
+ *                  type: Number
+ *
+ *
+ *
  *
  *   get:
- *     summary: Get all users
- *     description: Only admins can retrieve all users.
- *     tags: [Users]
+ *     summary: Get all tenders
+ *     description: Only admins can retrieve all tenders.
+ *     tags: [Tenders]
  *     security:
  *       - bearerAuth: []
  *     parameters:
  *       - in: query
- *         name: name
+ *         name: title
  *         schema:
  *           type: string
- *         description: Username
+ *         description: Tender title
  *       - in: query
- *         name: role
+ *         name: description
  *         schema:
  *           type: string
- *         description: User role
+ *         description: Tender description
  *       - in: query
  *         name: sortBy
  *         schema:
  *           type: string
- *         description: sort by query in the form of field:desc/asc (ex. name:asc)
+ *         description: sort by query in the form of field:desc/asc (ex. title:asc)
  *       - in: query
  *         name: limit
  *         schema:
  *           type: integer
  *           minimum: 1
  *         default: 10
- *         description: Maximum number of users
+ *         description: Maximum number of tenders
  *       - in: query
  *         name: page
  *         schema:
@@ -127,7 +114,7 @@ module.exports = router;
  *                 results:
  *                   type: array
  *                   items:
- *                     $ref: '#/components/schemas/User'
+ *                     $ref: '#/components/schemas/Tender'
  *                 page:
  *                   type: integer
  *                   example: 1
@@ -148,11 +135,11 @@ module.exports = router;
 
 /**
  * @swagger
- * /users/{id}:
+ * /tenders/{id}:
  *   get:
- *     summary: Get a user
- *     description: Logged in users can fetch only their own user information. Only admins can fetch other users.
- *     tags: [Users]
+ *     summary: Get a tender
+ *     description: LoggedIn users can fetch only their own user information. Only admins can fetch other tenders.
+ *     tags: [Tenders]
  *     security:
  *       - bearerAuth: []
  *     parameters:
@@ -161,7 +148,7 @@ module.exports = router;
  *         required: true
  *         schema:
  *           type: string
- *         description: User id
+ *         description: Tender id
  *     responses:
  *       "200":
  *         description: OK
@@ -177,9 +164,9 @@ module.exports = router;
  *         $ref: '#/components/responses/NotFound'
  *
  *   patch:
- *     summary: Update a user
- *     description: Logged in users can only update their own information. Only admins can update other users.
- *     tags: [Users]
+ *     summary: Update a tender
+ *     description: LoggedIn users can only update their own information. Only admins can update other tenders.
+ *     tags: [Tenders]
  *     security:
  *       - bearerAuth: []
  *     parameters:
@@ -188,7 +175,7 @@ module.exports = router;
  *         required: true
  *         schema:
  *           type: string
- *         description: User id
+ *         description: Tender id
  *     requestBody:
  *       required: true
  *       content:
@@ -196,41 +183,30 @@ module.exports = router;
  *           schema:
  *             type: object
  *             properties:
- *               name:
+ *               title:
  *                 type: string
- *               email:
+ *               description:
  *                 type: string
- *                 format: email
- *                 description: must be unique
- *               password:
- *                 type: string
- *                 format: password
- *                 minLength: 8
- *                 description: At least one number and one letter
+ *
+ *               deadline:
+ *                 type: Date
  *             example:
- *               name: fake name
- *               email: fake@example.com
- *               password: password1
+ *               title: Tender 1
+ *               description: tender of something
+ *               deadline: 06/07/2023
  *     responses:
  *       "200":
  *         description: OK
  *         content:
  *           application/json:
  *             schema:
- *                $ref: '#/components/schemas/User'
- *       "400":
- *         $ref: '#/components/responses/DuplicateEmail'
- *       "401":
- *         $ref: '#/components/responses/Unauthorized'
- *       "403":
- *         $ref: '#/components/responses/Forbidden'
- *       "404":
- *         $ref: '#/components/responses/NotFound'
+ *                $ref: '#/components/schemas/Tender'
+ *
  *
  *   delete:
- *     summary: Delete a user
- *     description: Logged in users can delete only themselves. Only admins can delete other users.
- *     tags: [Users]
+ *     summary: Delete a tender
+ *     description: Loggedin users can delete only themselves. Only admins can delete other tenders.
+ *     tags: [Tenders]
  *     security:
  *       - bearerAuth: []
  *     parameters:
@@ -239,7 +215,7 @@ module.exports = router;
  *         required: true
  *         schema:
  *           type: string
- *         description: User id
+ *         description: Tender id
  *     responses:
  *       "200":
  *         description: No content
