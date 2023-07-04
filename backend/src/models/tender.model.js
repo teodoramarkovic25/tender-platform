@@ -19,11 +19,13 @@ const tenderSchema = mongoose.Schema(
         required: true,
         trim: true,
       },
-      documents:{
+      /*documents:{
         type: File,
         required: true,
         trim: true,
       },
+
+       */
       criteria:{
         type: String,
         required: true,
