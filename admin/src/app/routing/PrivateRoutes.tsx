@@ -5,6 +5,7 @@ import TopBarProgress from 'react-topbar-progress-indicator'
 import {Dashboard} from '../pages/dashboard/Dashboard'
 import {getCSSVariableValue} from '../../_metronic/assets/ts/_utils'
 import {WithChildren} from '../../_metronic/helpers'
+import EvaluateTender from '../pages/evaluators/EvaluateTender'
 import TenderProposals from "../pages/vendors/TenderProposals";
 import { CreateTender } from '../pages/create_tender_folder/CreateTender'
 
@@ -17,7 +18,7 @@ const PrivateRoutes = () => {
                 {/* Redirect to Dashboard after success login/registration */}
                 <Route path='auth/*' element={<Navigate to='/dashboard'/>}/>
                 {/* Pages */}
-                <Route path='dashboard' element={<Dashboard/>}/>
+                <Route path='evaluators' element={<EvaluateTender/>}/>
                 {/* Lazy Modules */}
                 {/*<Route
                     path='apps/user-management/*'
