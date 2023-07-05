@@ -3,6 +3,9 @@ import clsx from 'clsx';
 import * as Yup from 'yup';
 import {useFormik} from "formik";
 
+
+const TenderProposals = () => {
+
 const tenderProposalSchema = Yup.object().shape({
 
     offer: Yup.number().positive()
@@ -23,7 +26,6 @@ const onSubmit = () => {
     console.log('submitted');
 };
 
-const TenderProposals = () => {
 
     const [loading, setLoading] = useState(false);
 
