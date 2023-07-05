@@ -1,10 +1,9 @@
-
 const Joi = require('joi');
-const {objectId } = require('./custom.validation');
+const {objectId} = require('./custom.validation');
 
 const createOffer = {
   body: Joi.object().keys({
-    offer:Joi.number().required()
+    offer: Joi.number().required()
   }),
 };
 const updateOffer = {
@@ -13,7 +12,7 @@ const updateOffer = {
   }),
   body: Joi.object()
     .keys({
-      offer:Joi.number()
+      offer: Joi.number()
     })
     .min(1),
 };
@@ -29,7 +28,7 @@ const deleteOffer = {
 };
 const getOffers = {
   query: Joi.object().keys({
-    offer:Joi.number(),
+    offer: Joi.number(),
     role: Joi.string(),
     sortBy: Joi.string(),
     limit: Joi.number().integer(),

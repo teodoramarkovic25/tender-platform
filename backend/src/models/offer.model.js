@@ -1,19 +1,19 @@
-const mongoose=require('mongoose');
-const { toJSON, paginate } = require('./plugins');
+const mongoose = require('mongoose');
+const {toJSON, paginate} = require('./plugins');
 
 
-const offerSchema=new mongoose.Schema({
-    offer:{
-      type:Number,
-      default:1,
-      required:[true,'An offer must have a value!'],
+const offerSchema = new mongoose.Schema({
+    offer: {
+      type: Number,
+      default: 1,
+      required: [true, 'An offer must have a value!'],
       validate: {
         validator: function (value) {
           return value > 0;
         },
         message: 'Your offer must be a positive number!',
       },
-      trim:true
+      trim: true
     }, /* chooseFile:{
     type:File,
     required:[true,'An offer must have a document!'],
@@ -30,14 +30,10 @@ offerSchema.plugin(toJSON);
 offerSchema.plugin(paginate);
 
 
-
-
-
-
 offerSchema.pre('save', async function (next) {
   const offer = this;
   next();
 });
-const Offer=mongoose.model('Offer',offerSchema);
+const Offer = mongoose.model('Offer', offerSchema);
 
-module.exports=Offer;
+module.exports = Offer;

@@ -2,7 +2,7 @@ const httpStatus = require('http-status');
 const pick = require('../utils/pick');
 const ApiError = require('../utils/ApiError');
 const catchAsync = require('../utils/catchAsync');
-const { offerService } = require('../services');
+const {offerService} = require('../services');
 
 const createOffer = catchAsync(async (req, res) => {
   const offer = await offerService.createOffer(req.body);

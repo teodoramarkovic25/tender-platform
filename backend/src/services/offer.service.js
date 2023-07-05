@@ -1,6 +1,5 @@
-
 const httpStatus = require('http-status');
-const { Offer } = require('../models');
+const {Offer} = require('../models');
 const ApiError = require('../utils/ApiError');
 
 const createOffer = async (offerBody) => {
@@ -18,11 +17,11 @@ const getOfferById = async (id) => {
 
 
 const getOfferByCompany = async (companyName) => {
-  return Offer.findOne({ companyName });
+  return Offer.findOne({companyName});
 };
 
 const getOfferByTender = async (tenderName) => {
-  return Offer.findOne({ tenderName });
+  return Offer.findOne({tenderName});
 };
 
 
