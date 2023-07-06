@@ -5,7 +5,6 @@ fileController.uploadFile = async (req, res) => {
   try {
     const { originalname, filename, mimetype, size } = req.file;
 
-    // Kreiraj novu instancu File modela
     const newFile = new File({
       originalName: originalname,
       fileName: filename,
@@ -13,7 +12,6 @@ fileController.uploadFile = async (req, res) => {
       fileSize: size,
     });
 
-    // Spremi datoteku u bazu
     const savedFile = await newFile.save();
 
     return res.status(200).json(savedFile);
@@ -27,7 +25,7 @@ fileController.getFileById = async (req, res) => {
   try {
     const fileId = req.params.id;
 
-    // Pronađi datoteku po ID-u
+
     const file = await File.findById(fileId);
 
     if (!file) {

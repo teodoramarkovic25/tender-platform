@@ -4,6 +4,7 @@ const userRoute = require('./user.route');
 const docsRoute = require('./docs.route');
 const config = require('../../config/config');
 const offerRoute = require('./offer.route');
+const tenderRoute=require('./tender.route');
 
 const router = express.Router();
 
@@ -19,7 +20,11 @@ const defaultRoutes = [
   {
     path: '/offers',
     route: offerRoute,
-  }
+  },
+  {
+  path: '/tenders',
+  route: tenderRoute,
+}
 ];
 
 const devRoutes = [

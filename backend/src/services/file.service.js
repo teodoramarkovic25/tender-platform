@@ -2,7 +2,7 @@ const httpStatus = require('http-status');
 const ApiError = require('../utils/ApiError');
 const {writeFileSync} = require("fs");
 const {join} = require("path");
-const uuidv4 = require('uuid');
+const { v4: uuidv4 } = require('uuid');
 
 const createFile = async (fileBody, file) => {
   const originalName = fileBody.originalName;
@@ -11,7 +11,6 @@ const createFile = async (fileBody, file) => {
   const dirPath = join(__dirname, '/uploads');
   try {
     writeFileSync(dirPath('/uploads') + newName, file);
-
   } catch (err) {
     console.error(err);
   }
@@ -19,7 +18,13 @@ const createFile = async (fileBody, file) => {
 };
 
 const getFileById = async (id) => {
-  return File.findById(id);
+  try {
+    const file = await File.findById(id);
+    return file;
+  } catch (error) {
+    console.error('File do not find:', error);
+    throw error;
+  }
 };
 
 const deleteFileById = async (fileId) => {
