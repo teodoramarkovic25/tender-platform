@@ -3,6 +3,7 @@ const authRoute = require('./auth.route');
 const userRoute = require('./user.route');
 const docsRoute = require('./docs.route');
 const config = require('../../config/config');
+const offerRoute = require('./offer.route');
 const evaluationRoute = require( './evaluation.route');
 
 
@@ -17,6 +18,10 @@ const defaultRoutes = [
     path: '/users',
     route: userRoute,
   },
+  {
+    path: '/offers',
+    route: offerRoute,
+  }
   {
     path: '/evaluations',
     route: evaluationRoute,

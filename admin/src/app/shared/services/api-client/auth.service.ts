@@ -1,11 +1,17 @@
 import axios from "axios";
 import jwtDecode from "jwt-decode";
 import { LoginResponse } from "../../interfaces/login-response.interface";
+import ApiClient from "./api-client";
 
-const API_URL = process.env.REACT_APP_API_URL;
-const API_VERSION = process.env.REACT_APP_API_VERSION;
+const AUTH_ENDPOINT = '/auth';
 
-class AuthService {
+const loginUser = (data) => {
+    return ApiClient.post(AUTH_ENDPOINT+ "/login", data)
+        .then(response => response.data)
+}
+
+const AuthService = {
+    loginUser
   // // Login user and retrieve JWT token
   // async login(username: string, password: string): Promise<LoginResponse | null> {
   //   try {

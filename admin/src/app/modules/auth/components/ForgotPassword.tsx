@@ -80,13 +80,12 @@ export function ForgotPassword() {
         <div className='fv-row mb-10'>
           <label className='form-label fw-bolder text-gray-900 fs-6'>Email</label>
           <input
-              style={{border:'2px solid lightgray'}}
             type='email'
             placeholder=''
             autoComplete='off'
             {...formik.getFieldProps('email')}
             className={clsx(
-              'form-control form-control-lg form-control-solid',
+              'form-control form-control-lg form-control-solid border-gray-400',
               {'is-invalid': formik.touched.email && formik.errors.email},
               {
                 'is-valid': formik.touched.email && !formik.errors.email,
@@ -120,7 +119,6 @@ export function ForgotPassword() {
           </button>
           <Link to='/auth/login'>
             <button
-                style={{border:'2px solid lightgray'}}
               type='button'
               id='kt_login_password_reset_form_cancel_button'
               className='btn btn-lg  fw-bolder'

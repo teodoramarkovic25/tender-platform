@@ -17,6 +17,7 @@ export function AsideMenuMain() {
                 fontIcon='bi-app-indicator'
             />
             <AsideMenuItem to="/create-tender" title="CreateTender" />
+            <AsideMenuItem to="/vendors" title="TenderProposals" />
             {/*<div className='menu-item'>
                 <div className='menu-content pt-8 pb-2'>
                     <span className='menu-section text-muted text-uppercase fs-8 ls-1'>Crafted</span>
