@@ -3,43 +3,31 @@ const { Evaluation } = require('../models');
 const ApiError = require('../utils/ApiError');
 
 /**
- * Create a evaluation
+ * Create an evaluation
  * @param {Object} evaluationBody
- * @returns {Promise<evaluation>}
+ * @returns {Promise<Evaluation>}
  */
-const evaluationUser = async (evaluationBody) => {
+const createEvaluation = async (evaluationBody) => {
   if (await Evaluation.isEmailTaken(evaluationBody.email)) {
     throw new ApiError(httpStatus.BAD_REQUEST, 'Email already taken');
   }
   return Evaluation.create(evaluationBody);
 };
-/**
- * Create a evaluation
- * @param {Object} evaluationBody
- * @returns {Promise<Evaluation>}
- */
-const createEvaluation= async (evaluationBody) => {
-  return Evaluation.create(evaluationBody);
-};
-
 
 /**
- * Query for users
- * @param {Object} filter - Mongo filter
+ * Query evaluations
+ * @param {Object} filter - Filter object for querying evaluations
  * @param {Object} options - Query options
- * @param {string} [options.sortBy] - Sort option in the format: sortField:(desc|asc)
- * @param {number} [options.limit] - Maximum number of results per page (default = 10)
- * @param {number} [options.page] - Current page (default = 1)
  * @returns {Promise<QueryResult>}
  */
 const queryEvaluation = async (filter, options) => {
-  const evaluation = await Evaluation.paginate(filter, options);
-  return evaluation;
+  const evaluations = await Evaluation.paginate(filter, options);
+  return evaluations;
 };
 
 /**
- * Get evaluation by id
- * @param {ObjectId} id
+ * Get evaluation by ID
+ * @param {ObjectId} id - Evaluation ID
  * @returns {Promise<Evaluation>}
  */
 const getEvaluationById = async (id) => {
@@ -49,20 +37,20 @@ const getEvaluationById = async (id) => {
 /**
  * Get evaluation by email
  * @param {string} email
- * @returns {Promise<evaluation>}
+ * @returns {Promise<Evaluation>}
  */
 const getEvaluationByEmail = async (email) => {
-  return evaluation.findOne({ email });
+  return Evaluation.findOne({ email });
 };
 
 /**
- * Update user by id
- * @param {ObjectId} evaluationId
- * @param {Object} updateBody
+ * Update evaluation by ID
+ * @param {ObjectId} evaluationId - Evaluation ID
+ * @param {Object} updateBody - Updated evaluation data
  * @returns {Promise<Evaluation>}
  */
-const updateEvaluationById = async (evaluationId, updateBody) => {
-  const evaluation = await getEvaluationById(EvaluationId);
+const updateEvaluation = async (evaluationId, updateBody) => {
+  const evaluation = await Evaluation.findById(evaluationId);
   if (!evaluation) {
     throw new ApiError(httpStatus.NOT_FOUND, 'Evaluation not found');
   }
@@ -75,12 +63,12 @@ const updateEvaluationById = async (evaluationId, updateBody) => {
 };
 
 /**
- * Delete evaluation by id
- * @param {ObjectId} evaluationId
+ * Delete evaluation by ID
+ * @param {ObjectId} evaluationId - Evaluation ID
  * @returns {Promise<Evaluation>}
  */
 const deleteEvaluationById = async (evaluationId) => {
-  const evaluatin = await getEvaluationById(evaluationId);
+  const evaluation = await Evaluation.findById(evaluationId);
   if (!evaluation) {
     throw new ApiError(httpStatus.NOT_FOUND, 'Evaluation not found');
   }
@@ -92,6 +80,7 @@ module.exports = {
   createEvaluation,
   queryEvaluation,
   getEvaluationById,
-  updateEvaluationById,
+  getEvaluationByEmail,
+  updateEvaluation,
   deleteEvaluationById,
 };
