@@ -39,7 +39,6 @@ export function Login() {
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
 
-
     const formik = useFormik({
         initialValues,
         validationSchema: loginSchema,
@@ -47,18 +46,22 @@ export function Login() {
             setLoading(true)
             try {
 
-                // const url = 'http://localhost:3000/v1/auth/login'
-                //
-                // const resp = await axios
-                //     .post(url, {email: formik.values.email, password: formik.values.password})
-                //
-                // console.log('resp: ');
-                // console.log(resp.data);
+                const url = 'http://localhost:3000/v1/auth/login'
 
-                const {data: auth} = await login(formik.values.email, formik.values.password)
-                saveAuth(auth)
-                const {data: user} = await getUserByToken(auth.api_token)
-                setCurrentUser(user)
+                const res = await axios
+                    .post(url, {email: formik.values.email, password: formik.values.password})
+                // .then()
+
+                console.log('res: ');
+                console.log(res.data);
+
+                // const {data: auth} = await login(formik.values.email, formik.values.password)
+                // saveAuth(auth)
+                // const {data: user} = await getUserByToken(auth.api_token)
+                // setCurrentUser(user)
+
+                setCurrentUser(res.data);
+
             } catch (error) {
                 console.log(error.response);
                 saveAuth(undefined)
