@@ -144,7 +144,7 @@ export function CreateTender() {
                                 )}
                             </div>
 
-                            <button className="btn btn-lg btn-danger" style={{ backgroundColor: '#FF0000' }} type="submit">
+                            <button className="btn btn-lg w-100 mb-5"  type="submit">
                                 Create Tender
                             </button>
                         </Form>
