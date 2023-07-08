@@ -83,7 +83,7 @@ export function Registration() {
 
     <form
 
-      className='form w-100 fv-plugins-bootstrap5 fv-plugins-framework'
+        className='form w-100 fv-plugins-bootstrap5 fv-plugins-framework'
       noValidate
       id='kt_login_signup_form'
       onSubmit={formik.handleSubmit}
@@ -127,12 +127,11 @@ export function Registration() {
           <label className='class="form-label fw-bolder text-dark fs-6'>First name</label>
           <input
             placeholder='First name'
-            style={{border:'2px solid lightgray'}}
             type='text'
             autoComplete='off'
             {...formik.getFieldProps('firstname')}
             className={clsx(
-              'form-control form-control-lg form-control-solid',
+              'form-control form-control-lg form-control-solid border-gray-400',
               {
                 'is-invalid': formik.touched.firstname && formik.errors.firstname,
               },
@@ -155,12 +154,11 @@ export function Registration() {
             <label className='form-label fw-bolder text-dark fs-6'>Last name</label>
             <input
               placeholder='Last name'
-              style={{border:'2px solid lightgray'}}
               type='text'
               autoComplete='off'
               {...formik.getFieldProps('lastname')}
               className={clsx(
-                'form-control form-control-lg form-control-solid',
+                'form-control form-control-lg form-control-solid border-gray-400',
                 {
                   'is-invalid': formik.touched.lastname && formik.errors.lastname,
                 },
@@ -186,13 +184,12 @@ export function Registration() {
       <div className='fv-row mb-7'>
         <label className='form-label fw-bolder text-dark fs-6'>Email</label>
         <input
-            style={{border:'2px solid lightgray'}}
           placeholder='Email'
           type='email'
           autoComplete='off'
           {...formik.getFieldProps('email')}
           className={clsx(
-            'form-control form-control-lg form-control-solid',
+            'form-control form-control-lg form-control-solid border-gray-400',
             {'is-invalid': formik.touched.email && formik.errors.email},
             {
               'is-valid': formik.touched.email && !formik.errors.email,
@@ -216,12 +213,11 @@ export function Registration() {
           <div className='position-relative mb-3'>
             <input
               type='password'
-              style={{border:'2px solid lightgray'}}
               placeholder='Password'
               autoComplete='off'
               {...formik.getFieldProps('password')}
               className={clsx(
-                'form-control form-control-lg form-control-solid',
+                'form-control form-control-lg form-control-solid border-gray-400',
                 {
                   'is-invalid': formik.touched.password && formik.errors.password,
                 },
@@ -259,13 +255,13 @@ export function Registration() {
       {/* begin::Form group Confirm password */}
       <div className='fv-row mb-5'>
         <label className='form-label fw-bolder text-dark fs-6'>Confirm Password</label>
-        <input style={{border:'2px solid lightgray'}}
+        <input
           type='password'
           placeholder='Password confirmation'
           autoComplete='off'
           {...formik.getFieldProps('changepassword')}
           className={clsx(
-            'form-control form-control-lg form-control-solid',
+            'form-control form-control-lg form-control-solid border-gray-400',
             {
               'is-invalid': formik.touched.changepassword && formik.errors.changepassword,
             },
@@ -331,7 +327,7 @@ export function Registration() {
           )}
         </button>
         <Link to='/auth/login'>
-          <button style={{ border:'2px solid lightgray',opacity:'1'}}
+          <button
             type='button'
             id='kt_login_signup_form_cancel_button'
             className='btn btn-lg w-100 mb-5'

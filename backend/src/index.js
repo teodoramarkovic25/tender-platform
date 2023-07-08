@@ -1,12 +1,7 @@
 const mongoose = require('mongoose');
 const app = require('./app');
 const config = require('./config/config');
-const multer = require('multer');
 const logger = require('./config/logger');
-const {extend} = require("joi");
-const express = require('express');
-
-
 
 let server;
 mongoose.connect(config.mongoose.url, config.mongoose.options).then(() => {
@@ -15,11 +10,6 @@ mongoose.connect(config.mongoose.url, config.mongoose.options).then(() => {
     logger.info(`Listening to port ${config.port}`);
   });
 });
-
-
-
-
-
 
 const exitHandler = () => {
   if (server) {
