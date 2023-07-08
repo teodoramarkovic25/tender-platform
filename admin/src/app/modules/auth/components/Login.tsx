@@ -1,5 +1,5 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import {useState} from 'react'
+import React, {useState} from 'react'
 import * as Yup from 'yup'
 import clsx from 'clsx'
 import {Link, useNavigate, useLocation} from 'react-router-dom'
@@ -7,8 +7,7 @@ import {useFormik} from 'formik'
 import {getUserByToken, login} from '../core/_requests'
 import {toAbsoluteUrl} from '../../../../_metronic/helpers'
 import {useAuth} from '../core/Auth'
-import AuthService from "../../../shared/services/api-client/auth.service";
-import axios from "axios";
+import axios, {Axios} from "axios";
 
 const loginSchema = Yup.object()
     .shape({
@@ -40,28 +39,31 @@ export function Login() {
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
 
-
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        axios.post('http://localhost:3000/v1/auth/login', {email, password})
-            .then(result => console.log(result))
-            .catch(err => console.log(err))
-
-    }
-
     const formik = useFormik({
         initialValues,
         validationSchema: loginSchema,
         onSubmit: async (values, {setStatus, setSubmitting}) => {
             setLoading(true)
             try {
-                const {data: auth} = await login(values.email, values.password)
-                saveAuth(auth)
-                const {data: user} = await getUserByToken(auth.api_token)
-                console.log(values.email);
-                setCurrentUser(user)
+
+                const url = 'http://localhost:3000/v1/auth/login'
+
+                const res = await axios
+                    .post(url, {email: formik.values.email, password: formik.values.password})
+                // .then()
+
+                console.log('res: ');
+                console.log(res.data);
+
+                // const {data: auth} = await login(formik.values.email, formik.values.password)
+                // saveAuth(auth)
+                // const {data: user} = await getUserByToken(auth.api_token)
+                // setCurrentUser(user)
+
+                setCurrentUser(res.data);
+
             } catch (error) {
-                console.error(error)
+                console.log(error.response);
                 saveAuth(undefined)
                 setStatus('The login detail is incorrect')
                 setSubmitting(false)
@@ -74,7 +76,6 @@ export function Login() {
         <form
             className='form w-100'
             onSubmit={formik.handleSubmit}
-            action='POST'
             noValidate
             id='kt_login_signin_form'
         >
@@ -115,6 +116,7 @@ export function Login() {
                     onChange={(e) => {
                         setEmail(e.target.value)
                     }}
+                    value={email}
                     placeholder='Email'
                     {...formik.getFieldProps('email')}
                     className={clsx(
@@ -159,6 +161,7 @@ export function Login() {
                     onChange={(e) => {
                         setPassword(e.target.value)
                     }}
+                    value={password}
                     autoComplete='off'
                     {...formik.getFieldProps('password')}
                     className={clsx(
