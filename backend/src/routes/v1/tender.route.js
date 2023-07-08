@@ -69,7 +69,7 @@ module.exports = router;
  *
  *   get:
  *     summary: Get all tenders
- *     description: Only admins can retrieve all tenders.
+ *     description: All users can retrieve all tenders.
  *     tags: [Tenders]
  *     security:
  *       - bearerAuth: []
@@ -138,7 +138,7 @@ module.exports = router;
  * /tenders/{id}:
  *   get:
  *     summary: Get a tender
- *     description: LoggedIn users can fetch only their own user information. Only admins can fetch other tenders.
+ *     description: LoggedIn users can fetch tender information.
  *     tags: [Tenders]
  *     security:
  *       - bearerAuth: []

@@ -33,7 +33,7 @@ export function CreateTender() {
                     onSubmit={handleSubmit}
                 >
                     {({ errors, touched }) => (
-                        <Form className="form card p-3">
+                        <Form className="form card p-3" action="/upload" method="POST" encType="multipart/form-data">
                             <div className="mb-3">
                                 <label className="form-label fs-6 fw-bolder text-dark">
                                     Title{<span className="required"></span>}

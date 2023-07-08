@@ -6,6 +6,7 @@ const config = require('../../config/config');
 const offerRoute = require('./offer.route');
 const evaluationRoute = require( './evaluation.route');
 
+const tenderRoute=require('./tender.route');
 
 const router = express.Router();
 
@@ -25,8 +26,13 @@ const defaultRoutes = [
   {
     path: '/evaluations',
     route: evaluationRoute,
+  },
+  {
+    path: '/tenders',
+    route: tenderRoute,
   }
 ];
+
 const devRoutes = [
   // routes available only in development mode
   {
