@@ -8,11 +8,13 @@ const passport = require('passport');
 const httpStatus = require('http-status');
 const config = require('./config/config');
 const morgan = require('./config/morgan');
-const { jwtStrategy } = require('./config/passport');
-const { authLimiter } = require('./middlewares/rateLimiter');
+const {jwtStrategy} = require('./config/passport');
+const {authLimiter} = require('./middlewares/rateLimiter');
 const routes = require('./routes/v1');
-const { errorConverter, errorHandler } = require('./middlewares/error');
+const {errorConverter, errorHandler} = require('./middlewares/error');
 const ApiError = require('./utils/ApiError');
+const multer = require("multer");
+
 
 const app = express();
 
@@ -28,7 +30,7 @@ app.use(helmet());
 app.use(express.json());
 
 // parse urlencoded request body
-app.use(express.urlencoded({ extended: true }));
+app.use(express.urlencoded({extended: true}));
 
 // sanitize request data
 app.use(xss());
@@ -52,6 +54,29 @@ if (config.env === 'production') {
 
 // v1 api routes
 app.use('/v1', routes);
+
+
+/*const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    return cb(null, "./uploads");
+  },
+  filename: function (req, file, cb) {
+    return cb(null, `${Date.now()}-${file.originalName}`);
+  },
+});
+const upload = multer({storage});
+app.use(express.urlencoded({extended: false}));
+
+app.post("/upload", upload.single('documents'), (req, res) => {
+
+  console.log(req.body);
+  console.log(req.file);
+
+  return res.send(200);
+});
+
+
+ */
 
 // send back a 404 error for any unknown api request
 app.use((req, res, next) => {
