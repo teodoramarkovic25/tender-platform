@@ -1,5 +1,5 @@
 const Joi = require('joi');
-const { password, objectId } = require('./custom.validation');
+const {password, objectId} = require('./custom.validation');
 
 const createTender = {
   body: Joi.object().keys({
@@ -7,8 +7,8 @@ const createTender = {
     description: Joi.string().required(),
     deadline: Joi.date().required(),
     documents: Joi.binary().required(),
-    criteria:Joi.string().required(),
-    weightage:Joi.number().required(),
+    criteria: Joi.string().required(),
+    weightage: Joi.number().required(),
 
   }),
 };
@@ -22,8 +22,8 @@ const updateTender = {
       description: Joi.string(),
       deadline: Joi.date(),
       documents: Joi.binary(),
-      criteria:Joi.string(),
-      weightage:Joi.number(),
+      criteria: Joi.string(),
+      weightage: Joi.number(),
     })
     .min(1),
 };

@@ -5,7 +5,7 @@ import TopBarProgress from 'react-topbar-progress-indicator'
 import {Dashboard} from '../pages/dashboard/Dashboard'
 import {getCSSVariableValue} from '../../_metronic/assets/ts/_utils'
 import {WithChildren} from '../../_metronic/helpers'
-import CreateTender from "../pages/create_tender_folder/CreateTender";
+import CreateTender from "../pages/tender/CreateTender";
 import EvaluateTender from '../pages/evaluators/EvaluateTender'
 import TenderProposals from "../pages/vendors/TenderProposals";
 

@@ -12,18 +12,25 @@ export function AsideMenuMain() {
         <>
             <AsideMenuItem
                 to='/dashboard'
-                icon='/media/icons/duotune/graphs/gra001.svg'
+                // icon='/media/icons/duotune/graphs/gra001.svg'
                 title={intl.formatMessage({id: 'MENU.DASHBOARD'})}
-                fontIcon='bi-app-indicator'
+                //fontIcon='bi-app-indicator'
             />
-            <AsideMenuItem to="/create-tender" title="CreateTender" />
-            <AsideMenuItem to="/vendors" title="TenderProposals" />
-            {/*<div className='menu-item'>
+
+
+
+    <AsideMenuItemWithSub to={"*"} title="Tenders">
+        <AsideMenuItem to="/create-tender" title="Create tender" />
+        <AsideMenuItem to="/vendors" title="Vendors" />
+    </AsideMenuItemWithSub>
+
+{/*<div className='menu-item'>
                 <div className='menu-content pt-8 pb-2'>
                     <span className='menu-section text-muted text-uppercase fs-8 ls-1'>Crafted</span>
                 </div>
-            </div>*/}
-            {/*<AsideMenuItemWithSub
+            </div>
+            */}
+{/*<AsideMenuItemWithSub
                 to='/crafted/pages'
                 title='Pages'
                 fontIcon='bi-archive'
@@ -49,7 +56,8 @@ export function AsideMenuMain() {
                     />
                     <AsideMenuItem to='/crafted/pages/wizards/vertical' title='Vertical' hasBullet={true}/>
                 </AsideMenuItemWithSub>
-            </AsideMenuItemWithSub>*/}
-        </>
-    )
+            </AsideMenuItemWithSub>*/
+}
+</>
+)
 }

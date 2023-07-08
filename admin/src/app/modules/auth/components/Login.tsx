@@ -84,7 +84,7 @@ export function Login() {
                 <h1 className='text-dark mb-3'>Sign In to TenderPro</h1>
                 <div className='text-gray-400 fw-bold fs-4'>
                     New Here?{' '}
-                    <Link to='/auth/registration' className=' fw-bolder'>
+                    <Link to='/auth/registration' className=' fw-bolder' style={{marginLeft: '5px'}}>
                         Create an Account
                     </Link>
                 </div>
