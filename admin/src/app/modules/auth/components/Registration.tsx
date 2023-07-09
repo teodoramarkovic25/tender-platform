@@ -8,6 +8,7 @@ import {Link} from 'react-router-dom'
 import {toAbsoluteUrl} from '../../../../_metronic/helpers'
 import {PasswordMeterComponent} from '../../../../_metronic/assets/ts/components'
 import {useAuth} from '../core/Auth'
+import axios from 'axios';
 
 //comment
 const initialValues = {
@@ -48,6 +49,11 @@ const registrationSchema = Yup.object().shape({
 
 export function Registration() {
     const [loading, setLoading] = useState(false)
+    const [firstName, setFirstName] = useState('');
+    const [lastName, setLastName] = useState('');
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const [confirmPassword, setConfirmPassword] = useState('');
     const {saveAuth, setCurrentUser} = useAuth()
     const formik = useFormik({
         initialValues,
@@ -55,6 +61,19 @@ export function Registration() {
         onSubmit: async (values, {setStatus, setSubmitting}) => {
             setLoading(true)
             try {
+
+                const url = 'http://localhost:3000/v1/auth/register';
+
+                const res = await axios.post(url, {
+                    firstName: values.firstname,
+                    lastName: values.lastname,
+                    email: values.email,
+                    password: values.password
+                });
+
+                console.log('res: ');
+                console.log(res.data);
+
                 const {data: auth} = await register(
                     values.email,
                     values.firstname,
@@ -126,6 +145,8 @@ export function Registration() {
                 <div className='col-xl-6'>
                     <label className='form-label fw-bolder text-dark fs-6'>First name</label>
                     <input
+                        value={firstName}
+                        onChange={(e)=>{setFirstName(e.target.value)}}
                         placeholder='First name'
                         type='text'
                         autoComplete='off'
@@ -155,6 +176,8 @@ export function Registration() {
                     <div className='row fv-row mb-7'>
                         <label className='form-label fw-bolder text-dark fs-6'>Last name</label>
                         <input
+                            value={lastName}
+                            onChange={(e)=>{setLastName(e.target.value)}}
                             placeholder='Last name'
                             type='text'
                             autoComplete='off'
@@ -188,6 +211,8 @@ export function Registration() {
             <div className='fv-row mb-7'>
                 <label className='form-label fw-bolder text-dark fs-6'>Email</label>
                 <input
+                    value={email}
+                    onChange={(e)=>{setEmail(e.target.value)}}
                     placeholder='Email'
                     type='email'
                     autoComplete='off'
@@ -216,6 +241,8 @@ export function Registration() {
                     <label className='form-label fw-bolder text-dark fs-6'>Password</label>
                     <div className='position-relative mb-3'>
                         <input
+                            value={password}
+                            onChange={(e)=>{setPassword(e.target.value)}}
                             type='password'
                             placeholder='Password'
                             autoComplete='off'
@@ -260,6 +287,8 @@ export function Registration() {
             <div className='fv-row mb-5'>
                 <label className='form-label fw-bolder text-dark fs-6'>Confirm Password</label>
                 <input
+                    value={confirmPassword}
+                    onChange={(e)=>{setConfirmPassword(e.target.value)}}
                     type='password'
                     placeholder='Password confirmation'
                     autoComplete='off'
