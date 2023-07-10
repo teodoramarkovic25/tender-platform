@@ -120,7 +120,7 @@ export function Login() {
                     placeholder='Email'
                     {...formik.getFieldProps('email')}
                     className={clsx(
-                        'form-control form-control-lg form-control-solid border-gray-400',
+                        'form-control form-control-lg form-control-solid',
                         {'is-invalid': formik.touched.email && formik.errors.email},
                         {
                             'is-valid': formik.touched.email && !formik.errors.email,
@@ -165,7 +165,7 @@ export function Login() {
                     autoComplete='off'
                     {...formik.getFieldProps('password')}
                     className={clsx(
-                        'form-control form-control-lg form-control-solid border-gray-400',
+                        'form-control form-control-lg form-control-solid',
                         {
                             'is-invalid': formik.touched.password && formik.errors.password,
                         },

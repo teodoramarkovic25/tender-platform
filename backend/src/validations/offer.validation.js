@@ -28,8 +28,9 @@ const deleteOffer = {
 };
 const getOffers = {
   query: Joi.object().keys({
-    offer: Joi.number(),
-    role: Joi.string(),
+    offer: Joi.string(),
+    company: Joi.string(),
+    tender: Joi.string(),
     sortBy: Joi.string(),
     limit: Joi.number().integer(),
     page: Joi.number().integer(),
