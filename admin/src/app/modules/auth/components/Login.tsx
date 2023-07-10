@@ -1,5 +1,5 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import React, {useState} from 'react'
+import {useState} from 'react'
 import * as Yup from 'yup'
 import clsx from 'clsx'
 import {Link, useNavigate, useLocation} from 'react-router-dom'
@@ -7,7 +7,8 @@ import {useFormik} from 'formik'
 import {getUserByToken, login} from '../core/_requests'
 import {toAbsoluteUrl} from '../../../../_metronic/helpers'
 import {useAuth} from '../core/Auth'
-import axios, {Axios} from "axios";
+import AuthService from "../../../shared/services/api-client/auth.service";
+import axios from "axios";
 
 const loginSchema = Yup.object()
     .shape({
@@ -84,7 +85,7 @@ export function Login() {
                 <h1 className='text-dark mb-3'>Sign In to TenderPro</h1>
                 <div className='text-gray-400 fw-bold fs-4'>
                     New Here?{' '}
-                    <Link to='/auth/registration' className=' fw-bolder' style={{marginLeft: '5px'}}>
+                    <Link to='/auth/registration' className=' fw-bolder'>
                         Create an Account
                     </Link>
                 </div>
