@@ -83,9 +83,9 @@ export function Login() {
             {/* begin::Heading */}
             <div className='text-center mb-10'>
                 <h1 className='text-dark mb-3'>Sign In to TenderPro</h1>
-                <div className='text-gray-400 fw-bold fs-4'>
+                <div className='text-nowrap text-gray-400 fw-bold fs-4'>
                     New Here?{' '}
-                    <Link to='/auth/registration' className=' fw-bolder'>
+                    <Link to='/auth/registration' className=' fw-bolder '>
                         Create an Account
                     </Link>
                 </div>
@@ -142,7 +142,7 @@ export function Login() {
             {/* begin::Form group */}
             <div className='fv-row mb-10'>
                 <div className='d-flex  justify-content-between mt-n5'>
-                    <div className='d-flex flex-stack mb-2'>
+                    <div className='d-flex text-nowrap flex-stack mb-2'>
                         {/* begin::Label */}
                         <label className='form-label fw-bolder text-dark fs-6 mb-0'>Password</label>
                         {/* end::Label */}
