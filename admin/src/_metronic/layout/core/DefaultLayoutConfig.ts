@@ -13,6 +13,7 @@ export const DefaultLayoutConfig: ILayout = {
   scrolltop: {
     display: true,
   },
+
   header: {
     display: true, // Set true|false to show or hide Header
     width: 'fluid', // Set fixed|fluid to change width type

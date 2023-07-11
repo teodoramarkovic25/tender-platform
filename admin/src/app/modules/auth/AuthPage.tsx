@@ -8,6 +8,9 @@ import {Login} from './components/Login'
 import {toAbsoluteUrl} from '../../../_metronic/helpers'
 import logo2 from "../../../_metronic/layout/logo/logo2.png"
 import favicon from "../../../_metronic/layout/favicon/favicon.png"
+import About from "./components/About";
+import Contact from "./components/Contact";
+import ContactUs from "./components/ContactUs";
 
 const AuthLayout = () => {
   useEffect(() => {
@@ -45,15 +48,15 @@ const AuthLayout = () => {
           {/* begin::Footer */}
           <div className='d-flex flex-center flex-column-auto p-10'>
             <div className='d-flex align-items-center fw-bold fs-6'>
-              <a href='#' className='text-muted px-2'>
+              <a href='auth/about' className='text-muted px-2'>
                 About
               </a>
 
-              <a href='#' className='text-muted px-2'>
+              <a href='auth/contact' className='text-muted px-2'>
                 Contact
               </a>
 
-              <a href='#' className='text-muted px-2'>
+              <a href='auth/contactus' className='text-muted px-2'>
                 Contact Us
               </a>
             </div>
@@ -69,8 +72,13 @@ const AuthPage = () => (
       <Route path='login' element={<Login />} />
       <Route path='registration' element={<Registration />} />
       <Route path='forgot-password' element={<ForgotPassword />} />
+
       <Route index element={<Login />} />
+
     </Route>
+      <Route path='about' element={<About />} />
+      <Route path='contact' element={<Contact />} />
+      <Route path='contactus' element={<ContactUs />} />
   </Routes>
 )
 

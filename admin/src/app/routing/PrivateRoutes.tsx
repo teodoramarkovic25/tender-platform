@@ -1,4 +1,4 @@
-import {lazy, FC, Suspense} from 'react'
+import React, {lazy, FC, Suspense} from 'react'
 import {Route, Routes, Navigate} from 'react-router-dom'
 import {MasterLayout} from '../../_metronic/layout/MasterLayout'
 import TopBarProgress from 'react-topbar-progress-indicator'
@@ -8,6 +8,7 @@ import {WithChildren} from '../../_metronic/helpers'
 import CreateTender from "../pages/tender/CreateTender";
 import EvaluateTender from '../pages/evaluators/EvaluateTender'
 import TenderProposals from "../pages/vendors/TenderProposals";
+import About from "../modules/auth/components/About";
 
 const PrivateRoutes = () => {
     //const UsersPage = lazy(() => import('../modules/apps/user-management/UsersPage'))
@@ -31,6 +32,7 @@ const PrivateRoutes = () => {
                 />*/}
                 <Route path='vendors' element={<TenderProposals/>}/>
                 <Route path='create-tender' element={<CreateTender/>}/>
+
                 {/* Page Not Found */}
                 <Route path='*' element={<Navigate to='/error/404'/>}/>
             </Route>

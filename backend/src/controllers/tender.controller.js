@@ -10,7 +10,7 @@ const createTender = catchAsync(async (req, res) => {
 });
 
 const getTenders = catchAsync(async (req, res) => {
-  const filter = pick(req.query, ['name', 'role']);
+  const filter = pick(req.query, ['firstName','lastName', 'role']);
   const options = pick(req.query, ['sortBy', 'limit', 'page']);
   const result = await tenderService.queryTenders(filter, options);
   res.send(result);
