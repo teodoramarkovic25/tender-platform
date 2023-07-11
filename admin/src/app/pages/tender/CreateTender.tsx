@@ -1,8 +1,15 @@
-import React from 'react';
-import { Formik, Form, Field, ErrorMessage } from 'formik';
+import React, {useState} from 'react';
+import {Formik, Form, Field, ErrorMessage} from 'formik';
 import * as Yup from 'yup';
+import axios from 'axios';
 
 export function CreateTender() {
+    const [title, setTitle] = useState('');
+    const [description, setDescription] = useState('');
+    const [deadline, setDeadline] = useState('');
+    const [documents, setDocuments] = useState('');
+    const [criteria, setCriteria] = useState('');
+    const [weightage, setWeightage] = useState('');
     const validationSchema = Yup.object({
         title: Yup.string().required('Title is required'),
         description: Yup.string().required('Description is required'),
@@ -12,14 +19,35 @@ export function CreateTender() {
         weightage: Yup.number().required('Weightage is required'),
     });
 
-    const handleSubmit = (values) => {
-        console.log(values);
+    const handleSubmit = async (values, {setStatus, setSubmitting}) => {
+        // eslint-disable-next-line react-hooks/rules-of-hooks
+        const [loading, setLoading] = useState(false);
+        setLoading(true);
+
+        try {
+            const url = 'http://localhost:3000/v1/auth/tenders';
+            const res = await axios.post(url, {
+                title: values.title,
+                description: values.description,
+                deadline: values.deadline,
+                criteria: values.criteria,
+                weightage: values.weightage,
+            });
+            console.log('res: ');
+            console.log(res.data);
+        } catch (error) {
+
+            console.error('Error:', error.message);
+        }
+
+        setLoading(false);
     };
+
 
     return (
         <div className="d-flex justify-content-center">
             <div className="col-10 col-md-8 col-lg-6">
-                <h1 className="text-center text-dark">Create Tender</h1>
+
                 <Formik
                     initialValues={{
                         title: '',
@@ -32,13 +60,17 @@ export function CreateTender() {
                     validationSchema={validationSchema}
                     onSubmit={handleSubmit}
                 >
-                    {({ errors, touched }) => (
+                    {({errors, touched}) => (
                         <Form className="form card p-3" action="/upload" method="POST" encType="multipart/form-data">
+                            <h1 className="text-center text-dark">Create Tender</h1>
+
                             <div className="mb-3">
                                 <label className="form-label fs-6 fw-bolder text-dark">
                                     Title{<span className="required"></span>}
                                 </label>
                                 <Field
+                                    value={title}
+                                    onChange={(e)=>{setTitle(e.target.value)}}
                                     type="text"
                                     id="title"
                                     name="title"
@@ -57,6 +89,8 @@ export function CreateTender() {
                                     Description{<span className="required"></span>}
                                 </label>
                                 <Field
+                                    value={description}
+                                    onChange={(e)=>{setDescription(e.target.value)}}
                                     type="text"
                                     id="description"
                                     name="description"
@@ -76,6 +110,8 @@ export function CreateTender() {
                                     Deadline date{<span className="required"></span>}
                                 </label>
                                 <Field
+                                    value={deadline}
+                                    onChange={(e)=>{setDeadline(e.target.value)}}
                                     type="date"
                                     id="deadline"
                                     name="deadline"
@@ -93,6 +129,8 @@ export function CreateTender() {
                                     Associated Documents{<span className="required"></span>}
                                 </label>
                                 <Field
+                                    value={documents}
+                                    onChange={(e)=>{setDocuments(e.target.value)}}
                                     type="file"
                                     id="documents"
                                     name="documents"
@@ -110,6 +148,8 @@ export function CreateTender() {
                                     Evaluation Criteria{<span className="required"></span>}
                                 </label>
                                 <Field
+                                    value={criteria}
+                                    onChange={(e)=>{setCriteria(e.target.value)}}
                                     type="text"
                                     id="criteria"
                                     name="criteria"
@@ -128,6 +168,8 @@ export function CreateTender() {
                                     Weightage{<span className="required"></span>}
                                 </label>
                                 <Field
+                                    value={weightage}
+                                    onChange={(e)=>{setWeightage(e.target.value)}}
                                     type="number"
                                     id="weightage"
                                     name="weightage"
@@ -144,7 +186,7 @@ export function CreateTender() {
                                 )}
                             </div>
 
-                            <button className="btn btn-lg w-100 mb-5"  type="submit">
+                            <button className="btn btn-lg w-100 mb-5" type="submit">
                                 Create Tender
                             </button>
                         </Form>

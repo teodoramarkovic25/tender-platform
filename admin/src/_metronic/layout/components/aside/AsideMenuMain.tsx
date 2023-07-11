@@ -12,7 +12,7 @@ export function AsideMenuMain() {
         <>
             <AsideMenuItem
                 to='/dashboard'
-                // icon='/media/icons/duotune/graphs/gra001.svg'
+                // icon='\_metronic\layout\favicon\favicon.png'
                 title={intl.formatMessage({id: 'MENU.DASHBOARD'})}
                 //fontIcon='bi-app-indicator'
             />
