@@ -6,11 +6,30 @@ export function Contact() {
 
 
     return (
-        <div>
-            <h1>Contact</h1>
-            <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum</p>
+
+
+        <div className="container mt-5">
+            <h1 className="text-center mb-4">Contact Tender Pro</h1>
+
+            <div className="row">
+                <div className="col-md-6 offset-md-3">
+                    <div className="text-center">
+                        <p><strong>Address:</strong> 123 Tender Street, Cityville, Country</p>
+                        <p><strong>Phone:</strong> +1 123-456-7890</p>
+                        <p><strong>Email:</strong> info@tenderpro.com</p>
+                    </div>
+                </div>
+            </div>
+
+
         </div>
-    );
+
+
+
+
+
+
+);
 }
 
 export default Contact;
