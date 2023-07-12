@@ -6,6 +6,7 @@ import {Link, useNavigate, useLocation} from 'react-router-dom'
 import {useFormik} from 'formik'
 import {useAuth} from '../core/Auth'
 import AuthService from "../../../shared/services/api-client/auth.service";
+import axios from 'axios';
 
 
 const authService = new AuthService();
@@ -49,9 +50,17 @@ export function Login() {
             setLoading(true)
             setError(null);
             try {
-                const {tokens: auth, user} = await authService.login(values.email, values.password)
-                saveAuth(auth)
-                setCurrentUser(user)
+                const url = 'http://localhost:3000/v1/auth/login'
+                const res = await axios
+                    .post(url, {email: formik.values.email, password: formik.values.password})
+                // .then()
+                console.log('res: ');
+                console.log(res.data);
+                // const {data: auth} = await login(formik.values.email, formik.values.password)
+                // saveAuth(auth)
+                // const {data: user} = await getUserByToken(auth.api_token)
+                // setCurrentUser(user)
+                setCurrentUser(res.data);
             } catch (error) {
                 // setError(intl.formatMessage({id: 'AUTH.LOGIN.MESSAGE.ERROR'}));
                 saveAuth(undefined)
