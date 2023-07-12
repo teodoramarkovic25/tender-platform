@@ -40,15 +40,16 @@ const AsideDefault: FC = () => {
                       { /* <img alt='Logo'className='h-25px logo'src={toAbsoluteUrl('/logo_light.png')}/>*/}
                     </Link>
                 )}
-                {aside.theme === 'light' && (
+
+                         {aside.theme === 'light' && (
                     <Link to='/dashboard'>
                         <img
                             alt='Logo'
                             className='h-25px logo'
                             src={toAbsoluteUrl('/media/logos/default.svg')}
-                        />
-                    </Link>
+                        />    </Link>
                 )}
+
                 {/* end::Logo */}
 
                 {/* begin::Aside toggler */}

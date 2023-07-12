@@ -1,21 +1,19 @@
+import {Token} from "../../../shared/interfaces/login-response.interface";
 export interface AuthModel {
-  api_token: string
-  refreshToken?: string
+  access: Token
+  refresh?: Token
 }
-
 export interface UserAddressModel {
   addressLine: string
   city: string
   state: string
   postCode: string
 }
-
 export interface UserCommunicationModel {
   email: boolean
   sms: boolean
   phone: boolean
 }
-
 export interface UserEmailSettingsModel {
   emailNotification?: boolean
   sendCopyToPersonalEmail?: boolean
@@ -35,22 +33,42 @@ export interface UserEmailSettingsModel {
     tipsOnStartBusinessProducts?: boolean
   }
 }
-
 export interface UserSocialNetworksModel {
   linkedIn: string
   facebook: string
   twitter: string
   instagram: string
 }
-
+// export interface UserModel {
+//   id: number
+//   username: string
+//   password: string | undefined
+//   email: string
+//   first_name: string
+//   last_name: string
+//   fullname?: string
+//   occupation?: string
+//   companyName?: string
+//   phone?: string
+//   roles?: Array<number>
+//   pic?: string
+//   language?: 'en' | 'de' | 'es' | 'fr' | 'ja' | 'zh' | 'ru'
+//   timeZone?: string
+//   website?: 'https://keenthemes.com'
+//   emailSettings?: UserEmailSettingsModel
+//   auth?: AuthModel
+//   communication?: UserCommunicationModel
+//   address?: UserAddressModel
+//   socialNetworks?: UserSocialNetworksModel
+// }
 export interface UserModel {
   id: number
-  username: string
-  password: string | undefined
+  username?: string
+  password?: string | undefined
   email: string
-  first_name: string
-  last_name: string
-  fullname?: string
+  first_name?: string
+  last_name?: string
+  name: string
   occupation?: string
   companyName?: string
   phone?: string

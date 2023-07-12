@@ -30,7 +30,7 @@ const DefaultTitle: FC = () => {
             {/* end::Title */}
 
             {pageBreadcrumbs &&
-                pageBreadcrumbs.length > 0 &&
+                                pageBreadcrumbs.length > 0 &&
                 config.pageTitle &&
                 config.pageTitle.breadCrumbs && (
                     <>

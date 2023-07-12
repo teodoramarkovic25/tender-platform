@@ -13,7 +13,8 @@ axiosInstance.interceptors.request.use(
     config.headers = {
       Accept: "application/json",
       "Access-Control-Allow-Origin": "*",
-      "Content-Type": "application/json"
+      "Content-Type": "application/json",
+        Authorization:`Bearer ${getAccessToken()}`,
     };
     return config;
   },
@@ -36,7 +37,7 @@ axiosInstance.interceptors.response.use(
 );
 
 const getAccessToken = () => {
-  return localStorage.getItem('jwt_access_token');
+  return localStorage.getItem('token');
 };
 
 
