@@ -24,7 +24,7 @@ const defaultRoutes = [
     route: offerRoute,
   },
   {
-    path: '/evaluations',
+    path: '/evaluators',
     route: evaluationRoute,
   },
   {
