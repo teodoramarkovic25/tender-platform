@@ -60,6 +60,7 @@ export function Login() {
                 // saveAuth(auth)
                 // const {data: user} = await getUserByToken(auth.api_token)
                 // setCurrentUser(user)
+                saveAuth(res.data);
                 setCurrentUser(res.data);
             } catch (error) {
                 // setError(intl.formatMessage({id: 'AUTH.LOGIN.MESSAGE.ERROR'}));
