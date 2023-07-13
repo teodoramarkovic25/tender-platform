@@ -4,6 +4,7 @@ const allRoles = {
   vendor: ['getOffers', 'manageOffers'],
   tender: ['getTenders', 'manageTenders'],
   
+
 };
 
 const roles = Object.keys(allRoles);
