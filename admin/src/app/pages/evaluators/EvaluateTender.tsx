@@ -64,7 +64,7 @@ const EvaluateTender = () => {
           <h1 className="text-center text-dark">Evaluate Tender</h1>
 
           <div className="fv-row mb-10">
-            <label className="form-label fs-6 fw-bolder text-dark">
+            <label className="form-label fs-6 fw-bolder text-dark required">
               Proposal:
             </label>
             <br />
@@ -89,7 +89,7 @@ const EvaluateTender = () => {
           </div>
 
           <div className="fv-row mb-10">
-            <label className="form-label fs-6 fw-bolder text-dark">
+            <label className="form-label fs-6 fw-bolder text-dark required ">
               Rating:
             </label>
             <br />
@@ -112,7 +112,7 @@ const EvaluateTender = () => {
           </div>
 
           <div className="fv-row mb-10">
-            <label className="form-label fs-6 fw-bolder text-dark">
+            <label className="form-label fs-6 fw-bolder text-dark required">
               Comment:
             </label>
             <br />
@@ -130,7 +130,7 @@ const EvaluateTender = () => {
           </div>
 
           <div className="fv-row mb-10">
-            <label className="form-label fs-6 fw-bolder text-dark">
+            <label className="form-label fs-6 fw-bolder text-dark required ">
               Collaborators:
             </label>
             <br />
