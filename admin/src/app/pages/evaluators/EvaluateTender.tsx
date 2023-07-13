@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import clsx from "clsx";
 import { useFormik } from "formik";
 import * as Yup from "yup";
+import { createEvaluator } from "../../shared/services/evaluator.service";
+import { EvaluatorModel } from "../../shared/models/evaluator.model";
 
 const EvaluateTender = () => {
   const [isSubmissionAllowed, setIsSubmissionAllowed] = useState(true);
@@ -26,16 +28,14 @@ const EvaluateTender = () => {
       collaborators: "",
     },
     validationSchema: evaluationSchema,
-    onSubmit: (values) => {
-      const newEvaluation = {
-        proposal: values.proposal,
-        rating: values.rating,
-        comment: values.comment,
-        collaborators: values.collaborators,
-      };
-      setEvaluations([...evaluations, newEvaluation]);
-      formik.resetForm();
-      setIsSubmissionAllowed(false);
+    onSubmit: async(values) => {
+
+      const evaluation = new EvaluatorModel(values);
+      // @ts-ignore
+      const createdEvaluation = await createEvaluator(values);
+    
+
+      
     },
   });
 
@@ -64,7 +64,7 @@ const EvaluateTender = () => {
           <h1 className="text-center text-dark">Evaluate Tender</h1>
 
           <div className="fv-row mb-10">
-            <label className="form-label fs-6 fw-bolder text-dark required">
+            <label className="form-label fs-6 fw-bolder text-dark">
               Proposal:
             </label>
             <br />
@@ -89,7 +89,7 @@ const EvaluateTender = () => {
           </div>
 
           <div className="fv-row mb-10">
-            <label className="form-label fs-6 fw-bolder text-dark required ">
+            <label className="form-label fs-6 fw-bolder text-dark">
               Rating:
             </label>
             <br />
@@ -112,7 +112,7 @@ const EvaluateTender = () => {
           </div>
 
           <div className="fv-row mb-10">
-            <label className="form-label fs-6 fw-bolder text-dark required">
+            <label className="form-label fs-6 fw-bolder text-dark">
               Comment:
             </label>
             <br />
@@ -130,7 +130,7 @@ const EvaluateTender = () => {
           </div>
 
           <div className="fv-row mb-10">
-            <label className="form-label fs-6 fw-bolder text-dark required ">
+            <label className="form-label fs-6 fw-bolder text-dark">
               Collaborators:
             </label>
             <br />
@@ -165,26 +165,6 @@ const EvaluateTender = () => {
           </p>
         )}
 
-        <div className="mt-4">
-          <h2>Evaluation List</h2>
-          <ul>
-            {evaluations.map((evaluation, index) => (
-              <li key={index}>
-                <strong>Proposal: </strong>
-                {evaluation.proposal}
-                <br />
-                <strong>Rating: </strong>
-                {evaluation.rating}
-                <br />
-                <strong>Comment: </strong>
-                {evaluation.comment}
-                <br />
-                <strong>Collaborators: </strong>
-                {evaluation.collaborators}
-              </li>
-            ))}
-          </ul>
-        </div>
       </div>
     </div>
   );
