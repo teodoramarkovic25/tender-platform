@@ -3,7 +3,9 @@ import clsx from 'clsx';
 import * as Yup from 'yup';
 import {useFormik} from "formik";
 import {useAuth} from "../../modules/auth";
-import axios from 'axios';
+import {createOffer} from "../../shared/services/offer.service";
+import {OfferModel} from "../../shared/models/offer.model";
+import {getOffers} from "../../shared/services/offer.service";
 
 const TenderProposals = () => {
 
@@ -13,25 +15,21 @@ const TenderProposals = () => {
             .min(1, 'Minimum 1$')
             .required('Offer is required'),
 
-        documents: Yup.mixed().required('File is required')
-
+        // documents: Yup.mixed().required('File is required')
 
     })
 
     const initialValues = {
         offer: '0',
-        documents: ''
+       // documents: ''
     }
-
-    const onSubmit = () => {
-        console.log('submitted');
-    };
-
 
     const [loading, setLoading] = useState(false);
     const [offer, setOffer] = useState('');
     const [documents, setDocuments] = useState('');
+    const [error, setError] = useState('');
     const {saveAuth, setCurrentUser} = useAuth();
+
 
     const formik = useFormik({
         initialValues,
@@ -39,19 +37,13 @@ const TenderProposals = () => {
 
         onSubmit: async (values, {setStatus, setSubmitting}) => {
             setLoading(true);
+            setError(null);
             try {
-                const url = "http://localhost:3000/v1/offers";
 
-                const res = await axios.post(url, {
-                    offer: values.offer,
-                    documents: values.documents
-                });
+                const offer = new OfferModel(values);
+                // @ts-ignore
+                const createdOffer = await createOffer(values);
 
-                console.log('res');
-                console.log(res.data);
-
-                setCurrentUser(res.data);
-                console.log(values);
             } catch (error) {
                 console.error(error);
                 setStatus('Incorrect data entered');
@@ -107,7 +99,7 @@ const TenderProposals = () => {
                         )}
                     </div>
 
-
+                    {/*
                     <div className=' fv-row mb-10'>
 
                         <label className='form-label fs-6 fw-bolder text-dark'>File input {<span
@@ -133,7 +125,7 @@ const TenderProposals = () => {
                             </div>
                         )}
                     </div>
-
+*/}
 
                     <button
                         type='submit'

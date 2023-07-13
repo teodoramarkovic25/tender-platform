@@ -19,7 +19,6 @@ const AuthLayout = () => {
     }
   }, [])
   return (
-
       <div className='d-flex'>
         <div
             className='d-flex flex-column flex-column-fluid bgi-position-y-bottom position-x-center bgi-no-repeat bgi-size-contain bgi-attachment-fixed'
