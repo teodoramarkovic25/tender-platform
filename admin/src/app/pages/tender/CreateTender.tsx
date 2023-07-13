@@ -2,14 +2,14 @@ import React, {useState} from 'react';
 import {Formik, Form, Field, ErrorMessage} from 'formik';
 import * as Yup from 'yup';
 import axios from 'axios';
+import {useAuth} from "../../modules/auth";
+import {createTender} from "../../shared/services/tender.service";
+import {TenderModel} from "../../shared/models/tender.model";
 
 export function CreateTender() {
-    const [title, setTitle] = useState('');
-    const [description, setDescription] = useState('');
-    const [deadline, setDeadline] = useState('');
-    const [documents, setDocuments] = useState('');
-    const [criteria, setCriteria] = useState('');
-    const [weightage, setWeightage] = useState('');
+
+    const [loading, setLoading] = useState(false);
+
     const validationSchema = Yup.object({
         title: Yup.string().required('Title is required'),
         description: Yup.string().required('Description is required'),
@@ -19,26 +19,24 @@ export function CreateTender() {
         weightage: Yup.number().required('Weightage is required'),
     });
 
-    const handleSubmit = async (values, {setStatus, setSubmitting}) => {
-        // eslint-disable-next-line react-hooks/rules-of-hooks
-        const [loading, setLoading] = useState(false);
+    const initialValues = {
+        title: '',
+        description: '',
+        deadline: '',
+        //  documents: '',
+        criteria: '',
+        weightage: '100',
+    }
+
+    const handleSubmit = async (values) => {
         setLoading(true);
 
-        try {
-            const url = 'http://localhost:3000/v1/auth/tenders';
-            const res = await axios.post(url, {
-                title: values.title,
-                description: values.description,
-                deadline: values.deadline,
-                criteria: values.criteria,
-                weightage: values.weightage,
-            });
-            console.log('res: ');
-            console.log(res.data);
-        } catch (error) {
+        console.log('submitting')
 
-            console.error('Error:', error.message);
-        }
+        const tender = new TenderModel(values);
+
+        const createdTender = await createTender(values);
+        console.log('Tender created', createdTender);
 
         setLoading(false);
     };
@@ -49,19 +47,12 @@ export function CreateTender() {
             <div className="col-10 col-md-8 col-lg-6">
 
                 <Formik
-                    initialValues={{
-                        title: '',
-                        description: '',
-                        deadline: '',
-                        documents: '',
-                        criteria: '',
-                        weightage: '',
-                    }}
+                    initialValues={initialValues}
                     validationSchema={validationSchema}
                     onSubmit={handleSubmit}
                 >
-                    {({errors, touched}) => (
-                        <Form className="form card p-3" action="/upload" method="POST" encType="multipart/form-data">
+                    {({errors, touched, values, handleChange}) => (
+                        <form className="form card p-3">
                             <h1 className="text-center text-dark">Create Tender</h1>
 
                             <div className="mb-3">
@@ -69,8 +60,8 @@ export function CreateTender() {
                                     Title{<span className="required"></span>}
                                 </label>
                                 <Field
-                                    value={title}
-                                    onChange={(e)=>{setTitle(e.target.value)}}
+                                    value={values.title}
+                                    onChange={handleChange}
                                     type="text"
                                     id="title"
                                     name="title"
@@ -89,8 +80,8 @@ export function CreateTender() {
                                     Description{<span className="required"></span>}
                                 </label>
                                 <Field
-                                    value={description}
-                                    onChange={(e)=>{setDescription(e.target.value)}}
+                                    value={values.description}
+                                    onChange={handleChange}
                                     type="text"
                                     id="description"
                                     name="description"
@@ -110,8 +101,9 @@ export function CreateTender() {
                                     Deadline date{<span className="required"></span>}
                                 </label>
                                 <Field
-                                    value={deadline}
-                                    onChange={(e)=>{setDeadline(e.target.value)}}
+                                    value={values.deadline}
+                                    onChange={handleChange
+                                    }
                                     type="date"
                                     id="deadline"
                                     name="deadline"
@@ -124,32 +116,32 @@ export function CreateTender() {
                                 )}
                             </div>
 
-                            <div className="mb-3">
-                                <label className="form-label fs-6 fw-bolder text-dark">
-                                    Associated Documents{<span className="required"></span>}
-                                </label>
-                                <Field
-                                    value={documents}
-                                    onChange={(e)=>{setDocuments(e.target.value)}}
-                                    type="file"
-                                    id="documents"
-                                    name="documents"
-                                    className={`form-control form-control-lg form-control-solid ${
-                                        touched.documents && errors.documents ? 'is-invalid border border-danger' : touched.documents ? 'is-valid' : ''
-                                    }`}
-                                />
-                                {touched.documents && errors.documents && (
-                                    <div className="error text-sm text-danger">Please choose a document</div>
-                                )}
-                            </div>
+                            {/*<div className="mb-3">*/}
+                            {/*    <label className="form-label fs-6 fw-bolder text-dark">*/}
+                            {/*        Associated Documents{<span className="required"></span>}*/}
+                            {/*    </label>*/}
+                            {/*    <Field*/}
+                            {/*        value={values.documents}*/}
+                            {/*        onChange={handleChange}*/}
+                            {/*        type="file"*/}
+                            {/*        id="documents"*/}
+                            {/*        name="documents"*/}
+                            {/*        className={`form-control form-control-lg form-control-solid ${*/}
+                            {/*            touched.documents && errors.documents ? 'is-invalid border border-danger' : touched.documents ? 'is-valid' : ''*/}
+                            {/*        }`}*/}
+                            {/*    />*/}
+                            {/*    {touched.documents && errors.documents && (*/}
+                            {/*        <div className="error text-sm text-danger">Please choose a document</div>*/}
+                            {/*    )}*/}
+                            {/*</div>*/}
 
                             <div className="mb-3">
                                 <label className="form-label fs-6 fw-bolder text-dark">
                                     Evaluation Criteria{<span className="required"></span>}
                                 </label>
                                 <Field
-                                    value={criteria}
-                                    onChange={(e)=>{setCriteria(e.target.value)}}
+                                    value={values.criteria}
+                                    onChange={handleChange}
                                     type="text"
                                     id="criteria"
                                     name="criteria"
@@ -168,8 +160,8 @@ export function CreateTender() {
                                     Weightage{<span className="required"></span>}
                                 </label>
                                 <Field
-                                    value={weightage}
-                                    onChange={(e)=>{setWeightage(e.target.value)}}
+                                    value={values.weightage}
+                                    onChange={handleChange}
                                     type="number"
                                     id="weightage"
                                     name="weightage"
@@ -186,10 +178,10 @@ export function CreateTender() {
                                 )}
                             </div>
 
-                            <button className="btn btn-lg w-100 mb-5" type="submit">
-                                Create Tender
+                            <button type="submit" disabled={loading} onClick={() => handleSubmit(values)}>
+                                Submit
                             </button>
-                        </Form>
+                        </form>
                     )}
                 </Formik>
             </div>
