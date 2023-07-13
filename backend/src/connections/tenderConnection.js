@@ -1,6 +1,5 @@
 const express = require('express');
 const mongoose = require('mongoose');
-const cors = require('cors');
 const { Tender} = require('../models');
 const config = require('../config/config');
 const bodyParser = require('body-parser');
