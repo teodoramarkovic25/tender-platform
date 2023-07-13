@@ -1,8 +1,9 @@
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-export function errorMess() {
-    toast.error('You have not successfully created a tender!', {
+export function showErrorMessage(message) {
+
+    toast.error(message, {
         position: 'top-right',
         autoClose: 3000,
         hideProgressBar: false,
@@ -13,6 +14,7 @@ export function errorMess() {
 
         style: {
             background: 'red',
+            color: 'white',
         },
         bodyClassName: 'toast-body',
     });

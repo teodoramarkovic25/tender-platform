@@ -1,8 +1,9 @@
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-export function success() {
-    toast.success('You have successfully created a tender!', {
+export function showSuccessMessage(message) {
+
+    toast.success(message, {
         position: 'top-right',
         autoClose: 3000,
         hideProgressBar: false,
@@ -13,6 +14,7 @@ export function success() {
 
         style: {
             background: 'green',
+            color: 'white',
         },
         bodyClassName: 'toast-body',
 })

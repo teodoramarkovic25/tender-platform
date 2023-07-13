@@ -3,9 +3,9 @@ import {Formik, Form, Field, ErrorMessage} from 'formik';
 import * as Yup from 'yup';
 import {createTender} from "../../shared/services/tender.service";
 import {TenderModel} from "../../shared/models/tender.model";
-import {toast, ToastContainer} from "react-toastify";
-import { success } from './success-createtender-message';
-import {errorMess} from './error-createtender-message';
+
+import { showSuccessMessage } from '../../shared/components/messages/success-createtender-message';
+import {showErrorMessage} from '../../shared/components/messages/error-createtender-message';
 import 'react-toastify/dist/ReactToastify.css';
 export function CreateTender() {
 
@@ -38,10 +38,10 @@ export function CreateTender() {
 
         const createdTender = await createTender(values).catch((error) => {
             console.error('Error creating tender', error);
-            errorMess();
+            showErrorMessage('You have not successfully created a tender!');
         });
         console.log('Tender created', createdTender);
-        success();
+        showSuccessMessage('Tender successfully created ');
         setLoading(false);
 
     };
