@@ -1,9 +1,11 @@
 import ApiClient from './api-client/api-client';
 import {TenderModel} from "../models/tender.model";
 const TENDER_ENDPOINT = '/tenders';
-const getTenders = () => {
+export const getTenders = (): Promise<TenderModel[] | null> => {
     return ApiClient.get(TENDER_ENDPOINT)
         .then(response => response.data)
+        .then(data=>data.results)
+        .then(data=>data.map(item=>new TenderModel(item)))
 }
 export const getTender = async (tenderId: string): Promise<TenderModel | null> => {
     return ApiClient.get(`${TENDER_ENDPOINT}/${tenderId}`)

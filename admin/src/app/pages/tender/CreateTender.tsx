@@ -7,6 +7,8 @@ import {TenderModel} from "../../shared/models/tender.model";
 import { showSuccessMessage } from '../../shared/components/messages/success-createtender-message';
 import {showErrorMessage} from '../../shared/components/messages/error-createtender-message';
 import 'react-toastify/dist/ReactToastify.css';
+import {toast} from "react-toastify";
+import error = toast.error;
 export function CreateTender() {
 
     const [loading, setLoading] = useState(false);
@@ -37,15 +39,16 @@ export function CreateTender() {
         const tender = new TenderModel(values);
 
         const createdTender = await createTender(values).catch((error) => {
-            console.error('Error creating tender', error);
-            showErrorMessage('You have not successfully created a tender!');
+            console.log('Tender created', createdTender);
+            showSuccessMessage('Tender successfully created ');
+            setLoading(false);
         });
-        console.log('Tender created', createdTender);
-        showSuccessMessage('Tender successfully created ');
-        setLoading(false);
+
+        console.error('Error creating tender', error);
+        showErrorMessage('You have not successfully created a tender!');
+
 
     };
-
 
     return (
         <div className="d-flex justify-content-center">
