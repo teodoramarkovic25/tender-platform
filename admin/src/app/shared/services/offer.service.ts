@@ -14,17 +14,16 @@ export const getOffers = () => {
         .then(response => response.data)
 }*/
 
-export const getOffers = async () => {
-    try {
-        const response = await ApiClient.get(OFFERS_ENDPOINT);
-        return response.data;
-    } catch (error) {
-        console.log('error');
-        return [];
-    }
+export const getOffers = (): Promise<OfferModel[] | null> => {
+    return ApiClient.get(OFFERS_ENDPOINT)
+        .then(response => response.data)
+        .then(data => data.results)
+        .then(data => data.map(item => new OfferModel(item)))
 }
+
 export const getOffer = async (offerId: string): Promise<OfferModel | null> => {
     return ApiClient.get(`${OFFERS_ENDPOINT}/${offerId}`)
         .then(response => response.data)
         .then(data => new OfferModel(data))
 }
+

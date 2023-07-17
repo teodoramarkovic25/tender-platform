@@ -12,18 +12,20 @@ const offerSchema = new mongoose.Schema({
           return value > 0;
         },
         message: 'Your offer must be a positive number!',
-      },
-      trim: true
+      }
+    },
+    tender: {
+      type: mongoose.SchemaTypes.ObjectId,
+      ref: 'Tender',
+      required: true
     }, /* chooseFile:{
     type:File,
     required:[true,'An offer must have a document!'],
     trim:true
   }*/
   },
-  {
-    timestamps: true,
-  }
 )
+
 
 // add plugin that converts mongoose to json
 offerSchema.plugin(toJSON);
