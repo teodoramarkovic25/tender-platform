@@ -13,7 +13,6 @@ const ModalComponent = ({children, show, onHide}) => {
                 </Modal.Header>
                 <Modal.Body>
                     {children}
-                    <button type="button">Close</button>
                 </Modal.Body>
             </Modal>
         </div>
