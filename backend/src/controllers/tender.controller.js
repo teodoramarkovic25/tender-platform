@@ -2,7 +2,7 @@ const httpStatus = require('http-status');
 const pick = require('../utils/pick');
 const ApiError = require('../utils/ApiError');
 const catchAsync = require('../utils/catchAsync');
-const { tenderService } = require('../services');
+const {tenderService} = require('../services');
 
 const createTender = catchAsync(async (req, res) => {
   const tender = await tenderService.createTender(req.body);
@@ -10,8 +10,8 @@ const createTender = catchAsync(async (req, res) => {
 });
 
 const getTenders = catchAsync(async (req, res) => {
-  const filter = pick(req.query, ['firstName','lastName', 'role']);
-  const options = pick(req.query, ['sortBy', 'limit', 'page']);
+  const filter = pick(req.query, ['title', 'description','deadline','criteria', 'weightage']);
+  const options = pick(req.query, ['sortBy', 'limit', 'page', 'populate']);
   const result = await tenderService.queryTenders(filter, options);
   res.send(result);
 });
@@ -21,6 +21,9 @@ const getTender = catchAsync(async (req, res) => {
   if (!tender) {
     throw new ApiError(httpStatus.NOT_FOUND, 'Tender not found');
   }
+  await tender
+    .populate('offers')
+    .execPopulate();
   res.send(tender);
 });
 
@@ -39,5 +42,5 @@ module.exports = {
   getTender,
   getTenders,
   updateTender,
-  deleteTender,
+  deleteTender
 };

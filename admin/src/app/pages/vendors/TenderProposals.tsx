@@ -5,9 +5,8 @@ import {useFormik} from "formik";
 import {useAuth} from "../../modules/auth";
 import {createOffer} from "../../shared/services/offer.service";
 import {OfferModel} from "../../shared/models/offer.model";
-import {getOffers} from "../../shared/services/offer.service";
 
-const TenderProposals = () => {
+const TenderProposals = ({tender}) => {
 
     const tenderProposalSchema = Yup.object().shape({
 
@@ -21,7 +20,7 @@ const TenderProposals = () => {
 
     const initialValues = {
         offer: '0',
-       // documents: ''
+        // documents: ''
     }
 
     const [loading, setLoading] = useState(false);
@@ -66,7 +65,7 @@ const TenderProposals = () => {
                 >
 
                     <h1 className='text-center text-dark'>Make an offer</h1>
-
+                    <h1>{tender.title}</h1>
 
                     <div className=' fv-row mb-10'>
                         <label className='form-label fs-6 fw-bolder text-dark'>Your offer {<span

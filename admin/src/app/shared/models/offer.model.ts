@@ -1,8 +1,9 @@
 import {BaseModel} from "./base.model";
+import {TenderModel} from "./tender.model";
 
 export class OfferModel extends BaseModel {
     offer: number;
-    tender: string;
+    tender: TenderModel;
 
     constructor(attributes?: any) {
         super();

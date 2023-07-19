@@ -2,10 +2,11 @@ import React, {useState, useEffect} from "react";
 import clsx from "clsx";
 import {useFormik} from "formik";
 import * as Yup from "yup";
+import {EvaluatorModel} from "../../shared/models/pomocni_evaluation.model";
+import {createEvaluator} from "../../shared/services/api-client/pomocni_evaluation.service";
 
-const EvaluateTender = () => {
+const EvaluateTender = ({offerId}) => {
     const [isSubmissionAllowed, setIsSubmissionAllowed] = useState(true);
-    const [evaluations, setEvaluations] = useState([]);
     const [remainingTime, setRemainingTime] = useState(0);
 
     const evaluationSchema = Yup.object().shape({
@@ -26,16 +27,10 @@ const EvaluateTender = () => {
             collaborators: "",
         },
         validationSchema: evaluationSchema,
-        onSubmit: (values) => {
-            const newEvaluation = {
-                //proposal: values.proposal,
-                rating: values.rating,
-                comment: values.comment,
-                collaborators: values.collaborators,
-            };
-            setEvaluations([...evaluations, newEvaluation]);
-            formik.resetForm();
-            setIsSubmissionAllowed(false);
+        onSubmit: async (values) => {
+            const newEvaluation = new EvaluatorModel({...values, offer: offerId});
+            // @ts-ignore
+            const createdEvaluation = await createEvaluator(newEvaluation);
         },
     });
 
@@ -115,6 +110,7 @@ const EvaluateTender = () => {
 
                     <div className="fv-row mb-10">
                         <label className="form-label fs-6 fw-bolder text-dark required">
+
                             Comment:
                         </label>
                         <br/>
@@ -154,7 +150,7 @@ const EvaluateTender = () => {
 
                     <button
                         type="submit"
-                        className="btn btn-primary"
+                        className="btn btn-lg w-100 mb-5"
                         disabled={!isSubmissionAllowed}
                     >
                         Submit Evaluation
@@ -167,27 +163,6 @@ const EvaluateTender = () => {
                     </p>
                 )}
 
-                <div className="mt-4">
-                    <h2>Evaluation List</h2>
-                    <ul>
-                        {evaluations.map((evaluation, index) => (
-                            <li key={index}>
-                                {/*<strong>Proposal: </strong>
-                                {evaluation.proposal}
-                                <br/>
-                                */}
-                                <strong>Rating: </strong>
-                                {evaluation.rating}
-                                <br/>
-                                <strong>Comment: </strong>
-                                {evaluation.comment}
-                                <br/>
-                                <strong>Collaborators: </strong>
-                                {evaluation.collaborators}
-                            </li>
-                        ))}
-                    </ul>
-                </div>
             </div>
         </div>
     );

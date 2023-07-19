@@ -1,9 +1,6 @@
 const mongoose = require('mongoose');
 const { toJSON, paginate } = require('./plugins');
 
-
-
-
 const tenderSchema = mongoose.Schema(
     {
       title: {
@@ -38,11 +35,21 @@ const tenderSchema = mongoose.Schema(
         required: true,
         trim: true,
       }
-    }
+    },
+  {
+    toJSON:{virtuals:true},
+    toObject:{virtuals:true}
+  }
 );
+
+tenderSchema.virtual('offers', {
+  ref: 'Offer',
+  localField: '_id',
+  foreignField: 'tender'
+});
+
 tenderSchema.plugin(toJSON);
 tenderSchema.plugin(paginate);
-
 
 const Tender = mongoose.model('Tender',tenderSchema  );
 
