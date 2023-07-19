@@ -1,18 +1,21 @@
-import React, { useState, useEffect } from 'react';
+//MODAL
+
+import React, {useState, useEffect} from 'react';
 import {getTenders} from "../shared/services/tender.service";
 import ModalComponent from "../modals/ModalComponent";
 import TenderProposals from "./vendors/TenderProposals";
 
-
-export function HelperTender() {
+export function OffersPage() {
     const [tenders, setTenders] = useState([]);
-    const [isOpen,setIsOpen]=useState(false);
-    const[selectedRow,setSelectedRow]=useState(null);
-    const toggle=()=>setIsOpen(!isOpen);
+    const [isOpen, setIsOpen] = useState(false);
+    const [selectedRow, setSelectedRow] = useState(null);
+    const toggle = () => setIsOpen(!isOpen);
     const [offers, setOffers] = useState([]);
 
-    const handleClose=()=>{setIsOpen(false)};
-    const handleShow=(tender)=>{
+    const handleClose = () => {
+        setIsOpen(false)
+    };
+    const handleShow = (tender) => {
 
         setSelectedRow(tender);
         setIsOpen(true);
@@ -53,21 +56,23 @@ export function HelperTender() {
                         <td>{tender.deadline}</td>
                         <td>{tender.criteria}</td>
                         <td>{tender.weightage}</td>
-                        <td><button onClick={()=>handleShow(tender)}>evaluate</button></td>
+                        <td>
+                            <button onClick={() => handleShow(tender)}>evaluate</button>
+                        </td>
                     </tr>
                 ))}
                 </tbody>
             </table>
             <ModalComponent show={isOpen} onHide={toggle}>
 
-                {/*pozvati komponentu koju zelite, i u tu komponentu tj. njenu funkciju u parametre ubaciti {tender}*/}
-                {/*promijeniti velicinu modala, stilizovati, i upisati podatke s modala u bazu*/}
+                <TenderProposals tender={selectedRow}/>
 
             </ModalComponent>
         </div>
     );
 }
-export default HelperTender;
+
+export default OffersPage;
 
 
 

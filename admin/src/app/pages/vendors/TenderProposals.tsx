@@ -39,9 +39,9 @@ const TenderProposals = ({tender}) => {
             setError(null);
             try {
 
-                const offer = new OfferModel(values);
+                const newOffer = new OfferModel({...values, tender: tender.id});
                 // @ts-ignore
-                const createdOffer = await createOffer(values);
+                const createdOffer = await createOffer(newOffer);
 
             } catch (error) {
                 console.error(error);
