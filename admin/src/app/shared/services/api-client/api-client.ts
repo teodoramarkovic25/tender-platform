@@ -2,10 +2,16 @@ import {AxiosResponse} from 'axios';
 import axiosInstance from './axiosInstance';
 
 const prepareQuery = (query?: string): string => {
-    return query ? '?' + query : '';
+    return query ? '?' + queryObjectToString(query) : '';
 }
 
-const get = (endpoint: string, query?: string): Promise<AxiosResponse> => {
+export const queryObjectToString = (query) => {
+    let str = '';
+
+    Object.keys(query).forEach(key => (str += query[key] ? `&${key}=${query[key]}` : ''));
+    return str.substring(1, str.length);
+}
+const get = (endpoint: string, query?: any): Promise<AxiosResponse> => {
 
     return axiosInstance.get(`${endpoint}${prepareQuery(query)}`);
 };
