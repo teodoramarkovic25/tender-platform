@@ -12,7 +12,7 @@ const createCompany = catchAsync(async (req, res) => {
 
 const getCompanies = catchAsync(async (req, res) => {
   const filter = pick(req.query, ['name', 'businessType', 'address', 'phoneNumber', 'website', 'companySize']);
-  const options = pick(req.query, ['sortBy', 'limit', 'page']);
+  const options = pick(req.query, ['sortBy', 'limit', 'page', 'populate']);
   const result = await companyService.queryCompanies(filter, options);
   res.send(result);
 });
@@ -22,6 +22,9 @@ const getCompany = catchAsync(async (req, res) => {
   if (!company) {
     throw new ApiError(httpStatus.NOT_FOUND, 'Company not found');
   }
+  await company
+    .populate('users')
+    .execPopulate();
   res.send(company);
 });
 

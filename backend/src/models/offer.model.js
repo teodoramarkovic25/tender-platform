@@ -24,6 +24,9 @@ const offerSchema = new mongoose.Schema({
     trim:true
   }*/
   },
+  {
+    timestamps: true,
+  }
 )
 
 

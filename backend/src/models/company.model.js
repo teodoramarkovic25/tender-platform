@@ -28,18 +28,28 @@ const companySchema = new mongoose.Schema({
   },
   website: {
     type: String,
-    required: [true, 'Phone number is required!'],
+    required: [true, 'Website is required!'],
     trim: true
   },
   companySize: {
     type: Number,
-    required: [true, 'Phone number is required!'],
+    required: [true, 'Company size is required!'],
     trim: true,
     minlength: 9
   }
 
+}, {
+  toJSON: {virtuals: true},
+  toObject: {virtuals: true},
+  timestamps: true
 });
 
+
+companySchema.virtual('users', {
+  ref: 'User',
+  localField: '_id',
+  foreignField: 'company'
+});
 
 companySchema.plugin(toJSON);
 companySchema.plugin(paginate);
