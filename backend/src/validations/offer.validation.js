@@ -4,7 +4,8 @@ const {objectId} = require('./custom.validation');
 const createOffer = {
   body: Joi.object().keys({
     offer: Joi.number().required(),
-    tender: Joi.string().required()
+    tender: Joi.string().required(),
+    createdBy: Joi.string().required()
   }),
 };
 const updateOffer = {

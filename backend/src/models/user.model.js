@@ -55,9 +55,17 @@ const userSchema = mongoose.Schema(
     }
   },
   {
+    toJSON: {virtuals: true},
+    toObject: {virtuals: true},
     timestamps: true,
   }
 );
+
+userSchema.virtual('offers', {
+  ref: 'Offer',
+  localField: '_id',
+  foreignField: 'createdBy'
+});
 
 // add plugin that converts mongoose to json
 userSchema.plugin(toJSON);

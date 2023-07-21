@@ -23,6 +23,10 @@ const offerSchema = new mongoose.Schema({
     required:[true,'An offer must have a document!'],
     trim:true
   }*/
+    createdBy: {
+      type: mongoose.SchemaTypes.ObjectId,
+      ref: 'User'
+    }
   },
   {
     timestamps: true,

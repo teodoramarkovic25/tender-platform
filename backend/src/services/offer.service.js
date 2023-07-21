@@ -14,6 +14,7 @@ const queryOffers = async (filter, options) => {
 const getOfferById = async (id) => {
   return Offer.findById(id)
     .populate('tenders', ['title', 'description', 'criteria', 'weightage'])
+    .populate('createdBy', ['firstName', 'lastName', 'email', 'company', 'createdAt'])
     .exec();
 };
 
