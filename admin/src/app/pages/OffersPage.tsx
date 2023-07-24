@@ -4,19 +4,16 @@ import React, {useState, useEffect} from 'react';
 import {getTenders} from "../shared/services/tender.service";
 import ModalComponent from "../modals/ModalComponent";
 import TenderProposals from "./vendors/TenderProposals";
+import {useAuth} from "../modules/auth/core/Auth";
 
 export function OffersPage() {
     const [tenders, setTenders] = useState([]);
     const [isOpen, setIsOpen] = useState(false);
     const [selectedRow, setSelectedRow] = useState(null);
     const toggle = () => setIsOpen(!isOpen);
-    const [offers, setOffers] = useState([]);
+    const {currentUser, logout} = useAuth();
 
-    const handleClose = () => {
-        setIsOpen(false)
-    };
     const handleShow = (tender) => {
-
         setSelectedRow(tender);
         setIsOpen(true);
     };
@@ -25,11 +22,15 @@ export function OffersPage() {
         try {
             const allTenders = await getTenders();
             setTenders(allTenders);
+            {
+                // eslint-disable-next-line @typescript-eslint/no-unused-expressions
+                currentUser?.id
+            }
+
         } catch (error) {
             console.error(error);
         }
     };
-
 
     useEffect(() => {
         fetchTenders();
@@ -57,7 +58,9 @@ export function OffersPage() {
                         <td>{tender.criteria}</td>
                         <td>{tender.weightage}</td>
                         <td>
-                            <button onClick={() => handleShow(tender)}>evaluate</button>
+                            <button className='mb-3 btn btn-sm w-70' onClick={() => handleShow(tender)}>Create an
+                                offer
+                            </button>
                         </td>
                     </tr>
                 ))}
@@ -65,7 +68,7 @@ export function OffersPage() {
             </table>
             <ModalComponent show={isOpen} onHide={toggle}>
 
-                <TenderProposals tender={selectedRow}/>
+                <TenderProposals tender={selectedRow} user={currentUser}/>
 
             </ModalComponent>
         </div>
