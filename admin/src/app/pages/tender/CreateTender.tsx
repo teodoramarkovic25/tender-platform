@@ -11,6 +11,8 @@ export function CreateTender() {
 
     const [loading, setLoading] = useState(false);
 
+
+
     const validationSchema = Yup.object({
         title: Yup.string().required('Title is required'),
         description: Yup.string().required('Description is required'),
@@ -32,7 +34,7 @@ export function CreateTender() {
     const handleSubmit = async (values) => {
         setLoading(true);
 
-        console.log('submitting')
+
 
         const tender = new TenderModel(values);
 
@@ -46,7 +48,7 @@ export function CreateTender() {
     };
 
     return (
-        <div className="d-flex justify-content-center">
+        <div className="d-flex justify-content-center ">
             <div className="col-10 col-md-8 col-lg-6">
 
                 <Formik
@@ -68,8 +70,8 @@ export function CreateTender() {
                                     type="text"
                                     id="title"
                                     name="title"
-                                    className={`form-control form-control-lg form-control-solid ${
-                                        touched.title && errors.title ? 'is-invalid border border-danger' : touched.title ? 'is-valid' : ''
+                                    className={`form-control form-control-lg form-control-solid required${
+                                        touched.title && errors.title ? 'is-invalid border border-danger ' : touched.title ? 'is-valid' : ''
                                     }`}
                                     placeholder="Tender title"
                                 />
@@ -185,7 +187,6 @@ export function CreateTender() {
                                     onClick={() => handleSubmit(values)}>
                                 Submit
                             </button>
-                            {/* eslint-disable-next-line react/jsx-no-undef */}
 
                         </form>
                     )}
