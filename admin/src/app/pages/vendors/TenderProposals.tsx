@@ -6,7 +6,7 @@ import {useAuth} from "../../modules/auth";
 import {createOffer} from "../../shared/services/offer.service";
 import {OfferModel} from "../../shared/models/offer.model";
 
-const TenderProposals = ({tender}) => {
+const TenderProposals = ({tender,user}) => {
 
     const tenderProposalSchema = Yup.object().shape({
 
@@ -39,7 +39,7 @@ const TenderProposals = ({tender}) => {
             setError(null);
             try {
 
-                const newOffer = new OfferModel({...values, tender: tender.id});
+                const newOffer = new OfferModel({...values, tender: tender.id,createdBy:user.id});
                 // @ts-ignore
                 const createdOffer = await createOffer(newOffer);
 
