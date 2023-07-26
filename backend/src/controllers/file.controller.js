@@ -1,42 +1,58 @@
-const File = require('./models/file.model');
-const fileController = {};
+const {fileService, userService} = require('../services');
+const {createFile} = require('../services/file.service');
+const catchAsync = require("../utils/catchAsync");
+const ApiError = require("../utils/ApiError");
+const httpStatus = require("http-status");
+const pick = require("../utils/pick");
 
-fileController.uploadFile = async (req, res) => {
+const uploadFile = async (req, res) => {
   try {
-    const { originalname, filename, mimetype, size } = req.file;
+    const files = req.files;
+    const uploadedFiles = [];
 
-    const newFile = new File({
-      originalName: originalname,
-      fileName: filename,
-      fileType: mimetype,
-      fileSize: size,
-    });
+    for (const file of files) {
+      const {originalname, filename, mimetype, size} = file;
 
-    const savedFile = await newFile.save();
-
-    return res.status(200).json(savedFile);
-  } catch (error) {
-    console.error(error);
-    return res.status(500).json({ error: 'Error ' });
-  }
-};
-
-fileController.getFileById = async (req, res) => {
-  try {
-    const fileId = req.params.id;
-
-
-    const file = await File.findById(fileId);
-
-    if (!file) {
-      return res.status(404).json({ error: 'Datoteka nije pronađena.' });
+      const savedFile = await createFile(req.body, file);
+      uploadedFiles.push(savedFile);
     }
-
-    return res.status(200).json(file);
+    return res.status(200).json(uploadedFiles);
   } catch (error) {
-    console.error(error);
-    return res.status(500).json({ error: 'Greška prilikom dohvata datoteke.' });
+    console.error('Error occurred while saving files:', error);
+    return res.status(500).json({error: 'Error occurred while saving files'});
   }
 };
 
-module.exports = fileController;
+const getFile = catchAsync(async (req, res) => {
+  const file = await fileService.getFileById(req.params.fileId);
+  if (!file) {
+    throw new ApiError(httpStatus.NOT_FOUND, 'File not found');
+  }
+  res.send(file);
+});
+
+const getFiles = catchAsync(async (req, res) => {
+  const filter = pick(req.query, ['createdBy', 'fileType', 'getFiles', 'fileSize']);
+  const options = pick(req.query, ['sortBy', 'limit', 'page', 'populate']);
+  const result = await fileService.queryFiles(filter, options);
+  res.send(result);
+})
+
+const updateFile = catchAsync(async (req, res) => {
+  const file = await fileService.updateFileById(req.params.fileId, req.body);
+  res.send(file);
+});
+
+const deleteFile = catchAsync(async (req, res) => {
+  await fileService.deleteFileById(req.params.fileId);
+  res.status(httpStatus.NO_CONTENT).send();
+});
+
+
+module.exports = {
+  uploadFile,
+  getFile,
+  getFiles,
+  updateFile,
+  deleteFile
+};
