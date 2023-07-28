@@ -4,18 +4,16 @@ import {Formik, Form, Field, ErrorMessage} from 'formik';
 import * as Yup from 'yup';
 import {Pagination} from "../../shared/components/pagination/pagination";
 
-
 function formatDate(dateString) {
     const date = new Date(dateString);
-    const options = {
-        year: 'numeric',
-        month: 'long',
-        day: 'numeric'
-    };
-    // @ts-ignore
-    const formattedDate = date.toLocaleDateString(options);
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const day = String(date.getDate()).padStart(2, '0');
+
+    const formattedDate = `${month}/${day}/${year}`;
     return formattedDate;
 }
+
 
 
 const tenderSchema = Yup.object().shape({
@@ -33,40 +31,49 @@ export function AllTenders() {
     const [currentPage, setCurrentPage] = useState(1);
     const [paginationData, setPaginationData] = useState({});
     const [currentLimit, setCurrentLimit] = useState(10);
+    const [deletedItemId, setDeletedItemId] = useState();
+    const [isLoading, setIsLoading] = useState(false);
+    // const [dateFromPlaceholder, setDateFromPlaceholder] = useState('Date from');
+    //  const [dateToPlaceholder, setDateToPlaceholder] = useState('Date to');
 
+    const
+        handlePageChange = (newPage) => {
+            setCurrentPage(newPage);
+            fetchTenders({
+                page: newPage,
+                limit: currentLimit,
+            });
+        };
 
-    const handlePageChange = (newPage) => {
-        setCurrentPage(newPage);
-        fetchTenders({
-            page: newPage,
-
-        });
-    };
     const handleLimitChange = (newValue) => {
         setCurrentLimit(newValue);
         fetchTenders({
             limit: newValue,
-        })
-    }
-
+            page: 1,
+        });
+    };
 
     const handleDeleteTender = (tenderId) => {
+        setIsLoading(true);
         deleteTender(tenderId)
-            .then((deletedTender) => {
-                if (deletedTender) {
-                    setTenders((prevTenders) => prevTenders.filter((tender) => tender.id !== tenderId));
-                    console.log('Tender deleted successfully.');
-                } else {
-                    console.log('Tender with the given ID was not found.');
-                }
+            .then(() => {
+                setDeletedItemId(tenderId);
+                console.log('Tender deleted successfully');
+                setIsLoading(false);
             })
             .catch((error) => {
                 console.error('Error deleting tender:', error.message);
+                setIsLoading(false);
             });
     };
 
+    useEffect(() => {
+        if (!deletedItemId) {
+            return;
+        }
 
-
+        setTenders((prevTenders) => prevTenders.filter((tender) => tender.id !== deletedItemId));
+    }, [deletedItemId]);
 
     const fetchTenders = (filterOptions) => {
         getTenders(filterOptions)
@@ -88,10 +95,10 @@ export function AllTenders() {
     };
 
 
-    // @ts-ignore
     return (
         <div>
             <h1>All active tenders</h1>
+            <br/>
             <Formik
                 initialValues={{
                     dateFrom: '',
@@ -103,35 +110,41 @@ export function AllTenders() {
                 onSubmit={handleFilterSubmit}
             >
                 {({errors, touched}) => (
-                    <Form className="d-flex align-items-center form">
+                    <Form className="d-flex justify-content-start form flex-wrap">
                         <div className="form-group me-3">
-                            <label className="form-label fs-6 fw-bolder text-dark">Date From:</label>
+                            <label className="form-label fs-6 fw-bolder text-dark justify-content-start">Date
+                                From:</label>
                             <Field type="date" name="dateFrom" className="form-control form-control-lg"/>
                             <ErrorMessage name="dateFrom" component="div" className="text-danger"/>
                         </div>
 
                         <div className="form-group me-3">
-                            <label className="form-label fs-6 fw-bolder text-dark">Date To:</label>
+                            <label className="form-label fs-6 fw-bolder text-dark justify-content-start">Date
+                                To:</label>
                             <Field type="date" name="dateTo" className="form-control form-control-lg"/>
                             <ErrorMessage name="dateTo" component="div" className="text-danger"/>
                         </div>
 
                         <div className="form-group me-3">
-                            <label className="form-label fs-6 fw-bolder text-dark">Weightage From:</label>
+                            <label className="form-label fs-6 fw-bolder text-dark justify-content-start">Weightage
+                                From:</label>
                             <Field type="number" step="any" min="100" name="weightageFrom"
-                                   className="form-control form-control-lg"/>
+                                   className="form-control form-control-lg " placeholder="Enter weightage from"/>
                             <ErrorMessage name="weightageFrom" component="div" className="text-danger"/>
                         </div>
 
                         <div className="form-group me-3">
-                            <label className="form-label fs-6 fw-bolder text-dark">Weightage To:</label>
+                            <label className="form-label fs-6 fw-bolder text-dark justify-content-start">Weightage
+                                To:</label>
                             <Field type="number" step="any" min="100" name="weightageTo"
-                                   className="form-control form-control-lg"/>
+                                   className="form-control form-control-lg" placeholder="Enter weightage to"/>
                             <ErrorMessage name="weightageTo" component="div" className="text-danger"/>
                         </div>
-
-                        <button type="submit" className='btn btn-lg btn-primary  btn-sm'>Filter Tenders</button>
-
+                        <div className=" mt-auto p-auto d-flex ">
+                            <button type="submit" className='btn btn-sm py-4
+                         text-dark   '>Filter Tenders
+                            </button>
+                        </div>
                     </Form>
                 )}
             </Formik>
@@ -154,14 +167,19 @@ export function AllTenders() {
                             <td className="text-center">{tender.description}</td>
                             <td className="text-center">{formatDate(tender.deadline)}</td>
                             <td className="text-center">{tender.criteria}</td>
-                            <td className="text-center">{tender.weightage}</td>
-                            <td className="text-center">
 
+                            <td className="text-center">{ tender.weightage + '$' }</td>
+
+                            <td className="d-flex justify-content-center align-items-center">
                                 <button
-                                    className="btn btn-sm btn-danger justify-content-center"
+                                    className={`btn btn-lg d-flex justify-content-center align-items-center  ${isLoading && 'disabled'}`}
+                                    style={{ background: '#ef1a07',width: '50px',
+                                        height: '35px', }}
                                     onClick={() => handleDeleteTender(tender.id)}
                                 >
-                                    <i className="fas fa-trash "></i>
+                                    {isLoading ? <span className='indicator-progress' style={{display: 'block'}}>
+                                        <span className='spinner-border spinner-border-sm align-middle '></span>
+                                </span> : <i className=" fas fa-trash justify-content-center align-items-center p-0 m-0 " ></i>}
                                 </button>
                             </td>
                         </tr>
