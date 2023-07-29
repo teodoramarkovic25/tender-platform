@@ -8,6 +8,7 @@ import {WithChildren} from '../../_metronic/helpers'
 import CreateTender from "../pages/tender/CreateTender";
 import EvaluateTender from '../pages/evaluators/EvaluateTender'
 import TenderProposals from "../pages/vendors/TenderProposals";
+import AllTenders from "../pages/alltenders/AllTenders";
 
 const PrivateRoutes = () => {
     //const UsersPage = lazy(() => import('../modules/apps/user-management/UsersPage'))
@@ -31,6 +32,7 @@ const PrivateRoutes = () => {
                 />*/}
                 <Route path='vendors' element={<TenderProposals/>}/>
                 <Route path='create-tender' element={<CreateTender/>}/>
+                <Route path='all-tenders' element={<AllTenders/>}/>
 
                 {/* Page Not Found */}
                 <Route path='*' element={<Navigate to='/error/404'/>}/>
