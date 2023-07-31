@@ -8,6 +8,7 @@ import {Dashboard} from '../pages/dashboard/Dashboard'
 import {getCSSVariableValue} from '../../_metronic/assets/ts/_utils'
 import {WithChildren} from '../../_metronic/helpers'
 import CreateTender from "../pages/tender/CreateTender";
+import AllTenders from "../pages/alltenders/AllTenders";
 
 const PrivateRoutes = () => {
     //const UsersPage = lazy(() => import('../modules/apps/user-management/UsersPage'))
@@ -29,10 +30,8 @@ const PrivateRoutes = () => {
                         </SuspensedView>
                     }
                 />*/}
-
-             <Route path='create-tender' element={<CreateTender/>}/>
-             
-
+                <Route path='create-tender' element={<CreateTender/>}/>
+                <Route path='all-tenders' element={<AllTenders/>}/>
                 {/* Page Not Found */}
                 <Route path='*' element={<Navigate to='/error/404'/>}/>
             </Route>

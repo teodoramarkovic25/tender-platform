@@ -1,9 +1,6 @@
 const mongoose = require('mongoose');
 const { toJSON, paginate } = require('./plugins');
 
-
-
-
 const tenderSchema = mongoose.Schema(
     {
       title: {
@@ -37,9 +34,14 @@ const tenderSchema = mongoose.Schema(
         type: Number,
         required: true,
         trim: true,
-      }
+      },
+
+
+
+
     }
 );
+
 tenderSchema.plugin(toJSON);
 tenderSchema.plugin(paginate);
 

@@ -22,6 +22,7 @@ export function AsideMenuMain() {
     <AsideMenuItemWithSub to={"*"} title="Tenders">
         <AsideMenuItem to="/create-tender" title="Create tender" />
         <AsideMenuItem to="/vendors" title="Vendors" />
+        <AsideMenuItem to={"/all-tenders"} title={"All tenders"}/>
     </AsideMenuItemWithSub>
 
 {/*<div className='menu-item'>
