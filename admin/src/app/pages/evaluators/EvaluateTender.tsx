@@ -1,9 +1,11 @@
+
 import React, { useState, useEffect } from "react";
 import clsx from "clsx";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { createEvaluator } from "../../shared/services/evaluator.service";
 import { EvaluatorModel } from "../../shared/models/evaluator.model";
+
 
 const EvaluateTender = () => {
   const [isSubmissionAllowed, setIsSubmissionAllowed] = useState(true);
@@ -58,7 +60,9 @@ const EvaluateTender = () => {
   }, []);
 
   return (
+
     <div className="d-flex justify-content-center">
+
       <div className="mx-auto col-10 col-md-8 col-lg-6">
         <form className="card p-3" onSubmit={formik.handleSubmit}>
           <h1 className="text-center text-dark">Evaluate Tender</h1>
