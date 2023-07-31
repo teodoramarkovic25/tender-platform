@@ -11,6 +11,18 @@ export function OffersPage() {
     const toggle = () => setIsOpen(!isOpen);
     const {currentUser, logout} = useAuth();
 
+    function formatDate(dateString) {
+        const date = new Date(dateString);
+        const options = {
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric'
+        };
+        // @ts-ignore
+        const formattedDate = date.toLocaleDateString(options);
+        return formattedDate;
+    }
+
     const handleShow = (tender) => {
         setSelectedRow(tender);
         setIsOpen(true);
@@ -18,13 +30,13 @@ export function OffersPage() {
 
     const fetchTenders = async () => {
         try {
-            const allTenders = await getTenders();
+            const [pagination,allTenders] = await getTenders();
             setTenders(allTenders);
             {
                 // eslint-disable-next-line @typescript-eslint/no-unused-expressions
                 currentUser?.id
             }
-
+            console.log(allTenders);
         } catch (error) {
             console.error(error);
         }
@@ -52,7 +64,7 @@ export function OffersPage() {
                     <tr key={tender.id}>
                         <td>{tender.title}</td>
                         <td>{tender.description}</td>
-                        <td>{tender.deadline}</td>
+                        <td>{formatDate(tender.deadline)}</td>
                         <td>{tender.criteria}</td>
                         <td>{tender.weightage}</td>
                         <td>
