@@ -5,11 +5,14 @@ const allRoles = {
     'getTenders', 'manageTenders',
     'getOffers', 'manageOffers',
     'getCompanies', 'manageCompanies',
-    'getFiles', 'manageFiles'],
+    'getFiles', 'manageFiles',
+    'getEvaluator', 'manageEvaluator'],
   vendor: ['getOffers', 'manageOffers'
     , 'getTenders', 'manageTenders',
     'getFiles', 'manageFiles'
   ],
+
+
 
 };
 

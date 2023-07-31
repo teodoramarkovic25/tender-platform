@@ -44,8 +44,12 @@ const deleteTender = {
 
 const getTenders = {
   query: Joi.object().keys({
-    name: Joi.string(),
-    role: Joi.string(),
+    //name: Joi.string(),
+   // role: Joi.string(),
+    dateFrom: Joi.date(),
+    dateTo: Joi.date(),
+    weightageFrom:Joi.number(),
+    weightageTo:Joi.number(),
     sortBy: Joi.string(),
     limit: Joi.number().integer(),
     page: Joi.number().integer(),

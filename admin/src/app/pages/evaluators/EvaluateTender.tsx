@@ -56,34 +56,35 @@ const EvaluateTender = ({offerId}) => {
         <div className="d-flex justify-content-center">
             <div className="mx-auto col-10 col-md-8 col-lg-6">
                 <form className="card p-3" onSubmit={formik.handleSubmit}>
+                    <h1 className="text-center text-dark">Evaluate Tender</h1>
 
                     <h1 className="text-center text-dark">Evaluate Offer</h1>
 
                     {/*
-          <div className="fv-row mb-10">
-            <label className="form-label fs-6 fw-bolder text-dark required">
-              Proposal:
-            </label>
-            <br />
-            <select
-              id="proposal"
-              name="proposal"
-              className={clsx(
-                "form-select form-select-lg form-control-solid"
-              )}
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-              value={formik.values.proposal}
-            >
-              <option value="">Select a proposal</option>
-              <option value="proposal1">Proposal 1</option>
-              <option value="proposal2">Proposal 2</option>
-              <option value="proposal3">Proposal 3</option>
-            </select>
-            {formik.errors.proposal && formik.touched.proposal && (
-              <div className="error">{formik.errors.proposal}</div>
-            )}
-          </div>
+                    <div className="fv-row mb-10">
+                        <label className="form-label fs-6 fw-bolder text-dark required">
+                            Proposal:
+                        </label>
+                        <br/>
+                        <select
+                            id="proposal"
+                            name="proposal"
+                            className={clsx(
+                                "form-select form-select-lg form-control-solid"
+                            )}
+                            onChange={formik.handleChange}
+                            onBlur={formik.handleBlur}
+                            value={formik.values.proposal}
+                        >
+                            <option value="">Select a proposal</option>
+                            <option value="proposal1">Proposal 1</option>
+                            <option value="proposal2">Proposal 2</option>
+                            <option value="proposal3">Proposal 3</option>
+                        </select>
+                        {formik.errors.proposal && formik.touched.proposal && (
+                            <div className="error">{formik.errors.proposal}</div>
+                        )}
+                    </div>
 */}
                     <div className="fv-row mb-10">
                         <label className="form-label fs-6 fw-bolder text-dark required ">
@@ -110,7 +111,6 @@ const EvaluateTender = ({offerId}) => {
 
                     <div className="fv-row mb-10">
                         <label className="form-label fs-6 fw-bolder text-dark required">
-
                             Comment:
                         </label>
                         <br/>

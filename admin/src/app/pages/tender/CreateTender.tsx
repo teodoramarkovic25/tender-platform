@@ -1,10 +1,11 @@
 import React, {useState} from 'react';
 import {Formik, Form, Field, ErrorMessage} from 'formik';
 import * as Yup from 'yup';
-import axios from 'axios';
-import {useAuth} from "../../modules/auth";
 import {createTender} from "../../shared/services/tender.service";
 import {TenderModel} from "../../shared/models/tender.model";
+import {showSuccessMessage} from '../../shared/components/messages/success-createtender-message';
+import {showErrorMessage} from '../../shared/components/messages/error-createtender-message';
+import 'react-toastify/dist/ReactToastify.css';
 
 export function CreateTender() {
 
@@ -35,12 +36,14 @@ export function CreateTender() {
 
         const tender = new TenderModel(values);
 
-        const createdTender = await createTender(values);
-        console.log('Tender created', createdTender);
+        const createdTender = await createTender(values).catch((error) => {
+            console.log('Tender created', createdTender);
+            showErrorMessage('You have not successfully created a tender!');
+            setLoading(false);
+        });
 
-        setLoading(false);
+        showSuccessMessage('Tender successfully created ');
     };
-
 
     return (
         <div className="d-flex justify-content-center">
@@ -178,9 +181,12 @@ export function CreateTender() {
                                 )}
                             </div>
 
-                            <button type="submit" disabled={loading} onClick={() => handleSubmit(values)}>
+                            <button className='btn btn-lg w-100 mb-5' type="submit" disabled={loading}
+                                    onClick={() => handleSubmit(values)}>
                                 Submit
                             </button>
+                            {/* eslint-disable-next-line react/jsx-no-undef */}
+
                         </form>
                     )}
                 </Formik>

@@ -7,8 +7,7 @@ import {getCSSVariableValue} from '../../_metronic/assets/ts/_utils'
 import {WithChildren} from '../../_metronic/helpers'
 import CreateTender from "../pages/tender/CreateTender";
 import EvaluateTender from '../pages/evaluators/EvaluateTender'
-import TenderProposals from "../pages/vendors/TenderProposals";
-import BiddingResults from "../pages/contracts/BiddingResults";
+import AllTenders from "../pages/alltenders/AllTenders";
 
 const PrivateRoutes = () => {
     //const UsersPage = lazy(() => import('../modules/apps/user-management/UsersPage'))
@@ -30,9 +29,8 @@ const PrivateRoutes = () => {
                         </SuspensedView>
                     }
                 />*/}
-                <Route path='vendors' element={<TenderProposals/>}/>
                 <Route path='create-tender' element={<CreateTender/>}/>
-                <Route path='display-data' element={<BiddingResults/>}/>
+                <Route path='all-tenders' element={<AllTenders/>}/>
 
                 {/* Page Not Found */}
                 <Route path='*' element={<Navigate to='/error/404'/>}/>
