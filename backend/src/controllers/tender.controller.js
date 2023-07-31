@@ -11,7 +11,7 @@ const createTender = catchAsync(async (req, res) => {
 
 const getTenders = catchAsync(async (req, res) => {
   const filter = pick(req.query, ['dateFrom','dateTo', 'weightageFrom', 'weightageTo']);
-  const options = pick(req.query, ['sortBy', 'limit', 'page']);
+  const options = pick(req.query, ['sortBy', 'limit', 'page','populate']);
   const result = await tenderService.queryTenders(filter, options);
   res.send(result);
 });

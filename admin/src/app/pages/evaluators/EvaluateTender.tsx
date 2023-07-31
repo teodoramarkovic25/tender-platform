@@ -2,8 +2,8 @@ import React, {useState, useEffect} from "react";
 import clsx from "clsx";
 import {useFormik} from "formik";
 import * as Yup from "yup";
-import {EvaluatorModel} from "../../shared/models/pomocni_evaluation.model";
-import {createEvaluator} from "../../shared/services/api-client/pomocni_evaluation.service";
+import {EvaluatorModel} from "../../shared/models/evaluator.model";
+import {createEvaluation} from "../../shared/services/evaluator.service";
 
 const EvaluateTender = ({offerId}) => {
     const [isSubmissionAllowed, setIsSubmissionAllowed] = useState(true);
@@ -30,7 +30,7 @@ const EvaluateTender = ({offerId}) => {
         onSubmit: async (values) => {
             const newEvaluation = new EvaluatorModel({...values, offer: offerId});
             // @ts-ignore
-            const createdEvaluation = await createEvaluator(newEvaluation);
+            const createdEvaluation = await createEvaluation(newEvaluation);
         },
     });
 

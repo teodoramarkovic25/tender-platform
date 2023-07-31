@@ -1,5 +1,3 @@
-//MODAL
-
 import React, {useState, useEffect} from 'react';
 import {getTenders} from "../shared/services/tender.service";
 import ModalComponent from "../modals/ModalComponent";
@@ -58,7 +56,7 @@ export function OffersPage() {
                         <td>{tender.criteria}</td>
                         <td>{tender.weightage}</td>
                         <td>
-                            <button className='mb-3 btn btn-sm w-70' onClick={() => handleShow(tender)}>Create an
+                            <button className='mb-3 btn btn-sm w-70' onClick={() => handleShow(tender)}>Create
                                 offer
                             </button>
                         </td>

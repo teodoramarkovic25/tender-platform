@@ -1,3 +1,4 @@
+
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import {useState, useEffect} from 'react'
 import {useFormik} from 'formik'
@@ -5,7 +6,6 @@ import * as Yup from 'yup'
 import clsx from 'clsx'
 import {getUserByToken, register} from '../core/_requests'
 import {Link} from 'react-router-dom'
-import {toAbsoluteUrl} from '../../../../_metronic/helpers'
 import {PasswordMeterComponent} from '../../../../_metronic/assets/ts/components'
 import {useAuth} from '../core/Auth'
 
@@ -69,10 +69,10 @@ export function Registration() {
                     values.password
                 )
                 console.log("registration successful")
-                // saveAuth(auth)
+                saveAuth(auth)
                 //   console.log(auth);
-                //  const {data: user} = await getUserByToken(auth.tokens.access)
-                // setCurrentUser(user)
+                const {data: user} = await getUserByToken(auth.tokens.access)
+                setCurrentUser(user)
             } catch (error) {
                 console.error(error)
                 saveAuth(undefined)
@@ -372,3 +372,4 @@ export function Registration() {
         </form>
     )
 }
+

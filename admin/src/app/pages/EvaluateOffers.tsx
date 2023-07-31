@@ -3,7 +3,6 @@ import {useLocation} from 'react-router-dom';
 import Card from 'react-bootstrap/Card';
 import ModalComponent from "../modals/ModalComponent";
 import EvaluateTender from "./evaluators/EvaluateTender";
-import {EvaluatorModel} from "../shared/models/pomocni_evaluation.model";
 
 const EvaluateOffers = () => {
     const location = useLocation();
