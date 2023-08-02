@@ -7,21 +7,34 @@ const pick = require("../utils/pick");
 
 const uploadFile = async (req, res) => {
   try {
-    const files = req.files;
+    let files = req.files;
+    console.log('files', req.files);
+
+    if (!req.files || req.files.length === 0) {
+      return res.status(400).json({error: 'No files were uploaded.'});
+    }
+    if (!Array.isArray(files)) {
+      files = [files];
+    }
+
     const uploadedFiles = [];
+
+    console.log(req.body);
 
     for (const file of files) {
       const {originalname, filename, mimetype, size} = file;
-
+      console.log(file);
       const savedFile = await createFile(req.body, file);
       uploadedFiles.push(savedFile);
     }
+
     return res.status(200).json(uploadedFiles);
   } catch (error) {
     console.error('Error occurred while saving files:', error);
     return res.status(500).json({error: 'Error occurred while saving files'});
   }
 };
+
 
 const getFile = catchAsync(async (req, res) => {
   const file = await fileService.getFileById(req.params.fileId);

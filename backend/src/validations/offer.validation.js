@@ -5,7 +5,8 @@ const createOffer = {
   body: Joi.object().keys({
     offer: Joi.number().required(),
     tender: Joi.string().required(),
-    createdBy: Joi.string().required()
+    createdBy: Joi.string().required(),
+    documents: Joi.string().required()
   }),
 };
 const updateOffer = {

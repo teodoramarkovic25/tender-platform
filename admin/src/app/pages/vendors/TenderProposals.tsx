@@ -1,12 +1,14 @@
-import React, {useState} from "react";
+import React, {useState, useRef} from "react";
 import clsx from 'clsx';
 import * as Yup from 'yup';
-import {useFormik} from "formik";
+import {useFormik, Formik, Field} from "formik";
 import {useAuth} from "../../modules/auth";
 import {createOffer} from "../../shared/services/offer.service";
 import {OfferModel} from "../../shared/models/offer.model";
+import {createFile} from "../../shared/services/file.service";
+import {getFiles} from "../../shared/services/file.service";
 
-const TenderProposals = ({tender,user}) => {
+const TenderProposals = ({tender, user}) => {
 
     const tenderProposalSchema = Yup.object().shape({
 
@@ -14,21 +16,19 @@ const TenderProposals = ({tender,user}) => {
             .min(1, 'Minimum 1$')
             .required('Offer is required'),
 
-        // documents: Yup.mixed().required('File is required')
+        documents: Yup.mixed().required('File is required')
 
     })
 
     const initialValues = {
         offer: '0',
-        // documents: ''
+        documents: ''
     }
 
     const [loading, setLoading] = useState(false);
     const [offer, setOffer] = useState('');
-    const [documents, setDocuments] = useState('');
     const [error, setError] = useState('');
     const {saveAuth, setCurrentUser} = useAuth();
-
 
     const formik = useFormik({
         initialValues,
@@ -39,10 +39,31 @@ const TenderProposals = ({tender,user}) => {
             setError(null);
             try {
 
-                const newOffer = new OfferModel({...values, tender: tender.id,createdBy:user.id});
-                // @ts-ignore
-                const createdOffer = await createOffer(newOffer);
+                const formData = new FormData();
+                Array.from(values.documents).forEach((file) => {
+                    formData.append('documents', file);
+                });
+                formData.append('createdBy', user.id);
 
+                const savedFiles = await createFile(formData);
+
+                const files = await getFiles();
+
+                console.log(files);
+
+                const lastUploadedFile = files[files.length - 1];
+                console.log('Last Uploaded File:', lastUploadedFile);
+
+                if (lastUploadedFile) {
+                    const newOffer = new OfferModel({
+                        offer: values.offer,
+                        tender: tender.id,
+                        createdBy: user.id,
+                        documents: lastUploadedFile.id,
+                    });
+                    const createdOffer = await createOffer(newOffer);
+                    console.log(createdOffer);
+                }
             } catch (error) {
                 console.error(error);
                 setStatus('Incorrect data entered');
@@ -53,15 +74,16 @@ const TenderProposals = ({tender,user}) => {
 
     })
 
+
     return (
         <div className='d-flex justify-content-center '>
             <div className='mx-auto col-10 col-md-8 col-lg-6 '>
-
                 <form
                     className='form card p-3'
                     onSubmit={formik.handleSubmit}
                     noValidate
                     id='kt_dashboard_offer_form'
+                    encType='multipart/form-data'
                 >
 
                     <h1 className='text-center text-dark'>Make an offer</h1>
@@ -98,19 +120,19 @@ const TenderProposals = ({tender,user}) => {
                         )}
                     </div>
 
-                    {/*
+
                     <div className=' fv-row mb-10'>
 
                         <label className='form-label fs-6 fw-bolder text-dark'>File input {<span
                             className="required"></span>}</label>
                         <input
-                            value={documents}
-                            onChange={(e) => {
-                                setDocuments(e.target.value)
-                            }}
                             type="file"
                             name='documents'
-                            {...formik.getFieldProps('documents')}
+                            multiple={true}
+                            // onChange={handleFileChange}
+                            onChange={(event) => {
+                                formik.setFieldValue('documents', event.currentTarget.files)
+                            }}
                             className={clsx('form-control form-control-lg form-control-solid',
                                 {'is-invalid border border-danger': formik.touched.documents && formik.errors.documents},
                                 {'is-valid': formik.touched.documents && !formik.errors.documents}
@@ -124,7 +146,7 @@ const TenderProposals = ({tender,user}) => {
                             </div>
                         )}
                     </div>
-*/}
+
 
                     <button
                         type='submit'

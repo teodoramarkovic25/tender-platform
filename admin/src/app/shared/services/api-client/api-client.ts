@@ -12,7 +12,6 @@ export const queryObjectToString = (query) => {
     return str.substring(1, str.length);
 }
 const get = (endpoint: string, query?: any): Promise<AxiosResponse> => {
-
     return axiosInstance.get(`${endpoint}${prepareQuery(query)}`);
 };
 
@@ -28,6 +27,10 @@ const remove = (endpoint: string, query: string = ''): Promise<AxiosResponse> =>
     return axiosInstance.delete(`${endpoint}${query}`);
 };
 
-const ApiClient = {get, post, put, remove};
+const postFormData = (endpoint: string, formData: FormData, query: string = ''): Promise<AxiosResponse> => {
+    return axiosInstance.post(`${endpoint}${query}`, formData);
+};
+
+const ApiClient = {get, post, put, remove, postFormData};
 
 export default ApiClient;

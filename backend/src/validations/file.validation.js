@@ -3,7 +3,7 @@ const {objectId} = require('./custom.validation');
 
 const createFile = {
   body: Joi.object().keys({
-    documents: Joi.string(),
+    documents: Joi.any(),
     createdBy: Joi.string()
   }),
 };
@@ -12,7 +12,7 @@ const getFiles = {
   query: Joi.object().keys({
     documents: Joi.string(),
     createdBy: Joi.string(),
-
+    page: Joi.number().integer(),
   }),
 };
 
