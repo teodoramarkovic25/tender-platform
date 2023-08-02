@@ -363,7 +363,7 @@ export function Registration() {
                     <button
                         type='button'
                         id='kt_login_signup_form_cancel_button'
-                        className='btn btn-lg w-100 mb-5'
+                        className='btn btn-lg btn-light w-100 mb-5'
                     >
                         Cancel
                     </button>
