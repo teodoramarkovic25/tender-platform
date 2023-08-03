@@ -5,7 +5,7 @@ import * as Yup from "yup";
 import { createEvaluator } from "../../shared/services/evaluator.service";
 import { EvaluatorModel } from "../../shared/models/evaluator.model";
 
-const EvaluateTender = () => {
+const EvaluateTender = ({offerId}) => {
   const [isSubmissionAllowed, setIsSubmissionAllowed] = useState(true);
   const [evaluations, setEvaluations] = useState([]);
   const [remainingTime, setRemainingTime] = useState(0);
