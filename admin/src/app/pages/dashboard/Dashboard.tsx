@@ -9,8 +9,7 @@ export function Dashboard() {
 
     const {currentUser, logout} = useAuth()
 
-    return (
-
+        return(
         <div>
 
             <h1>Welcome {currentUser?.firstName}</h1>
@@ -248,6 +247,6 @@ export function Dashboard() {
 
     );
 
-)
+
 
 }
