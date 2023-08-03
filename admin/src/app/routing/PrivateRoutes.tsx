@@ -9,6 +9,7 @@ import CreateTender from "../pages/tender/CreateTender";
 import EvaluateTender from '../pages/evaluators/EvaluateTender'
 import TenderProposals from "../pages/vendors/TenderProposals";
 import AllTenders from "../pages/alltenders/AllTenders";
+import {ResetPassword} from "../modules/auth/components/ResetPassword";
 
 const PrivateRoutes = () => {
     //const UsersPage = lazy(() => import('../modules/apps/user-management/UsersPage'))

@@ -79,7 +79,7 @@ export function Registration() {
                     values.firstname,
                     values.lastname,
                     values.password,
-                    values.changepassword
+                    values.changepassword,
                 )
                 saveAuth(auth)
                 const {data: user} = await getUserByToken(auth.api_token)

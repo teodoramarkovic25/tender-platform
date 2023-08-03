@@ -159,7 +159,7 @@ export function AllTenders() {
                     <th>Criteria</th>
                     <th>Weightage</th>
                     <th>Delete tender</th>
-                    <th>Evaluate tender</th>
+
 
                     </thead>
                     <tbody className="table-striped border table-hover">

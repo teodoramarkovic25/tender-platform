@@ -1,6 +1,6 @@
 import axios from "axios";
 import jwtDecode from "jwt-decode";
-import { LoginResponse } from "../../interfaces/login-response.interface";
+import { LoginResponse} from "../../interfaces/login-response.interface";
 import {UserModel} from "../../models/user.model";
 import {LogoutResponse} from "../../interfaces/logout-response.interface";
 import { getUser } from "../user.service";
@@ -15,6 +15,16 @@ class AuthService {
             return response.data;
         } catch (error) {
             console.error("Login failed:", error);
+            return null;
+        }
+    }
+
+     async forgotPassword(email: string):Promise<any> {
+        try {
+          await   axios.post(`${API_URL}/${API_VERSION}/auth/forgot-password`, { email });
+
+        } catch (error) {
+            console.error("Mail not send :", error);
             return null;
         }
     }

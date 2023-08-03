@@ -5015,6 +5015,11 @@
   "resolved" "https://registry.npmjs.org/node-releases/-/node-releases-1.1.73.tgz"
   "version" "1.1.73"
 
+"nodemailer-sendmail-transport@^1.0.2":
+  "integrity" "sha512-Cu7hLmwyRKLnBQNLloyGJx0s94P48mVh47wr7j1tGUa0pOPx42peHTOeufTG7Fh+vdxs85m2D1lhNm7ud4HUEg=="
+  "resolved" "https://registry.npmjs.org/nodemailer-sendmail-transport/-/nodemailer-sendmail-transport-1.0.2.tgz"
+  "version" "1.0.2"
+
 "nodemailer@^6.3.1":
   "integrity" "sha512-YSzu7TLbI+bsjCis/TZlAXBoM4y93HhlIgo0P5oiA2ua9Z4k+E2Fod//ybIzdJxOlXGRcHIh/WaeCBehvxZb/Q=="
   "resolved" "https://registry.npmjs.org/nodemailer/-/nodemailer-6.6.2.tgz"
