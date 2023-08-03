@@ -3,10 +3,10 @@ const fileController = {};
 
 fileController.uploadFile = async (req, res) => {
   try {
-    const { originalname, filename, mimetype, size } = req.file;
+    const { originalName, filename, mimetype, size } = req.file;
 
     const newFile = new File({
-      originalName: originalname,
+      originalName: originalName,
       fileName: filename,
       fileType: mimetype,
       fileSize: size,

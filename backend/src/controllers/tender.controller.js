@@ -4,15 +4,18 @@ const ApiError = require('../utils/ApiError');
 const catchAsync = require('../utils/catchAsync');
 const { tenderService } = require('../services');
 
+
 const createTender = catchAsync(async (req, res) => {
   const tender = await tenderService.createTender(req.body);
   res.status(httpStatus.CREATED).send(tender);
 });
 
 const getTenders = catchAsync(async (req, res) => {
-  const filter = pick(req.query, ['firstName','lastName', 'role']);
+  const filter = pick(req.query, ['dateFrom','dateTo', 'weightageFrom', 'weightageTo']);
   const options = pick(req.query, ['sortBy', 'limit', 'page']);
   const result = await tenderService.queryTenders(filter, options);
+
+
   res.send(result);
 });
 

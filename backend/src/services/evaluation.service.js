@@ -8,9 +8,6 @@ const ApiError = require('../utils/ApiError');
  * @returns {Promise<Evaluation>}
  */
 const createEvaluation = async (evaluationBody) => {
-  if (await Evaluation.isEmailTaken(evaluationBody.email)) {
-    throw new ApiError(httpStatus.BAD_REQUEST, 'Email already taken');
-  }
   return Evaluation.create(evaluationBody);
 };
 
