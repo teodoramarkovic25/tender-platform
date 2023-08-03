@@ -1,30 +1,44 @@
-const httpStatus = require('http-status');
+const {File} = require('../models');
 const ApiError = require('../utils/ApiError');
-const {writeFileSync} = require("fs");
-const {join} = require("path");
-const { v4: uuidv4 } = require('uuid');
+const httpStatus = require('http-status');
+
+const queryFiles = async (filter, options) => {
+  const files = await File.paginate(filter, options);
+  return files;
+};
 
 const createFile = async (fileBody, file) => {
-  const originalName = fileBody.originalName;
-  const newName = uuidv4() + originalName;
-  fileBody.name = newName;
-  const dirPath = join(__dirname, '/uploads');
   try {
-    writeFileSync(dirPath('/uploads') + newName, file);
-  } catch (err) {
-    console.error(err);
+    const {originalname, filename, mimetype, size} = file;
+
+    const newFile = new File({
+      originalName: originalname,
+      fileName: filename,
+      fileType: mimetype,
+      fileSize: size,
+      createdBy: fileBody.createdBy
+    });
+
+    const savedFile = await newFile.save();
+    return savedFile;
+  } catch (error) {
+    console.error('Error while saving file to database:', error);
+    throw error;
   }
-  return File.create(fileBody);
 };
 
 const getFileById = async (id) => {
-  try {
-    const file = await File.findById(id);
-    return file;
-  } catch (error) {
-    console.error('File do not find:', error);
-    throw error;
+  return File.findById(id);
+};
+
+const updateFileById = async (fileId, updateBody) => {
+  const file = await getFileById(fileId);
+  if (!file) {
+    throw new ApiError(httpStatus.NOT_FOUND, 'File not found');
   }
+  Object.assign(file, updateBody);
+  await file.save();
+  return file;
 };
 
 const deleteFileById = async (fileId) => {
@@ -36,9 +50,10 @@ const deleteFileById = async (fileId) => {
   return file;
 };
 
-
 module.exports = {
+  queryFiles,
   createFile,
   getFileById,
-  deleteFileById
+  deleteFileById,
+  updateFileById
 };

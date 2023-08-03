@@ -8,8 +8,8 @@ const router = express.Router();
 
 router
   .route('/')
-  .post(auth(), validate(evaluationValidation.createevaluation), evaluationController.createEvaluation)
-  .get(auth('getEvaluation'), validate(evaluationValidation.getEvaluation), evaluationController.getEvaluation);
+  .post(auth(), validate(evaluationValidation.createEvaluation), evaluationController.createEvaluation)
+  .get(auth(), validate(evaluationValidation.getEvaluations), evaluationController.getEvaluations);
 
 router
   .route('/:evaluationId')

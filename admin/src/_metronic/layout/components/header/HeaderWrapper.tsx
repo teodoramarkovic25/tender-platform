@@ -7,6 +7,8 @@ import {useLayout} from '../../core'
 import {Header} from './Header'
 import {DefaultTitle} from './page-title/DefaultTitle'
 import {Topbar} from './Topbar'
+import faon from "../../../_metronic/layout/favicon/favicon.png"
+import favicon from "../../favicon/favicon.png";
 
 export function HeaderWrapper() {
     const {config, classes, attributes} = useLayout()
@@ -37,25 +39,25 @@ export function HeaderWrapper() {
                 )}
                 {/* end::Aside mobile toggle */}
                 {/* begin::Logo */}
+                {/*
                 {!aside.display && (
                     <div className='d-flex align-items-center flex-grow-1 flex-lg-grow-0'>
                         <Link to='/dashboard' className='d-lg-none'>
-                            {/* TODO: Change logo */}
-                            <img alt='Logo' src={toAbsoluteUrl('/media/logos/default-small.svg')} className='h-30px'/>
+                            <img alt='Logo' src={favicon} className='h-30px'/>
                         </Link>
                     </div>
                 )}
+                */}
                 {/* end::Logo */}
-
+                {/*
                 {aside.display && (
                     <div className='d-flex align-items-center flex-grow-1 flex-lg-grow-0'>
                         <Link to='/' className='d-lg-none'>
-                            {/* TODO: Change logo */}
-                            <img alt='Logo' src={toAbsoluteUrl('/media/logos/default-small.svg')} className='h-30px'/>
+                            <img alt='Logo' src={favicon} className='h-30px'/>
                         </Link>
                     </div>
                 )}
-
+*/}
                 {/* begin::Wrapper */}
                 <div className='d-flex align-items-stretch justify-content-between flex-lg-grow-1'>
                     {/* begin::Navbar */}
