@@ -21,6 +21,7 @@ const PrivateRoutes = () => {
                 <Route path='auth/*' element={<Navigate to='/dashboard'/>}/>
                 {/* Pages */}
                 <Route path='dashboard/' element={<Dashboard/>}/>
+
                 {/* Lazy Modules */}
                 {/*<Route
                     path='apps/user-management/*'
@@ -30,6 +31,7 @@ const PrivateRoutes = () => {
                         </SuspensedView>
                     }
                 />*/}
+
                 <Route path='create-tender' element={<CreateTender/>}/>
                 <Route path='all-tenders' element={<AllTenders/>}/>
                    <Route path='offers-page' element={<OffersPage/>}/>
