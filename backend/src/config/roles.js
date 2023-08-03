@@ -13,7 +13,6 @@ const allRoles = {
   ],
 
 
-
 };
 
 const roles = Object.keys(allRoles);

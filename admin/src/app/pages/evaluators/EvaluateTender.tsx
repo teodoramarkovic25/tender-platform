@@ -2,22 +2,23 @@ import React, {useState, useEffect} from "react";
 import clsx from "clsx";
 import {useFormik} from "formik";
 import * as Yup from "yup";
-import {EvaluatorModel} from "../../shared/models/evaluator.model";
-import {createEvaluation} from "../../shared/services/evaluator.service";
+import { createEvaluator } from "../../shared/services/evaluator.service";
+import { EvaluatorModel } from "../../shared/models/evaluator.model";
 
-const EvaluateTender = ({offerId}) => {
-    const [isSubmissionAllowed, setIsSubmissionAllowed] = useState(true);
-    const [remainingTime, setRemainingTime] = useState(0);
+const EvaluateTender = () => {
+  const [isSubmissionAllowed, setIsSubmissionAllowed] = useState(true);
+  const [evaluations, setEvaluations] = useState([]);
+  const [remainingTime, setRemainingTime] = useState(0);
 
-    const evaluationSchema = Yup.object().shape({
-        //proposal: Yup.string().required("Proposal is required"),
-        rating: Yup.number()
-            .min(1, "Rating should be at least 1")
-            .max(5, "Rating should not exceed 5")
-            .required("Rating is required"),
-        comment: Yup.string().required("Comment is required"),
-        collaborators: Yup.string().required("Collaborators are required"),
-    });
+  const evaluationSchema = Yup.object().shape({
+    proposal: Yup.string().required("Proposal is required"),
+    rating: Yup.number()
+      .min(1, "Rating should be at least 1")
+      .max(5, "Rating should not exceed 5")
+      .required("Rating is required"),
+    comment: Yup.string().required("Comment is required"),
+    collaborators: Yup.string().required("Collaborators are required"),
+  });
 
     const formik = useFormik({
         initialValues: {
@@ -59,30 +60,30 @@ const EvaluateTender = ({offerId}) => {
                     <h1 className="text-center text-dark">Evaluate Offer</h1>
 
                     {/*
-                    <div className="fv-row mb-10">
-                        <label className="form-label fs-6 fw-bolder text-dark required">
-                            Proposal:
-                        </label>
-                        <br/>
-                        <select
-                            id="proposal"
-                            name="proposal"
-                            className={clsx(
-                                "form-select form-select-lg form-control-solid"
-                            )}
-                            onChange={formik.handleChange}
-                            onBlur={formik.handleBlur}
-                            value={formik.values.proposal}
-                        >
-                            <option value="">Select a proposal</option>
-                            <option value="proposal1">Proposal 1</option>
-                            <option value="proposal2">Proposal 2</option>
-                            <option value="proposal3">Proposal 3</option>
-                        </select>
-                        {formik.errors.proposal && formik.touched.proposal && (
-                            <div className="error">{formik.errors.proposal}</div>
-                        )}
-                    </div>
+          <div className="fv-row mb-10">
+            <label className="form-label fs-6 fw-bolder text-dark">
+              Proposal:
+            </label>
+            <br />
+            <select
+              id="proposal"
+              name="proposal"
+              className={clsx(
+                "form-select form-select-lg form-control-solid"
+              )}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              value={formik.values.proposal}
+            >
+              <option value="">Select a proposal</option>
+              <option value="proposal1">Proposal 1</option>
+              <option value="proposal2">Proposal 2</option>
+              <option value="proposal3">Proposal 3</option>
+            </select>
+            {formik.errors.proposal && formik.touched.proposal && (
+              <div className="error">{formik.errors.proposal}</div>
+            )}
+          </div>
 */}
                     <div className="fv-row mb-10">
                         <label className="form-label fs-6 fw-bolder text-dark required ">

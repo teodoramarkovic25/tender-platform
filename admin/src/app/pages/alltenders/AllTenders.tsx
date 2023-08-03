@@ -1,21 +1,19 @@
 import React, {useState, useEffect} from 'react';
-import {getTenders} from "../../shared/services/tender.service";
+import {deleteTender, getTenders} from "../../shared/services/tender.service";
 import {Formik, Form, Field, ErrorMessage} from 'formik';
 import * as Yup from 'yup';
 import {Pagination} from "../../shared/components/pagination/pagination";
 
-
 function formatDate(dateString) {
     const date = new Date(dateString);
-    const options = {
-        year: 'numeric',
-        month: 'long',
-        day: 'numeric'
-    };
-    // @ts-ignore
-    const formattedDate = date.toLocaleDateString(options);
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const day = String(date.getDate()).padStart(2, '0');
+
+    const formattedDate = `${month}/${day}/${year}`;
     return formattedDate;
 }
+
 
 
 const tenderSchema = Yup.object().shape({
@@ -32,14 +30,51 @@ export function AllTenders() {
     const [tenders, setTenders] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
     const [paginationData, setPaginationData] = useState({});
+    const [currentLimit, setCurrentLimit] = useState(10);
+    const [deletedItemId, setDeletedItemId] = useState();
+    const [isLoading, setIsLoading] = useState(false);
+    // const [dateFromPlaceholder, setDateFromPlaceholder] = useState('Date from');
+    //  const [dateToPlaceholder, setDateToPlaceholder] = useState('Date to');
 
-    const handlePageChange = (newPage) => {
-        setCurrentPage(newPage);
+    const
+        handlePageChange = (newPage) => {
+            setCurrentPage(newPage);
+            fetchTenders({
+                page: newPage,
+                limit: currentLimit,
+            });
+        };
+
+    const handleLimitChange = (newValue) => {
+        setCurrentLimit(newValue);
         fetchTenders({
-            page: newPage,
-
+            limit: newValue,
+            page: 1,
         });
     };
+
+    const handleDeleteTender = (tenderId) => {
+        setIsLoading(true);
+        deleteTender(tenderId)
+            .then(() => {
+                setDeletedItemId(tenderId);
+                console.log('Tender deleted successfully');
+                setIsLoading(false);
+            })
+            .catch((error) => {
+                console.error('Error deleting tender:', error.message);
+                setIsLoading(false);
+            });
+    };
+
+    useEffect(() => {
+        if (!deletedItemId) {
+            return;
+        }
+
+        setTenders((prevTenders) => prevTenders.filter((tender) => tender.id !== deletedItemId));
+    }, [deletedItemId]);
+
     const fetchTenders = (filterOptions) => {
         getTenders(filterOptions)
             .then(([pagination, allTenders]) => {
@@ -61,8 +96,9 @@ export function AllTenders() {
 
 
     return (
-        <div className="table-responsive">
+        <div>
             <h1>All active tenders</h1>
+            <br/>
             <Formik
                 initialValues={{
                     dateFrom: '',
@@ -74,58 +110,87 @@ export function AllTenders() {
                 onSubmit={handleFilterSubmit}
             >
                 {({errors, touched}) => (
-                    <Form className="d-flex align-items-end">
+                    <Form className="d-flex justify-content-start form flex-wrap">
                         <div className="form-group me-3">
-                            <label className="form-label fs-6 fw-bolder text-dark">Date From:</label>
+                            <label className="form-label fs-6 fw-bolder text-dark justify-content-start">Date
+                                From:</label>
                             <Field type="date" name="dateFrom" className="form-control form-control-lg"/>
                             <ErrorMessage name="dateFrom" component="div" className="text-danger"/>
                         </div>
 
                         <div className="form-group me-3">
-                            <label className="form-label fs-6 fw-bolder text-dark">Date To:</label>
+                            <label className="form-label fs-6 fw-bolder text-dark justify-content-start">Date
+                                To:</label>
                             <Field type="date" name="dateTo" className="form-control form-control-lg"/>
                             <ErrorMessage name="dateTo" component="div" className="text-danger"/>
                         </div>
 
                         <div className="form-group me-3">
-                            <label className="form-label fs-6 fw-bolder text-dark">Weightage From:</label>
+                            <label className="form-label fs-6 fw-bolder text-dark justify-content-start">Weightage
+                                From:</label>
                             <Field type="number" step="any" min="100" name="weightageFrom"
-                                   className="form-control form-control-lg"/>
+                                   className="form-control form-control-lg " placeholder="Enter weightage from"/>
                             <ErrorMessage name="weightageFrom" component="div" className="text-danger"/>
                         </div>
 
                         <div className="form-group me-3">
-                            <label className="form-label fs-6 fw-bolder text-dark">Weightage To:</label>
+                            <label className="form-label fs-6 fw-bolder text-dark justify-content-start">Weightage
+                                To:</label>
                             <Field type="number" step="any" min="100" name="weightageTo"
-                                   className="form-control form-control-lg"/>
+                                   className="form-control form-control-lg" placeholder="Enter weightage to"/>
                             <ErrorMessage name="weightageTo" component="div" className="text-danger"/>
                         </div>
-
-                        <button type="submit" className='btn btn-lg btn-primary btn-sm'>Filter Tenders</button>
-
+                        <div className=" mt-auto p-auto d-flex ">
+                            <button type="submit" className='btn btn-sm py-4
+                         text-dark   '>Filter Tenders
+                            </button>
+                        </div>
                     </Form>
                 )}
             </Formik>
+            <div className="table-responsive">
+                <table className="table table-striped gy-7 gs-7  table-bordered border-4 ">
+                    <thead className=" thead-dark text-center ">
+                    <th>Title</th>
+                    <th>Description</th>
+                    <th>Deadline</th>
+                    <th>Criteria</th>
+                    <th>Weightage</th>
+                    <th>Delete tender</th>
 
-            <table className="table table-striped gy-7 gs-7">
-                <thead className="text-white">
-                {/* ... */}
-                </thead>
-                <tbody className="table-striped border table-hover">
-                {tenders.map((tender) => (
-                    <tr key={tender._id}>
-                        <td>{tender.title}</td>
-                        <td>{tender.description}</td>
-                        <td>{formatDate(tender.deadline)}</td>
-                        <td>{tender.criteria}</td>
-                        <td>{tender.weightage}</td>
-                    </tr>
-                ))}
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody className="table-striped border table-hover">
+                    {tenders.map((tender) => (
+                        <tr key={tender.id}>
 
-            <Pagination paginationData={paginationData} onPageChange={handlePageChange} />
+                            <td className="text-center">{tender.title}</td>
+                            <td className="text-center">{tender.description}</td>
+                            <td className="text-center">{formatDate(tender.deadline)}</td>
+                            <td className="text-center">{tender.criteria}</td>
 
+                            <td className="text-center">{ tender.weightage + '$' }</td>
+
+                            <td className="d-flex justify-content-center align-items-center">
+                                <button
+                                    className={`btn btn-lg d-flex justify-content-center align-items-center  ${isLoading && 'disabled'}`}
+                                    style={{ background: '#ef1a07',width: '50px',
+                                        height: '35px', }}
+                                    onClick={() => handleDeleteTender(tender.id)}
+                                >
+                                    {isLoading ? <span className='indicator-progress' style={{display: 'block'}}>
+                                        <span className='spinner-border spinner-border-sm align-middle '></span>
+                                </span> : <i className=" fas fa-trash justify-content-center align-items-center p-0 m-0 " ></i>}
+                                </button>
+                            </td>
+                        </tr>
+                    ))}
+                    </tbody>
+                </table>
+
+                <Pagination paginationData={paginationData} onPageChange={handlePageChange}
+                            onLimitChange={handleLimitChange}/>
+
+            </div>
         </div>
     );
 }
