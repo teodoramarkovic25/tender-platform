@@ -26,6 +26,9 @@ const EvaluationSchema = new Schema({
     ref: 'Offer',
     required: true
   }
+
+}, {
+  timestamps: true,
 });
 // add plugin that converts mongoose to json
 EvaluationSchema.plugin(toJSON);

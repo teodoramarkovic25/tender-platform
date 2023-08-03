@@ -43,6 +43,7 @@ export function CreateTender() {
         title: '',
         description: '',
         deadline: '',
+        //  documents: '',
         criteria: '',
         weightage: '100',
     };

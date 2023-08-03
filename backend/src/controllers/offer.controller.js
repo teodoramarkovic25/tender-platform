@@ -10,16 +10,14 @@ const createOffer = catchAsync(async (req, res) => {
 });
 
 const getOffers = catchAsync(async (req, res) => {
-  //const filter = pick(req.query, ['tender', 'company']);
-  //const options = pick(req.query, ['sortBy', 'limit', 'page']);
-  //const result = await offerService.queryOffers(filter, options);
-  const {tender} = req.query;
-  const result = await offerService.getOfferByTender(tender);
+  const filter = pick(req.query, ['tender', 'company']);
+  const options = pick(req.query, ['sortBy', 'limit', 'page', 'populate']);
+  const result = await offerService.queryOffers(filter, options);
   res.send(result);
 });
 
 const getOffer = catchAsync(async (req, res) => {
-  const offer = await offerService.getUserById(req.params.offerId);
+  const offer = await offerService.getOfferById(req.params.offerId);
   if (!offer) {
     throw new ApiError(httpStatus.NOT_FOUND, 'Offer not found');
   }
@@ -27,7 +25,7 @@ const getOffer = catchAsync(async (req, res) => {
 });
 
 const updateOffer = catchAsync(async (req, res) => {
-  const offer = await offerService.updateUserById(req.params.userId, req.body);
+  const offer = await offerService.updateOfferById(req.params.offerId, req.body);
   res.send(offer);
 });
 

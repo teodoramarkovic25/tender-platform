@@ -2,7 +2,7 @@ const httpStatus = require('http-status');
 const pick = require('../utils/pick');
 const ApiError = require('../utils/ApiError');
 const catchAsync = require('../utils/catchAsync');
-const { evaluationService } = require('../services');
+const {evaluationService} = require('../services');
 const contractService = require('../services/contractservice');
 const notificationService = require('../services/notificationservice');
 
@@ -12,14 +12,14 @@ const createEvaluation = catchAsync(async (req, res) => {
 });
 
 const getEvaluations = catchAsync(async (req, res) => {
-  const filter = pick(req.query, ['firstName','lastName', 'role']);
+  const filter = pick(req.query, ['firstName', 'lastName', 'role']);
   const options = pick(req.query, ['sortBy', 'limit', 'page']);
   const result = await evaluationService.queryEvaluation(filter, options);
   res.send(result);
 });
 
 const getEvaluation = catchAsync(async (req, res) => {
-  const evaluation = await evaluationService.getEvaluationById(req.params.userId);
+  const evaluation = await evaluationService.getEvaluationById(req.params.evaluationId);
   if (!evaluation) {
     throw new ApiError(httpStatus.NOT_FOUND, 'Evaluation not found');
   }
@@ -37,8 +37,8 @@ const deleteEvaluation = catchAsync(async (req, res) => {
 });
 
 const evaluateTender = catchAsync(async (req, res) => {
-  const { tenderId } = req.params;
-  const { ratings, comments, analysis } = req.body;
+  const {tenderId} = req.params;
+  const {ratings, comments, analysis} = req.body;
 
   const updatedEvaluation = await evaluationService.updateEvaluation(tenderId, {
     ratings,

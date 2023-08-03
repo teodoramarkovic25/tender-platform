@@ -1,32 +1,46 @@
-import React, { useState, useEffect } from 'react';
+import React, {useState, useEffect} from 'react';
 import {getTenders} from "../shared/services/tender.service";
 import ModalComponent from "../modals/ModalComponent";
 import TenderProposals from "./vendors/TenderProposals";
+import {useAuth} from "../modules/auth/core/Auth";
 
-
-export function HelperTender() {
+export function OffersPage() {
     const [tenders, setTenders] = useState([]);
-    const [isOpen,setIsOpen]=useState(false);
-    const[selectedRow,setSelectedRow]=useState(null);
-    const toggle=()=>setIsOpen(!isOpen);
-    const [offers, setOffers] = useState([]);
+    const [isOpen, setIsOpen] = useState(false);
+    const [selectedRow, setSelectedRow] = useState(null);
+    const toggle = () => setIsOpen(!isOpen);
+    const {currentUser, logout} = useAuth();
 
-    const handleClose=()=>{setIsOpen(false)};
-    const handleShow=(tender)=>{
+    function formatDate(dateString) {
+        const date = new Date(dateString);
+        const options = {
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric'
+        };
+        // @ts-ignore
+        const formattedDate = date.toLocaleDateString(options);
+        return formattedDate;
+    }
 
+    const handleShow = (tender) => {
         setSelectedRow(tender);
         setIsOpen(true);
     };
 
     const fetchTenders = async () => {
         try {
-            const allTenders = await getTenders();
+            const [pagination,allTenders] = await getTenders();
             setTenders(allTenders);
+            {
+                // eslint-disable-next-line @typescript-eslint/no-unused-expressions
+                currentUser?.id
+            }
+            console.log(allTenders);
         } catch (error) {
             console.error(error);
         }
     };
-
 
     useEffect(() => {
         fetchTenders();
@@ -50,24 +64,28 @@ export function HelperTender() {
                     <tr key={tender.id}>
                         <td>{tender.title}</td>
                         <td>{tender.description}</td>
-                        <td>{tender.deadline}</td>
+                        <td>{formatDate(tender.deadline)}</td>
                         <td>{tender.criteria}</td>
                         <td>{tender.weightage}</td>
-                        <td><button onClick={()=>handleShow(tender)}>evaluate</button></td>
+                        <td>
+                            <button className='mb-3 btn btn-sm w-70' onClick={() => handleShow(tender)}>Create
+                                offer
+                            </button>
+                        </td>
                     </tr>
                 ))}
                 </tbody>
             </table>
             <ModalComponent show={isOpen} onHide={toggle}>
 
-                {/*pozvati komponentu koju zelite, i u tu komponentu tj. njenu funkciju u parametre ubaciti {tender}*/}
-                {/*promijeniti velicinu modala, stilizovati, i upisati podatke s modala u bazu*/}
+                <TenderProposals tender={selectedRow} user={currentUser}/>
 
             </ModalComponent>
         </div>
     );
 }
-export default HelperTender;
+
+export default OffersPage;
 
 
 

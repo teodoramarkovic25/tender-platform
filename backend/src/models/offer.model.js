@@ -18,12 +18,19 @@ const offerSchema = new mongoose.Schema({
       type: mongoose.SchemaTypes.ObjectId,
       ref: 'Tender',
       required: true
-    }, /* chooseFile:{
-    type:File,
-    required:[true,'An offer must have a document!'],
-    trim:true
-  }*/
+    }, documents: {
+      type: mongoose.SchemaTypes.ObjectId,
+      required: [true, 'An offer must have a document!'],
+      trim: true
+    },
+    createdBy: {
+      type: mongoose.SchemaTypes.ObjectId,
+      ref: 'User'
+    }
   },
+  {
+    timestamps: true,
+  }
 )
 
 

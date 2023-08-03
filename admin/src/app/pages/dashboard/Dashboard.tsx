@@ -3,13 +3,17 @@ import dashboardPicture from "./dashboard1.jpg";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faCheck, faSearch, faChartLine} from "@fortawesome/free-solid-svg-icons";
 import {Link} from 'react-router-dom';
+import {useAuth} from "../../modules/auth/core/Auth";
 
 export function Dashboard() {
 
+    const {currentUser, logout} = useAuth()
 
     return (
 
         <div>
+
+            <h1>Welcome {currentUser?.firstName}</h1>
 
             <br/>
             <div className="container-fluid p-0">
@@ -79,12 +83,14 @@ export function Dashboard() {
                         <form>
                             <div className="form-group">
                                 <label htmlFor="question">Postavite pitanje:</label>
-                                <textarea className="form-control" id="question"  placeholder="Ovdje unesite vaše pitanje"></textarea>
+                                <textarea className="form-control" id="question"
+                                          placeholder="Ovdje unesite vaše pitanje"></textarea>
                             </div>
 
                             <div className="form-group">
                                 <label htmlFor="note">Napomena/komentar:</label>
-                                <textarea className="form-control" id="note"  placeholder="Ovdje ostavite napomenu ili komentar"></textarea>
+                                <textarea className="form-control" id="note"
+                                          placeholder="Ovdje ostavite napomenu ili komentar"></textarea>
                             </div>
                             <br/>
                             <button type="submit" className="btn btn-primary">Pošalji</button>
@@ -156,7 +162,6 @@ export function Dashboard() {
                 </section>
 
 
-
                 <section className="container-fluid">
                     <div className="container text-center text-md-start mt-5">
 
@@ -167,7 +172,10 @@ export function Dashboard() {
                                 <h6 className="text-uppercase fw-bold mb-4">TENDER PRO
                                 </h6>
                                 <p>
-                                    Our company specializes in tender management services, facilitating efficient and transparent bidding processes for various projects. Our mission is to connect qualified businesses with lucrative opportunities, fostering fair competition and delivering exceptional results.
+                                    Our company specializes in tender management services, facilitating efficient and
+                                    transparent bidding processes for various projects. Our mission is to connect
+                                    qualified businesses with lucrative opportunities, fostering fair competition and
+                                    delivering exceptional results.
                                 </p>
                             </div>
 
@@ -201,7 +209,8 @@ export function Dashboard() {
                                     <a href="#!" className="text-reset">Settings</a>
                                 </p>
                                 <p>
-                                    <Link to="/create-tender"> <a href="#!" className="text-reset">Create Tender</a></Link>
+                                    <Link to="/create-tender"> <a href="#!" className="text-reset">Create
+                                        Tender</a></Link>
 
                                 </p>
                                 <p>
@@ -212,7 +221,8 @@ export function Dashboard() {
                             <div className="col-md-4 col-lg-3 col-xl-3 mx-auto mb-md-0 mb-4">
 
                                 <h6 className="text-uppercase fw-bold mb-4">Contact</h6>
-                                <p><i className="fas fa-home me-3 fa-bold text-black fw-bold"></i> Stefana Nemanje, IS 58463, BA</p>
+                                <p><i className="fas fa-home me-3 fa-bold text-black fw-bold"></i> Stefana Nemanje, IS
+                                    58463, BA</p>
                                 <p>
                                     <i className="fas fa-envelope me-3 fa-bold text-black fw-bold"></i>
                                     tenderspro@tenderpro.com
@@ -237,4 +247,7 @@ export function Dashboard() {
 
 
     );
+
+)
+
 }

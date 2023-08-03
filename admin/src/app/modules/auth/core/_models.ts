@@ -66,9 +66,9 @@ export interface UserModel {
   username?: string
   password?: string | undefined
   email: string
-  first_name?: string
-  last_name?: string
-  name: string
+  firstName?: string
+  lastName?: string
+  //name: string
   occupation?: string
   companyName?: string
   phone?: string
@@ -82,4 +82,5 @@ export interface UserModel {
   communication?: UserCommunicationModel
   address?: UserAddressModel
   socialNetworks?: UserSocialNetworksModel
+  role?:string
 }
