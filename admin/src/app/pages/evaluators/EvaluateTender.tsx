@@ -11,7 +11,6 @@ const EvaluateTender = ({offerId}) => {
   const [remainingTime, setRemainingTime] = useState(0);
 
   const evaluationSchema = Yup.object().shape({
-    proposal: Yup.string().required("Proposal is required"),
     rating: Yup.number()
       .min(1, "Rating should be at least 1")
       .max(5, "Rating should not exceed 5")
@@ -29,9 +28,15 @@ const EvaluateTender = ({offerId}) => {
         },
         validationSchema: evaluationSchema,
         onSubmit: async (values) => {
-            const newEvaluation = new EvaluatorModel({...values, offer: offerId});
-            // @ts-ignore
-            const createdEvaluation = await createEvaluation(newEvaluation);
+            try {
+                const newEvaluation = new EvaluatorModel({...values, offer: offerId});
+
+                // @ts-ignore
+                const createdEvaluation = await createEvaluator(newEvaluation);
+                console.log(createdEvaluation);
+            }catch(error){
+                console.error(error);
+            }
         },
     });
 
@@ -58,33 +63,6 @@ const EvaluateTender = ({offerId}) => {
             <div className="mx-auto col-10 col-md-8 col-lg-6">
                 <form className="card p-3" onSubmit={formik.handleSubmit}>
                     <h1 className="text-center text-dark">Evaluate Offer</h1>
-
-                    {/*
-          <div className="fv-row mb-10">
-            <label className="form-label fs-6 fw-bolder text-dark">
-              Proposal:
-            </label>
-            <br />
-            <select
-              id="proposal"
-              name="proposal"
-              className={clsx(
-                "form-select form-select-lg form-control-solid"
-              )}
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-              value={formik.values.proposal}
-            >
-              <option value="">Select a proposal</option>
-              <option value="proposal1">Proposal 1</option>
-              <option value="proposal2">Proposal 2</option>
-              <option value="proposal3">Proposal 3</option>
-            </select>
-            {formik.errors.proposal && formik.touched.proposal && (
-              <div className="error">{formik.errors.proposal}</div>
-            )}
-          </div>
-*/}
                     <div className="fv-row mb-10">
                         <label className="form-label fs-6 fw-bolder text-dark required ">
                             Rating:
@@ -150,7 +128,6 @@ const EvaluateTender = ({offerId}) => {
                     <button
                         type="submit"
                         className="btn btn-lg w-100 mb-5"
-                        disabled={!isSubmissionAllowed}
                     >
                         Submit Evaluation
                     </button>
