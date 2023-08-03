@@ -3,7 +3,8 @@ const {objectId} = require('./custom.validation');
 
 const createOffer = {
   body: Joi.object().keys({
-    offer: Joi.number().required()
+    offer: Joi.number().required(),
+    tender: Joi.string().required()
   }),
 };
 const updateOffer = {
@@ -28,8 +29,9 @@ const deleteOffer = {
 };
 const getOffers = {
   query: Joi.object().keys({
-    offer: Joi.number(),
-    role: Joi.string(),
+    offer: Joi.string(),
+    // company: Joi.string(),
+    tender: Joi.string(),
     sortBy: Joi.string(),
     limit: Joi.number().integer(),
     page: Joi.number().integer(),

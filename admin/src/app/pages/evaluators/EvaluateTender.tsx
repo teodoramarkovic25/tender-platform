@@ -33,9 +33,9 @@ const EvaluateTender = () => {
       const evaluation = new EvaluatorModel(values);
       // @ts-ignore
       const createdEvaluation = await createEvaluator(values);
-    
 
-      
+
+
     },
   });
 

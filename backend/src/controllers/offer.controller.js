@@ -10,9 +10,11 @@ const createOffer = catchAsync(async (req, res) => {
 });
 
 const getOffers = catchAsync(async (req, res) => {
-  const filter = pick(req.query, ['firstName','lastName', 'role']);
-  const options = pick(req.query, ['sortBy', 'limit', 'page']);
-  const result = await offerService.queryOffers(filter, options);
+  //const filter = pick(req.query, ['tender', 'company']);
+  //const options = pick(req.query, ['sortBy', 'limit', 'page']);
+  //const result = await offerService.queryOffers(filter, options);
+  const {tender} = req.query;
+  const result = await offerService.getOfferByTender(tender);
   res.send(result);
 });
 

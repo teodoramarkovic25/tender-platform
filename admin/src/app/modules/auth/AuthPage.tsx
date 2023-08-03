@@ -6,7 +6,6 @@ import {Registration} from './components/Registration'
 import {ForgotPassword} from './components/ForgotPassword'
 import {Login} from './components/Login'
 import {toAbsoluteUrl} from '../../../_metronic/helpers'
-import logo2 from "../../../_metronic/layout/logo/logo2.png"
 import favicon from "../../../_metronic/layout/favicon/favicon.png"
 
 
@@ -18,7 +17,6 @@ const AuthLayout = () => {
     }
   }, [])
   return (
-
       <div className='d-flex'>
         <div
             className='d-flex flex-column flex-column-fluid bgi-position-y-bottom position-x-center bgi-no-repeat bgi-size-contain bgi-attachment-fixed'
@@ -31,11 +29,11 @@ const AuthLayout = () => {
           <div className='d-flex flex-center flex-column flex-column-fluid p-10 pb-lg-20'>
             {/* begin::Logo */}
 
-            <a href='#' className='mb-12'>
-              <img alt='Logo'src={favicon}  className='h-75px' />
-            </a>
-            {/* end::Logo */}
-            {/* begin::Wrapper */}
+                    <a href='#' className='mb-12'>
+                        <img alt='Logo' src={favicon} className='h-75px'/>
+                    </a>
+                    {/* end::Logo */}
+                    {/* begin::Wrapper */}
 
             <div className='w-lg-500px shadow-sm rounded p-10 p-lg-15 bg-body mx-auto'>
               <Outlet />

@@ -1,9 +1,10 @@
 const allRoles = {
   user: [],
-  admin: ['getUsers', 'manageUsers', 'getEvaluator', 'manageEvaluator'],
+  admin: ['getUsers', 'manageUsers',
+    'getEvaluator', 'manageEvaluator',
+    'getTenders', 'manageTenders',
+    'getOffers', 'manageOffers'],
   vendor: ['getOffers', 'manageOffers'],
-  tender: ['getTenders', 'manageTenders'],
-  
 
 };
 

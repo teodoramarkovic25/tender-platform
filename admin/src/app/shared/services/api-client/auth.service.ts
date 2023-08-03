@@ -10,7 +10,8 @@ class AuthService {
     // Login user and retrieve JWT token
     async login(email: string, password: string): Promise<LoginResponse | null> {
         try {
-            const response = await axios.post<LoginResponse>(`${API_URL}/${API_VERSION}/auth/login`, { email, password });
+            const response = await axios.post<LoginResponse>(`${API_URL}/${API_VERSION}/auth/login`,
+                { email, password });
             this.saveToken(response.data.tokens.access.token);
             return response.data;
         } catch (error) {

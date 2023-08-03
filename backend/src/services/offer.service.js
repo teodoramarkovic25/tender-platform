@@ -17,11 +17,13 @@ const getOfferById = async (id) => {
 
 
 const getOfferByCompany = async (companyName) => {
-  return Offer.findOne({companyName});
+  return Offer.findOne({companyName})
 };
 
-const getOfferByTender = async (tenderName) => {
-  return Offer.findOne({tenderName});
+const getOfferByTender = async (id) => {
+  return Offer.find({id})
+    .populate('tender', ['title', 'description', 'criteria', 'weightage'])
+    .exec();
 };
 
 
