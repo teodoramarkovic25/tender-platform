@@ -44,3 +44,10 @@ export const getFiles = async (query?: any): Promise<FileModel[] | null> => {
     }
 };
 
+export const getFile= async (fileId: { fileId: string }):Promise<FileModel | null>=>{
+    return ApiClient.get(`${FILES_ENDPOINT}/${fileId}`)
+        .then(response=>response.data)
+        .then(data=>new FileModel(data))
+
+}
+

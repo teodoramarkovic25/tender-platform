@@ -24,7 +24,7 @@ export function CreateTender() {
         title: '',
         description: '',
         deadline: '',
-        //  documents: '',
+        documents: '',
         criteria: '',
         weightage: '100',
     }
@@ -119,24 +119,24 @@ export function CreateTender() {
                                 )}
                             </div>
 
-                            {/*<div className="mb-3">*/}
-                            {/*    <label className="form-label fs-6 fw-bolder text-dark">*/}
-                            {/*        Associated Documents{<span className="required"></span>}*/}
-                            {/*    </label>*/}
-                            {/*    <Field*/}
-                            {/*        value={values.documents}*/}
-                            {/*        onChange={handleChange}*/}
-                            {/*        type="file"*/}
-                            {/*        id="documents"*/}
-                            {/*        name="documents"*/}
-                            {/*        className={`form-control form-control-lg form-control-solid ${*/}
-                            {/*            touched.documents && errors.documents ? 'is-invalid border border-danger' : touched.documents ? 'is-valid' : ''*/}
-                            {/*        }`}*/}
-                            {/*    />*/}
-                            {/*    {touched.documents && errors.documents && (*/}
-                            {/*        <div className="error text-sm text-danger">Please choose a document</div>*/}
-                            {/*    )}*/}
-                            {/*</div>*/}
+                            <div className="mb-3">
+                               <label className="form-label fs-6 fw-bolder text-dark">
+                                  Associated Documents{<span className="required"></span>}
+                              </label>
+                              <Field
+                                 value={values.documents}
+                                  onChange={handleChange}
+                                 type="file"
+                                   id="documents"
+                              name="documents"
+                                   className={`form-control form-control-lg form-control-solid ${
+                                     touched.documents && errors.documents ? 'is-invalid border border-danger' : touched.documents ? 'is-valid' : ''
+                                 }`}
+                           />
+                                {touched.documents && errors.documents && (
+                                   <div className="error text-sm text-danger">Please choose a document</div>
+                                )}
+                            </div>
 
                             <div className="mb-3">
                                 <label className="form-label fs-6 fw-bolder text-dark">

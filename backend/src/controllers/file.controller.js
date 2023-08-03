@@ -1,4 +1,4 @@
-const {fileService, userService} = require('../services');
+const {fileService} = require('../services');
 const {createFile} = require('../services/file.service');
 const catchAsync = require("../utils/catchAsync");
 const ApiError = require("../utils/ApiError");

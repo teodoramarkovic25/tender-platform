@@ -56,8 +56,6 @@ const EvaluateTender = ({offerId}) => {
         <div className="d-flex justify-content-center">
             <div className="mx-auto col-10 col-md-8 col-lg-6">
                 <form className="card p-3" onSubmit={formik.handleSubmit}>
-                    <h1 className="text-center text-dark">Evaluate Tender</h1>
-
                     <h1 className="text-center text-dark">Evaluate Offer</h1>
 
                     {/*

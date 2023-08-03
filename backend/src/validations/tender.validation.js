@@ -6,7 +6,7 @@ const createTender = {
     title: Joi.string().required(),
     description: Joi.string().required(),
     deadline: Joi.date().required(),
-    // documents: Joi.binary().required(),
+     documents: Joi.string(),
     criteria: Joi.string().required(),
     weightage: Joi.number().required(),
 
