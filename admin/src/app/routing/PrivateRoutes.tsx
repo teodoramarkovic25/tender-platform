@@ -21,7 +21,7 @@ const PrivateRoutes = () => {
                 <Route path='auth/*' element={<Navigate to='/dashboard'/>}/>
                 {/* Pages */}
                 <Route path='dashboard/' element={<Dashboard/>}/>
-                <Route path='evaluators' element={<EvaluateTender/>}/>
+
                 {/* Lazy Modules */}
                 {/*<Route
                     path='apps/user-management/*'
@@ -31,9 +31,12 @@ const PrivateRoutes = () => {
                         </SuspensedView>
                     }
                 />*/}
-                <Route path='vendors' element={<TenderProposals/>}/>
+
                 <Route path='create-tender' element={<CreateTender/>}/>
                 <Route path='all-tenders' element={<AllTenders/>}/>
+                   <Route path='offers-page' element={<OffersPage/>}/>
+                <Route path='evaluate-offers/:offerId' element={<EvaluateOffers />} />
+              <Route path='evaluations' element={<EvaluationPage/>}/>
 
                 {/* Page Not Found */}
                 <Route path='*' element={<Navigate to='/error/404'/>}/>

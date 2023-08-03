@@ -53,6 +53,7 @@ export function Registration() {
     const [lastName, setLastName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [error, setError] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
     const {saveAuth, setCurrentUser} = useAuth()
     const formik = useFormik({
@@ -60,29 +61,19 @@ export function Registration() {
         validationSchema: registrationSchema,
         onSubmit: async (values, {setStatus, setSubmitting}) => {
             setLoading(true)
+            setError(null);
             try {
-
-                const url = 'http://localhost:3000/v1/auth/register';
-
-                const res = await axios.post(url, {
-                    firstName: values.firstname,
-                    lastName: values.lastname,
-                    email: values.email,
-                    password: values.password
-                });
-
-                console.log('res: ');
-                console.log(res.data);
-
                 const {data: auth} = await register(
                     values.email,
                     values.firstname,
                     values.lastname,
                     values.password,
-                    values.changepassword,
+                    values.changepassword
                 )
+                console.log("registration successful")
                 saveAuth(auth)
-                const {data: user} = await getUserByToken(auth.api_token)
+                //   console.log(auth);
+                const {data: user} = await getUserByToken(auth.tokens.access)
                 setCurrentUser(user)
             } catch (error) {
                 console.error(error)
@@ -146,7 +137,9 @@ export function Registration() {
                     <label className='form-label fw-bolder text-dark fs-6'>First name</label>
                     <input
                         value={firstName}
-                        onChange={(e)=>{setFirstName(e.target.value)}}
+                        onChange={(e) => {
+                            setFirstName(e.target.value)
+                        }}
                         placeholder='First name'
                         type='text'
                         autoComplete='off'
@@ -177,7 +170,9 @@ export function Registration() {
                         <label className='form-label fw-bolder text-dark fs-6'>Last name</label>
                         <input
                             value={lastName}
-                            onChange={(e)=>{setLastName(e.target.value)}}
+                            onChange={(e) => {
+                                setLastName(e.target.value)
+                            }}
                             placeholder='Last name'
                             type='text'
                             autoComplete='off'
@@ -212,7 +207,9 @@ export function Registration() {
                 <label className='form-label fw-bolder text-dark fs-6'>Email</label>
                 <input
                     value={email}
-                    onChange={(e)=>{setEmail(e.target.value)}}
+                    onChange={(e) => {
+                        setEmail(e.target.value)
+                    }}
                     placeholder='Email'
                     type='email'
                     autoComplete='off'
@@ -242,7 +239,9 @@ export function Registration() {
                     <div className='position-relative mb-3'>
                         <input
                             value={password}
-                            onChange={(e)=>{setPassword(e.target.value)}}
+                            onChange={(e) => {
+                                setPassword(e.target.value)
+                            }}
                             type='password'
                             placeholder='Password'
                             autoComplete='off'
@@ -288,7 +287,9 @@ export function Registration() {
                 <label className='form-label fw-bolder text-dark fs-6'>Confirm Password</label>
                 <input
                     value={confirmPassword}
-                    onChange={(e)=>{setConfirmPassword(e.target.value)}}
+                    onChange={(e) => {
+                        setConfirmPassword(e.target.value)
+                    }}
                     type='password'
                     placeholder='Password confirmation'
                     autoComplete='off'

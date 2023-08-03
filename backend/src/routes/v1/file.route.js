@@ -1,13 +1,20 @@
-
-const express = require('express')
+const express = require('express');
+const fileController = require('../../controllers/file.controller');
+const auth = require('../../middlewares/auth');
+const uploadMiddleware = require('../../middlewares/fileUpload');
 const validate = require('../../middlewares/validate');
-const upload = require('./file/service');
+const fileValidation = require("../../validations/file.validation");
 
 const router = express.Router();
 
-router.post('/upload', upload.single('documents'), (req, res) => {
-  console.log(req.file);
-  return res.sendStatus(200);
-});
+router
+  .route('/')
+  .post(auth('manageFiles'), uploadMiddleware.array('documents', 3), validate(fileValidation.createFile), fileController.uploadFile)
+  .get(auth('getFiles'), validate(fileValidation.getFiles), fileController.getFiles)
+router
+  .route('/:fileId')
+  .get(auth('getFiles'), validate(fileValidation.getFile), fileController.getFile)
+  .patch(auth('manageFiles'), validate(fileValidation.updateFile), fileController.updateFile)
+  .delete(auth('manageFiles'), validate(fileValidation.deleteFile), fileController.deleteFile)
 
 module.exports = router;

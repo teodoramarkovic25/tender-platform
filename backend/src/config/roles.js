@@ -13,7 +13,6 @@ const allRoles = {
   ],
 
 
-
 };
 
 const roles = Object.keys(allRoles);
@@ -23,17 +22,3 @@ module.exports = {
   roles,
   roleRights,
 };
-
-
-
-
-
-
-
-
-
-
-
-
-
-

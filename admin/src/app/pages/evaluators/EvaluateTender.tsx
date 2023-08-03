@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from "react";
 import clsx from "clsx";
 import { useFormik } from "formik";
@@ -6,8 +5,7 @@ import * as Yup from "yup";
 import { createEvaluator } from "../../shared/services/evaluator.service";
 import { EvaluatorModel } from "../../shared/models/evaluator.model";
 
-
-const EvaluateTender = () => {
+const EvaluateTender = ({offerId}) => {
   const [isSubmissionAllowed, setIsSubmissionAllowed] = useState(true);
   const [evaluations, setEvaluations] = useState([]);
   const [remainingTime, setRemainingTime] = useState(0);
@@ -22,24 +20,20 @@ const EvaluateTender = () => {
     collaborators: Yup.string().required("Collaborators are required"),
   });
 
-  const formik = useFormik({
-    initialValues: {
-      proposal: "",
-      rating: "",
-      comment: "",
-      collaborators: "",
-    },
-    validationSchema: evaluationSchema,
-    onSubmit: async(values) => {
-
-      const evaluation = new EvaluatorModel(values);
-      // @ts-ignore
-      const createdEvaluation = await createEvaluator(values);
-    
-
-      
-    },
-  });
+    const formik = useFormik({
+        initialValues: {
+            //proposal: "",
+            rating: "",
+            comment: "",
+            collaborators: "",
+        },
+        validationSchema: evaluationSchema,
+        onSubmit: async (values) => {
+            const newEvaluation = new EvaluatorModel({...values, offer: offerId});
+            // @ts-ignore
+            const createdEvaluation = await createEvaluation(newEvaluation);
+        },
+    });
 
   useEffect(() => {
     const timeLimit = 5 * 60 * 1000;
@@ -60,9 +54,7 @@ const EvaluateTender = () => {
   }, []);
 
   return (
-
     <div className="d-flex justify-content-center">
-
       <div className="mx-auto col-10 col-md-8 col-lg-6">
         <form className="card p-3" onSubmit={formik.handleSubmit}>
           <h1 className="text-center text-dark">Evaluate Tender</h1>

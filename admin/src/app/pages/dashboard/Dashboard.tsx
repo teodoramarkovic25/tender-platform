@@ -3,16 +3,17 @@ import dashboardPicture from "./dashboard1.jpg";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faCheck, faSearch, faChartLine} from "@fortawesome/free-solid-svg-icons";
 import {Link} from 'react-router-dom';
-import AuthService from "../../shared/services/api-client/auth.service";
-
-const authService = new AuthService();
+import {useAuth} from "../../modules/auth/core/Auth";
 
 export function Dashboard() {
 
+    const {currentUser, logout} = useAuth()
 
     return (
 
         <div>
+
+            <h1>Welcome {currentUser?.firstName}</h1>
 
             <br/>
             <div className="container-fluid p-0">
@@ -81,16 +82,16 @@ export function Dashboard() {
                     <div className="col-md-4">
                         <form>
                             <div className="form-group">
-                                <label htmlFor="question">Question:</label>
-                                <textarea className="form-control required" id="question"  placeholder="Ask question"></textarea>
+                                <label htmlFor="question">Postavite pitanje:</label>
+                                <textarea className="form-control" id="question"  placeholder="Ovdje unesite vaše pitanje"></textarea>
                             </div>
 
                             <div className="form-group">
-                                <label htmlFor="note">Comment:</label>
-                                <textarea className="form-control" id="note"  placeholder="Comment"></textarea>
+                                <label htmlFor="note">Napomena/komentar:</label>
+                                <textarea className="form-control" id="note"  placeholder="Ovdje ostavite napomenu ili komentar"></textarea>
                             </div>
                             <br/>
-                            <button type="submit" className="btn btn-primary" >Send</button>
+                            <button type="submit" className="btn btn-primary">Pošalji</button>
                         </form>
                     </div>
                 </div>
@@ -110,15 +111,6 @@ export function Dashboard() {
             <br/>
             <br/>
             <br/>
-            <form action="">
-                <h5 className={'text-light'}>Subscribe to our newsletter</h5>
-                <p className={'text-light'}>Monthly digest of whats new and exciting from us.</p>
-                <div className={'d-flex w-100 gap-2'}>
-                    <input type="text" className={'form-control'} placeholder={'Email address'}
-                           id='newsletter'/>
-                    <button className="btn btn-primary" type="submit">Subscribe</button>
-                </div>
-            </form>
             <br/>
             <br/>
             <br/>
