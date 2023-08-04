@@ -34,10 +34,16 @@ const deleteOffer = catchAsync(async (req, res) => {
   res.status(httpStatus.NO_CONTENT).send();
 });
 
+const getCount = catchAsync(async (req,res)=>{
+  const number = await offerService.getCount();
+  res.send({result : number});
+});
+
 module.exports = {
   createOffer,
   getOffers,
   getOffer,
   updateOffer,
-  deleteOffer
+  deleteOffer,
+  getCount,
 };

@@ -48,11 +48,9 @@ const getActiveCount = catchAsync(async(req,res) => {
 
 const getInactiveCount = catchAsync(async(req,res) => {
   const number = await tenderService.getInactiveCount();
-  if(number === 0){
-    res.status(httpStatus.NO_CONTENT).send();
-  }else{
-    res.send({result : number});
-  }
+
+  res.send({result : number});
+
 });
 
 module.exports = {

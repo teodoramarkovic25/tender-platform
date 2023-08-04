@@ -11,12 +11,17 @@ router
   .post(auth('manageOffers'), validate(offerValidation.createOffer), offerController.createOffer)
   .get(auth('getOffers'), validate(offerValidation.getOffers), offerController.getOffers);
 
+router
+  .route('/count')
+  .get(auth('getOffers'),validate(offerValidation.getOffers), offerController.getCount);
 
 router
   .route('/:offerId')
   .get(auth('getOffers'), validate(offerValidation.getOffer), offerController.getOffer)
   .patch(auth('manageOffers'), validate(offerValidation.updateOffer), offerController.updateOffer)
   .delete(auth('manageOffers'), validate(offerValidation.deleteOffer), offerController.deleteOffer);
+
+
 
 module.exports = router;
 
