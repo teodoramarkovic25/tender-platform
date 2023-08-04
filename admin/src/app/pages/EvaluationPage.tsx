@@ -1,38 +1,30 @@
 import React, {useState, useEffect} from 'react';
 import {getTenders} from "../shared/services/tender.service";
 import {useNavigate, useLocation} from 'react-router-dom';
-
-
 export function EvaluationPage() {
     const [tenders, setTenders] = useState([]);
     const navigate = useNavigate();
-
-
     const navigateToOffer = (offer) => {
         navigate(`/evaluate-offers/${offer.id}`, {state: {offer}});
     }
-
     const fetchTenders = async () => {
         try {
             const query={populate:'offers'};
             const [pagination,allTenders] = await getTenders(query);
             setTenders(allTenders);
-
             console.log(allTenders);
         } catch (error) {
             console.error(error);
         }
     };
-
     useEffect(() => {
         fetchTenders();
     }, []);
-
     return (
         <div>
             <h1>All active tenders</h1>
             <table className="table table-striped table-hover">
-                <thead className="bg-danger text-white">
+                <thead className="bg-primary text-white">
                 <tr className="fw-bold fs-6 border-bottom border-gray-200">
                     <th className="text-white">Title</th>
                     <th className="text-white">Description</th>
@@ -76,7 +68,6 @@ export function EvaluationPage() {
                                 </div>
                             )}
                         </td>
-
                     </tr>
                 ))}
                 </tbody>
@@ -84,5 +75,4 @@ export function EvaluationPage() {
         </div>
     );
 }
-
 export default EvaluationPage;

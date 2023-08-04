@@ -49,7 +49,7 @@ export function OffersPage() {
         <div>
             <h1>All active tenders</h1>
             <table className="table table-striped table-hover">
-                <thead className="bg-danger text-white">
+                <thead className="bg-primary text-white">
                 <tr className="fw-bold fs-6 border-bottom border-gray-200">
                     <th className="text-white">Title</th>
                     <th className="text-white">Description</th>
