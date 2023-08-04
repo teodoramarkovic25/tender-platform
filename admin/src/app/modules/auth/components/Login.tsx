@@ -65,6 +65,7 @@ export function Login() {
 
     return (
         <form
+        style={{marginTop:'8%'}}
             className='form w-100'
             onSubmit={formik.handleSubmit}
             noValidate
@@ -111,7 +112,7 @@ export function Login() {
                     placeholder='Email'
                     {...formik.getFieldProps('email')}
                     className={clsx(
-                        'form-control form-control-lg form-control-solid border-gray-400',
+                        'form-control form-control-lg form-control-solid',
                         {'is-invalid': formik.touched.email && formik.errors.email},
                         {
                             'is-valid': formik.touched.email && !formik.errors.email,
@@ -131,7 +132,7 @@ export function Login() {
 
             {/* begin::Form group */}
             <div className='fv-row mb-10'>
-                <div className='d-flex  justify-content-between mt-n5'>
+                <div className='d-flex  justify-content-between mt-n5 '>
                     <div className='d-flex text-nowrap flex-stack mb-2'>
                         {/* begin::Label */}
                         <label className='form-label fw-bolder text-dark fs-6 mb-0'>Password</label>
@@ -139,7 +140,7 @@ export function Login() {
                         {/* begin::Link */}
                         <Link
                             to='/auth/forgot-password'
-                            className=' fs-6 fw-bolder'
+                            className=' text-gray-400 fw-bold  '
                             style={{marginLeft: '5px'}}
                         >
                             Forgot Password ?
@@ -156,7 +157,7 @@ export function Login() {
                     autoComplete='off'
                     {...formik.getFieldProps('password')}
                     className={clsx(
-                        'form-control form-control-lg form-control-solid border-gray-400',
+                        'form-control form-control-lg form-control-solid',
                         {
                             'is-invalid': formik.touched.password && formik.errors.password,
                         },
@@ -187,7 +188,7 @@ export function Login() {
                     {loading && (
                         <span className='indicator-progress' style={{display: 'block'}}>
               Please wait...
-              <span className='spinner-border spinner-border-sm align-middle ms-2'></span>
+              <span className='spinner-border spinner-border-sm align-middle ms-5'></span>
             </span>
                     )}
                 </button>

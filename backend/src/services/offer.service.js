@@ -12,18 +12,15 @@ const queryOffers = async (filter, options) => {
 };
 
 const getOfferById = async (id) => {
-  return Offer.findById(id);
+  return Offer.findById(id)
+    .populate('tenders', ['title', 'description', 'criteria', 'weightage'])
+    .populate('createdBy', ['firstName', 'lastName', 'email', 'company', 'createdAt'])
+    .exec();
 };
-
 
 const getOfferByCompany = async (companyName) => {
-  return Offer.findOne({companyName});
+  return Offer.findOne({companyName})
 };
-
-const getOfferByTender = async (tenderName) => {
-  return Offer.findOne({tenderName});
-};
-
 
 const updateOfferById = async (offerId, updateBody) => {
   const offer = await getOfferById(offerId);
@@ -48,7 +45,6 @@ const deleteOfferById = async (offerId) => {
 module.exports = {
   createOffer,
   queryOffers,
-  getOfferByTender,
   getOfferById,
   getOfferByCompany,
   updateOfferById,

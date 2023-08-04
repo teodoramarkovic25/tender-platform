@@ -18,29 +18,35 @@ const tenderSchema = mongoose.Schema(
         required: true,
         trim: true,
       },
-      /*documents:{
-        type: File,
-        required: true,
-        trim: true,
+      documents: {
+        type: mongoose.SchemaTypes.ObjectId,
+        required: [true, 'An offer must have a document!'],
+        trim: true
+
       },
-
-       */
-      criteria:{
-        type: String,
-        required: true,
-        trim: true,
-      },
-      weightage:{
-        type: Number,
-        required: true,
-        trim: true,
-      },
-
-
-
-
+    criteria: {
+      type: String,
+      required: true,
+      trim: true,
+    },
+    weightage: {
+      type: Number,
+      required: true,
+      trim: true,
     }
+  },
+  {
+    toJSON: {virtuals: true},
+    toObject: {virtuals: true},
+    timestamps: true
+  }
 );
+
+tenderSchema.virtual('offers', {
+  ref: 'Offer',
+  localField: '_id',
+  foreignField: 'tender'
+});
 
 tenderSchema.plugin(toJSON);
 tenderSchema.plugin(paginate);

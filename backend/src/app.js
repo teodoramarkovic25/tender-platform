@@ -55,29 +55,6 @@ if (config.env === 'production') {
 // v1 api routes
 app.use('/v1', routes);
 
-
-/*const storage = multer.diskStorage({
-  destination: function (req, file, cb) {
-    return cb(null, "./uploads");
-  },
-  filename: function (req, file, cb) {
-    return cb(null, `${Date.now()}-${file.originalName}`);
-  },
-});
-const upload = multer({storage});
-app.use(express.urlencoded({extended: false}));
-
-app.post("/upload", upload.single('documents'), (req, res) => {
-
-  console.log(req.body);
-  console.log(req.file);
-
-  return res.send(200);
-});
-
-
- */
-
 // send back a 404 error for any unknown api request
 app.use((req, res, next) => {
   next(new ApiError(httpStatus.NOT_FOUND, 'Not found'));
