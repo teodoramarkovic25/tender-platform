@@ -66,11 +66,26 @@ const deleteTenderById = async (tenderId) => {
   return tender;
 };
 
+/**
+* Get count of active tenders
+* @returns : {Promise<Number>}
+* */
+const getActiveCount = async () =>{
+  const number = await Tender.countDocuments({deadline : {$gt: new Date()}});
+  return number;
+}
+
+const getInactiveCount = async () =>{
+  const number = await Tender.countDocuments({deadline : {$lte: new Date()}});
+  return number;
+}
 module.exports = {
   createTender,
   queryTenders,
   getTenderById,
   updateTenderById,
   deleteTenderById,
+  getActiveCount,
+  getInactiveCount,
 };
 
