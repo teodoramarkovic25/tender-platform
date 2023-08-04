@@ -5,7 +5,7 @@ export class TenderModel extends BaseModel {
   title: string;
   description: string;
   deadline: Date;
-   documents: FileModel;
+  // documents: FileModel;
   criteria: string;
   weightage: number;
 

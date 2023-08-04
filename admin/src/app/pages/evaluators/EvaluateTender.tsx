@@ -59,6 +59,7 @@ const EvaluateTender = ({offerId}) => {
         <form className="card p-3" onSubmit={formik.handleSubmit}>
           <h1 className="text-center text-dark">Evaluate Tender</h1>
 
+          {/*
           <div className="fv-row mb-10">
             <label className="form-label fs-6 fw-bolder text-dark">
               Proposal:
@@ -72,18 +73,19 @@ const EvaluateTender = ({offerId}) => {
               )}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
-              value={formik.values.proposal}
+           //   value={formik.values.proposal}
             >
               <option value="">Select a proposal</option>
               <option value="proposal1">Proposal 1</option>
               <option value="proposal2">Proposal 2</option>
               <option value="proposal3">Proposal 3</option>
             </select>
-            {formik.errors.proposal && formik.touched.proposal && (
+          //  {formik.errors.proposal && formik.touched.proposal && (
               <div className="error">{formik.errors.proposal}</div>
             )}
           </div>
 
+*/}
           <div className="fv-row mb-10">
             <label className="form-label fs-6 fw-bolder text-dark">
               Rating:
