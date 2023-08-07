@@ -37,21 +37,6 @@ const deleteTender = catchAsync(async (req, res) => {
   res.status(httpStatus.NO_CONTENT).send();
 });
 
-const getActiveCount = catchAsync(async(req,res) => {
-  const number = await tenderService.getActiveCount();
-  if(number === 0){
-    res.status(httpStatus.NO_CONTENT).send();
-  }else{
-    res.send({result : number});
-  }
-});
-
-const getInactiveCount = catchAsync(async(req,res) => {
-  const number = await tenderService.getInactiveCount();
-
-  res.send({result : number});
-
-});
 
 module.exports = {
   createTender,
@@ -59,6 +44,5 @@ module.exports = {
   getTenders,
   updateTender,
   deleteTender,
-  getActiveCount,
-  getInactiveCount,
+
 };

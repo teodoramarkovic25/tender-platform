@@ -27,3 +27,9 @@ export const getOffer = async (offerId: string): Promise<OfferModel | null> => {
         .then(data => new OfferModel(data))
 }
 
+// export const getOfferCount = async() =>{
+//     return ApiClient.get(`${OFFERS_ENDPOINT}/count`)
+//         .then(response=> response.data)
+//         .then(data => data.result);
+// }
+

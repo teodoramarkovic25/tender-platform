@@ -11,9 +11,7 @@ router
   .post(auth('manageOffers'), validate(offerValidation.createOffer), offerController.createOffer)
   .get(auth('getOffers'), validate(offerValidation.getOffers), offerController.getOffers);
 
-router
-  .route('/count')
-  .get(auth('getOffers'),validate(offerValidation.getOffers), offerController.getCount);
+
 
 router
   .route('/:offerId')

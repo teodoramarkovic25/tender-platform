@@ -17,13 +17,7 @@ router
   .patch(auth('manageTenders'), validate(tenderValidation.updateTender), tenderController.updateTender)
   .delete(auth('manageTenders'), validate(tenderValidation.deleteTender), tenderController.deleteTender);
 
-router
-  .route("/active/count")
-  .get(auth('getTenders'), validate(tenderValidation.getTenders), tenderController.getActiveCount);
 
-router
-  .route("/inactive/count")
-  .get( validate(tenderValidation.getTenders), tenderController.getInactiveCount);
 
 module.exports = router;
 
