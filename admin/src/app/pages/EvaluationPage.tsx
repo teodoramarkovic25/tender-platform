@@ -1,16 +1,39 @@
 import React, {useState, useEffect} from 'react';
 import {getTenders} from "../shared/services/tender.service";
 import {useNavigate, useLocation} from 'react-router-dom';
+import {getOffer, updateOffer} from "../shared/services/offer.service";
+import {useAuth} from "../modules/auth";
+import ModalComponent from "../modals/ModalComponent";
+
 export function EvaluationPage() {
     const [tenders, setTenders] = useState([]);
     const navigate = useNavigate();
+    const [isOpen, setIsOpen] = useState(false);
+
+    const toggle = () => setIsOpen(!isOpen);
     const navigateToOffer = (offer) => {
         navigate(`/evaluate-offers/${offer.id}`, {state: {offer}});
     }
+
+    const selectWinningOffer = async (offer) => {
+
+        try {
+            const selectedOffer = await getOffer(offer.id);
+
+
+            const offerData = {
+                isSelected: true
+            }
+            const updatedOffer = await updateOffer(offer.id,offerData);
+        } catch (error) {
+            console.error(error);
+        }
+    }
+
     const fetchTenders = async () => {
         try {
-            const query={populate:'offers'};
-            const [pagination,allTenders] = await getTenders(query);
+            const query = {populate: 'offers'};
+            const [pagination, allTenders] = await getTenders(query);
             setTenders(allTenders);
             console.log(allTenders);
         } catch (error) {
@@ -46,6 +69,7 @@ export function EvaluationPage() {
                         <td className=''>
                             {tender.offers.length > 0 ? (
                                 tender.offers.map((offer) => (
+                                    <div>
                                     <div className='d-flex' key={offer.id}>
                                         <div className='d-flex flex-column flex-column-fluid '>
                                             <span className='text-center mt-3'>{offer.offer}$</span>
@@ -61,12 +85,30 @@ export function EvaluationPage() {
                                             </button>
                                         </div>
                                     </div>
+
+                                <div>
+                                    <button
+                                        className=' d-flex flex-column flex-column-fluid  mb-3 btn btn-sm w-70'
+                                        onClick={() => {
+                                            selectWinningOffer(offer);
+
+                                        }
+                                        }
+                                    >Select winning offer!
+                                    </button>
+                                    <ModalComponent show={isOpen} onHide={toggle}>
+                                        Are you sure you want to select this offer for the winner?
+                                    </ModalComponent>
+                                </div>
+                                    </div>
                                 ))
                             ) : (
                                 <div className='border flex'>
                                     <h4 className='text-center'>No offers</h4>
                                 </div>
                             )}
+
+
                         </td>
                     </tr>
                 ))}
@@ -75,4 +117,5 @@ export function EvaluationPage() {
         </div>
     );
 }
+
 export default EvaluationPage;
