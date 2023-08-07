@@ -6,6 +6,8 @@ import clsx from 'clsx'
 import {useLayout} from '../../core'
 import {KTSVG, toAbsoluteUrl} from '../../../helpers'
 import {AsideMenu} from './AsideMenu'
+import favicon from "../../favicon/favicon.png";
+
 
 const AsideDefault: FC = () => {
     const {config, classes} = useLayout()
@@ -37,22 +39,19 @@ const AsideDefault: FC = () => {
                 {/* begin::Logo */}
                 {aside.theme === 'dark' && (
                     <Link to='/dashboard'>
-                        <img
-                            alt='Logo'
-                            className='h-25px logo'
-                            src={toAbsoluteUrl('/logo_light.png')}
-                        />
+                       <img alt='Logo'className='h-25px logo'src={favicon}/>
                     </Link>
                 )}
-                {aside.theme === 'light' && (
+
+                         {aside.theme === 'light' && (
                     <Link to='/dashboard'>
                         <img
                             alt='Logo'
                             className='h-25px logo'
                             src={toAbsoluteUrl('/media/logos/default.svg')}
-                        />
-                    </Link>
+                        />    </Link>
                 )}
+
                 {/* end::Logo */}
 
                 {/* begin::Aside toggler */}

@@ -1,7 +1,7 @@
 import axios from "axios";
 import jwtDecode from 'jwt-decode';
 
-const API_URL = process.env.REACT_APP_API_URL;
+const API_URL = 'http://localhost:3000';
 const API_VERSION = process.env.REACT_APP_API_VERSION;
 
 const axiosInstance = axios.create({
@@ -13,7 +13,8 @@ axiosInstance.interceptors.request.use(
     config.headers = {
       Accept: "application/json",
       "Access-Control-Allow-Origin": "*",
-      "Content-Type": "application/json"
+      "Content-Type": "application/json",
+        Authorization:`Bearer ${getAccessToken()}`,
     };
     return config;
   },
@@ -36,7 +37,7 @@ axiosInstance.interceptors.response.use(
 );
 
 const getAccessToken = () => {
-  return localStorage.getItem('jwt_access_token');
+  return localStorage.getItem('token');
 };
 
 

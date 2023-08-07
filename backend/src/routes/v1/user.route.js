@@ -91,7 +91,7 @@ module.exports = router;
  *         name: name
  *         schema:
  *           type: string
- *         description: User name
+ *         description: Username
  *       - in: query
  *         name: role
  *         schema:

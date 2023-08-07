@@ -1,27 +1,36 @@
-import { AxiosResponse } from 'axios';
+import {AxiosResponse} from 'axios';
 import axiosInstance from './axiosInstance';
 
 const prepareQuery = (query?: string): string => {
-  return query ? '?' + query : '';
+    return query ? '?' + queryObjectToString(query) : '';
 }
 
-const get = (endpoint: string, query?: string): Promise<AxiosResponse> => {
+export const queryObjectToString = (query) => {
+    let str = '';
 
-  return axiosInstance.get(`${endpoint}${prepareQuery(query)}`);
+    Object.keys(query).forEach(key => (str += query[key] ? `&${key}=${query[key]}` : ''));
+    return str.substring(1, str.length);
+}
+const get = (endpoint: string, query?: any): Promise<AxiosResponse> => {
+    return axiosInstance.get(`${endpoint}${prepareQuery(query)}`);
 };
 
 const post = (endpoint: string, body: any, query: string = ''): Promise<AxiosResponse> => {
-  return axiosInstance.post(`${endpoint}${query}`, body);
+    return axiosInstance.post(`${endpoint}${query}`, body);
 };
 
 const put = (endpoint: string, body: any, query: string = ''): Promise<AxiosResponse> => {
-  return axiosInstance.put(`${endpoint}${query}`, body);
+    return axiosInstance.put(`${endpoint}${query}`, body);
 };
 
 const remove = (endpoint: string, query: string = ''): Promise<AxiosResponse> => {
-  return axiosInstance.delete(`${endpoint}${query}`);
+    return axiosInstance.delete(`${endpoint}${query}`);
 };
 
-const ApiClient = {get, post, put, remove};
+const postFormData = (endpoint: string, formData: FormData, query: string = ''): Promise<AxiosResponse> => {
+    return axiosInstance.post(`${endpoint}${query}`, formData);
+};
+
+const ApiClient = {get, post, put, remove, postFormData};
 
 export default ApiClient;

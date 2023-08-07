@@ -1,12 +1,17 @@
 const mongoose = require('mongoose');
 const validator = require('validator');
 const bcrypt = require('bcryptjs');
-const { toJSON, paginate } = require('./plugins');
-const { roles } = require('../config/roles');
+const {toJSON, paginate} = require('./plugins');
+const {roles} = require('../config/roles');
 
 const userSchema = mongoose.Schema(
   {
-    name: {
+    firstName: {
+      type: String,
+      required: true,
+      trim: true,
+    },
+    lastName: {
       type: String,
       required: true,
       trim: true,
@@ -44,11 +49,23 @@ const userSchema = mongoose.Schema(
       type: Boolean,
       default: false,
     },
+    company: {
+      type: mongoose.SchemaTypes.ObjectId,
+      ref: 'Company'
+    }
   },
   {
+    toJSON: {virtuals: true},
+    toObject: {virtuals: true},
     timestamps: true,
   }
 );
+
+userSchema.virtual('offers', {
+  ref: 'Offer',
+  localField: '_id',
+  foreignField: 'createdBy'
+});
 
 // add plugin that converts mongoose to json
 userSchema.plugin(toJSON);
@@ -61,7 +78,7 @@ userSchema.plugin(paginate);
  * @returns {Promise<boolean>}
  */
 userSchema.statics.isEmailTaken = async function (email, excludeUserId) {
-  const user = await this.findOne({ email, _id: { $ne: excludeUserId } });
+  const user = await this.findOne({email, _id: {$ne: excludeUserId}});
   return !!user;
 };
 
@@ -79,6 +96,9 @@ userSchema.pre('save', async function (next) {
   const user = this;
   if (user.isModified('password')) {
     user.password = await bcrypt.hash(user.password, 8);
+  }
+  if (this.role !== 'vendor') {
+    this.company = undefined;
   }
   next();
 });
