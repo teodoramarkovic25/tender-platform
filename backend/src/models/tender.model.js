@@ -18,14 +18,14 @@ const tenderSchema = mongoose.Schema(
         required: true,
         trim: true,
       },
-    /*  documents: {
+      documents: {
         type: mongoose.SchemaTypes.ObjectId,
-        required: [true, 'An offer must have a document!'],
+        required: [true, 'A Tender must have a document!'],
         trim: true
-
       },
 
-     */
+
+
     criteria: {
       type: String,
       required: true,

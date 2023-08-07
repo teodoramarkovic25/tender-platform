@@ -34,7 +34,7 @@ export function ResetPassword() {
         <div>
             <br/>
             <br/>
-            <br/>
+
             <form
                 style={{ marginTop: '8%', maxWidth: '400px', margin: '0 auto' }}
                 className='form w-100 fv-plugins-bootstrap5 fv-plugins-framework '
