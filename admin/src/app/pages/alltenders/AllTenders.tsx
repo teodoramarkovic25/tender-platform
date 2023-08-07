@@ -4,11 +4,13 @@ import {Formik, Form, Field, ErrorMessage} from 'formik';
 import * as Yup from 'yup';
 import {Pagination} from "../../shared/components/pagination/pagination";
 
+
 function formatDate(dateString) {
     const date = new Date(dateString);
     const year = date.getFullYear();
     const month = String(date.getMonth() + 1).padStart(2, '0');
     const day = String(date.getDate()).padStart(2, '0');
+
 
     const formattedDate = `${month}/${day}/${year}`;
     return formattedDate;
@@ -33,8 +35,7 @@ export function AllTenders() {
     const [currentLimit, setCurrentLimit] = useState(10);
     const [deletedItemId, setDeletedItemId] = useState();
     const [isLoading, setIsLoading] = useState(false);
-    // const [dateFromPlaceholder, setDateFromPlaceholder] = useState('Date from');
-    //  const [dateToPlaceholder, setDateToPlaceholder] = useState('Date to');
+
 
     const
         handlePageChange = (newPage) => {
@@ -52,6 +53,7 @@ export function AllTenders() {
             page: 1,
         });
     };
+
 
     const handleDeleteTender = (tenderId) => {
         setIsLoading(true);
@@ -158,6 +160,7 @@ export function AllTenders() {
                     <th>Weightage</th>
                     <th>Delete tender</th>
 
+
                     </thead>
                     <tbody className="table-striped border table-hover">
                     {tenders.map((tender) => (
@@ -182,6 +185,9 @@ export function AllTenders() {
                                 </span> : <i className=" fas fa-trash justify-content-center align-items-center p-0 m-0 " ></i>}
                                 </button>
                             </td>
+
+
+
                         </tr>
                     ))}
                     </tbody>
