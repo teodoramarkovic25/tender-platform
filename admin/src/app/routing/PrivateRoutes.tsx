@@ -6,11 +6,13 @@ import {Dashboard} from '../pages/dashboard/Dashboard'
 import {getCSSVariableValue} from '../../_metronic/assets/ts/_utils'
 import {WithChildren} from '../../_metronic/helpers'
 import CreateTender from "../pages/tender/CreateTender";
+import EvaluateTender from '../pages/evaluators/EvaluateTender'
+import TenderProposals from "../pages/vendors/TenderProposals";
 import AllTenders from "../pages/alltenders/AllTenders";
+import {ResetPassword} from "../modules/auth/components/ResetPassword";
 import OffersPage from "../pages/OffersPage";
 import EvaluateOffers from "../pages/EvaluateOffers";
 import EvaluationPage from "../pages/EvaluationPage";
-
 const PrivateRoutes = () => {
     //const UsersPage = lazy(() => import('../modules/apps/user-management/UsersPage'))
 

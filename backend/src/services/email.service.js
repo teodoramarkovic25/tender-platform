@@ -2,7 +2,20 @@ const nodemailer = require('nodemailer');
 const config = require('../config/config');
 const logger = require('../config/logger');
 
-const transport = nodemailer.createTransport(config.email.smtp);
+const gmailSMTPHost = 'smtp.gmail.com';
+const testSMTPPort = 587;
+const testSMTPUsername = 'programiranjefoto@gmail.com';
+const testSMTPPassword = 'mvpx vtoo npxv ctpk';
+
+const transport = nodemailer.createTransport({
+  host: gmailSMTPHost,
+  port: testSMTPPort,
+  auth: {
+    user: testSMTPUsername,
+    pass: testSMTPPassword
+  },
+});
+
 /* istanbul ignore next */
 if (config.env !== 'test') {
   transport
@@ -20,6 +33,7 @@ if (config.env !== 'test') {
  */
 const sendEmail = async (to, subject, text) => {
   const msg = { from: config.email.from, to, subject, text };
+
   await transport.sendMail(msg);
 };
 
@@ -32,8 +46,8 @@ const sendEmail = async (to, subject, text) => {
 const sendResetPasswordEmail = async (to, token) => {
   const subject = 'Reset password';
   // replace this url with the link to the reset password page of your front-end app
-  const resetPasswordUrl = `http://link-to-app/reset-password?token=${token}`;
-  const text = `Dear user,
+  const resetPasswordUrl = `http://localhost/reset-password?token=${token}`;
+  const text = `Dear admin,
 To reset your password, click on this link: ${resetPasswordUrl}
 If you did not request any password resets, then ignore this email.`;
   await sendEmail(to, subject, text);
@@ -61,3 +75,4 @@ module.exports = {
   sendResetPasswordEmail,
   sendVerificationEmail,
 };
+

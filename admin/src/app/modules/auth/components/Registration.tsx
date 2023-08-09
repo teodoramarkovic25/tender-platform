@@ -1,4 +1,3 @@
-
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import {useState, useEffect} from 'react'
 import {useFormik} from 'formik'
@@ -15,7 +14,7 @@ const initialValues = {
     lastname: '',
     email: '',
     password: '',
-    changepassword: '',
+   changePassword: '',
     acceptTerms: false,
 }
 
@@ -37,7 +36,7 @@ const registrationSchema = Yup.object().shape({
         .min(3, 'Minimum 3 symbols')
         .max(50, 'Maximum 50 symbols')
         .required('Password is required'),
-    changepassword: Yup.string()
+    changePassword: Yup.string()
         .required('Password confirmation is required')
         .when('password', {
             is: (val: string) => (val && val.length > 0 ? true : false),
@@ -66,7 +65,8 @@ export function Registration() {
                     values.email,
                     values.firstname,
                     values.lastname,
-                    values.password
+                    values.password,
+
                 )
                 console.log("registration successful")
                 saveAuth(auth)
@@ -291,21 +291,21 @@ export function Registration() {
                     type='password'
                     placeholder='Password confirmation'
                     autoComplete='off'
-                    {...formik.getFieldProps('changepassword')}
+                    {...formik.getFieldProps('changePassword')}
                     className={clsx(
                         'form-control form-control-lg form-control-solid border-gray-400',
                         {
-                            'is-invalid': formik.touched.changepassword && formik.errors.changepassword,
+                            'is-invalid': formik.touched.changePassword && formik.errors.changePassword,
                         },
                         {
-                            'is-valid': formik.touched.changepassword && !formik.errors.changepassword,
+                            'is-valid': formik.touched.changePassword && !formik.errors.changePassword,
                         }
                     )}
                 />
-                {formik.touched.changepassword && formik.errors.changepassword && (
+                {formik.touched.changePassword && formik.errors.changePassword && (
                     <div className='fv-plugins-message-container'>
                         <div className='fv-help-block'>
-                            <span role='alert'>{formik.errors.changepassword}</span>
+                            <span role='alert'>{formik.errors.changePassword}</span>
                         </div>
                     </div>
                 )}
@@ -372,4 +372,3 @@ export function Registration() {
         </form>
     )
 }
-
