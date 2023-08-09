@@ -12,12 +12,15 @@ router
   .post(auth('manageOffers'),uploadMiddleware.array('documents', 3), validate(offerValidation.createOffer), offerController.createOffer)
   .get(auth('getOffers'), validate(offerValidation.getOffers), offerController.getOffers)
 
+
 router
   .route('/:offerId')
   .get(auth('getOffers'), validate(offerValidation.getOffer), offerController.getOffer)
   .patch(auth('manageOffers'), validate(offerValidation.updateOffer), offerController.updateOffer)
   .delete(auth('manageOffers'), validate(offerValidation.deleteOffer), offerController.deleteOffer)
 .put(auth('manageOffers'),validate(offerValidation.updateOffer),offerController.updateOffer)
+
+
 
 module.exports = router;
 

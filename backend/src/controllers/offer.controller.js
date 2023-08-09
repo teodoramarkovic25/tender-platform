@@ -54,10 +54,13 @@ const deleteOffer = catchAsync(async (req, res) => {
   res.status(httpStatus.NO_CONTENT).send();
 });
 
+
+
 module.exports = {
   createOffer,
   getOffers,
   getOffer,
   updateOffer,
-  deleteOffer
+  deleteOffer,
+
 };

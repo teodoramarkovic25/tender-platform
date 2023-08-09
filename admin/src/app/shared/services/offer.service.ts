@@ -32,3 +32,9 @@ export const updateOffer = async (offerId: string, updateData: any): Promise<Off
         .then(response => response.data)
         .then(data => new OfferModel(data));
 };
+// export const getOfferCount = async() =>{
+//     return ApiClient.get(`${OFFERS_ENDPOINT}/count`)
+//         .then(response=> response.data)
+//         .then(data => data.result);
+// }
+
