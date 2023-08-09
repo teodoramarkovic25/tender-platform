@@ -42,11 +42,17 @@ const deleteOfferById = async (offerId) => {
   return offer;
 };
 
+const getCount = async () =>{
+  const number = await Offer.countDocuments({});
+  return number
+};
+
 module.exports = {
   createOffer,
   queryOffers,
   getOfferById,
   getOfferByCompany,
   updateOfferById,
-  deleteOfferById
+  deleteOfferById,
+  getCount,
 };
