@@ -14,6 +14,12 @@ const getStats = async ()=>{
           "offers": offers};
 }
 
+const getChartData = async ()=>{
+  const collection = await tenderService.getChartData();
+  return {"result":collection};
+}
+
 module.exports = {
-  getStats
+  getStats,
+  getChartData,
 }

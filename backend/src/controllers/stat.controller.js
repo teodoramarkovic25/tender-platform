@@ -9,6 +9,12 @@ const getStats = catchAsync(async(req,res) => {
   res.send(stats);
 
 });
+
+const getChartData = catchAsync(async(req,res)=>{
+  const chartData = await statService.getChartData();
+  res.send(chartData);
+})
 module.exports = {
-  getStats
+  getStats,
+  getChartData
 }

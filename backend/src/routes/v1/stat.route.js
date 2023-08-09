@@ -10,5 +10,9 @@ router
   .route("/")
   .get(auth("getStats"), statsController.getStats);
 
+router
+  .route("/chart")
+  .get(auth("getStats"),statsController.getChartData);
+
 
 module.exports = router;

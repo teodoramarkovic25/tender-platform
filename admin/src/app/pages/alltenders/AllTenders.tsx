@@ -3,6 +3,7 @@ import {deleteTender, getTenders} from "../../shared/services/tender.service";
 import {Formik, Form, Field, ErrorMessage} from 'formik';
 import * as Yup from 'yup';
 import {Pagination} from "../../shared/components/pagination/pagination";
+import {useSearchParams} from "react-router-dom"
 
 function formatDate(dateString) {
     const date = new Date(dateString);
@@ -33,12 +34,16 @@ export function AllTenders() {
     const [currentLimit, setCurrentLimit] = useState(10);
     const [deletedItemId, setDeletedItemId] = useState();
     const [isLoading, setIsLoading] = useState(false);
+    const [searchParams, setSearchParams] = useSearchParams();
+    const [currentParams,setCurrentParams] = useState({});
     // const [dateFromPlaceholder, setDateFromPlaceholder] = useState('Date from');
     //  const [dateToPlaceholder, setDateToPlaceholder] = useState('Date to');
 
     const
         handlePageChange = (newPage) => {
             setCurrentPage(newPage);
+            // searchParams.set("page",newPage);
+            // setSearchParams(searchParams);
             fetchTenders({
                 page: newPage,
                 limit: currentLimit,
@@ -47,6 +52,8 @@ export function AllTenders() {
 
     const handleLimitChange = (newValue) => {
         setCurrentLimit(newValue);
+        // searchParams.set("limit",newValue);
+        // setSearchParams(searchParams);
         fetchTenders({
             limit: newValue,
             page: 1,
@@ -80,6 +87,12 @@ export function AllTenders() {
             .then(([pagination, allTenders]) => {
                 setTenders(allTenders);
                 setPaginationData(pagination)
+                //change url parameters
+                // searchParams.set("limit", pagination.limit);
+                // searchParams.set("page", pagination.page);
+                // setSearchParams(searchParams);
+                console.log("Ulazim u fetch Tenders i postavljam paginaciju i to");
+
             })
             .catch((error) => {
                 console.error(error);
@@ -87,13 +100,36 @@ export function AllTenders() {
     };
 
     useEffect(() => {
-        fetchTenders({});
+        //check for searchparams
+        fetchTenders({
+            dateFrom: searchParams.has('dateFrom')? searchParams.get('dateFrom') : '',
+            dateTo: searchParams.has('dateTo')? searchParams.get('dateTo') : '',
+            weightageFrom: searchParams.has('weightageFrom')? searchParams.get('weightageFrom') : '',
+            weightageTo: searchParams.has('weightageTo')? searchParams.get('weightageTo') : ''
+        });
     }, []);
 
     const handleFilterSubmit = (values) => {
+        searchParams.set("dateFrom",values.dateFrom);
+        searchParams.set("dateTo",values.dateTo);
+        searchParams.set("weightageFrom",values.weightageFrom);
+        searchParams.set("weightageTo",values.weightageTo);
+        setSearchParams(searchParams);
         fetchTenders(values);
     };
 
+    //Added for searchParams
+    useEffect(() =>{
+        //handling page change if necessary
+        console.log(paginationData);
+        console.log("Ulazim u use effect kod promjene parametara - isto postavljanje paginacije i limita");
+        if(searchParams.has('page') ){
+            handlePageChange(searchParams.get('page'));
+        }
+        if(searchParams.has('limit')){
+            handleLimitChange(searchParams.get('limit'));
+        }
+    },[searchParams]);
 
     return (
         <div>
@@ -101,10 +137,11 @@ export function AllTenders() {
             <br/>
             <Formik
                 initialValues={{
-                    dateFrom: '',
-                    dateTo: '',
-                    weightageFrom: '',
-                    weightageTo: '',
+                    //corrected for automatic filter
+                    dateFrom: searchParams.has('dateFrom')? searchParams.get('dateFrom') : '',
+                    dateTo: searchParams.has('dateTo')? searchParams.get('dateTo') : '',
+                    weightageFrom: searchParams.has('weightageFrom')? searchParams.get('weightageFrom') : '',
+                    weightageTo: searchParams.has('weightageTo')? searchParams.get('weightageTo') : '',
                 }}
                 validationSchema={tenderSchema}
                 onSubmit={handleFilterSubmit}
