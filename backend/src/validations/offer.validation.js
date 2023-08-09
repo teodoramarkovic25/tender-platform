@@ -6,7 +6,8 @@ const createOffer = {
     offer: Joi.number().required(),
     tender: Joi.string().required(),
     createdBy: Joi.string().required(),
-    documents: Joi.string().required()
+    documents: Joi.array().items(Joi.string()),
+    isSelected:Joi.boolean().required()
   }),
 };
 const updateOffer = {
@@ -15,7 +16,7 @@ const updateOffer = {
   }),
   body: Joi.object()
     .keys({
-      offer: Joi.number()
+      isSelected:Joi.boolean()
     })
     .min(1),
 };

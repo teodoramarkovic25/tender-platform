@@ -26,7 +26,12 @@ const offerSchema = new mongoose.Schema({
     createdBy: {
       type: mongoose.SchemaTypes.ObjectId,
       ref: 'User'
-    }
+    },
+  isSelected:{
+      type:Boolean,
+    required:[true,'An offer must have isSelected field'],
+    default:false
+  }
   },
   {
     timestamps: true,

@@ -27,3 +27,8 @@ export const getOffer = async (offerId: string): Promise<OfferModel | null> => {
         .then(data => new OfferModel(data))
 }
 
+export const updateOffer = async (offerId: string, updateData: any): Promise<OfferModel | null> => {
+    return ApiClient.put(`${OFFERS_ENDPOINT}/${offerId}`, updateData)
+        .then(response => response.data)
+        .then(data => new OfferModel(data));
+};
