@@ -7,6 +7,19 @@ import { getUser } from "../user.service";
 const API_URL = process.env.REACT_APP_API_URL;
 const API_VERSION = process.env.REACT_APP_API_VERSION;
 class AuthService {
+
+    async resetPassword (resetPasswordToken, newPassword){
+        try {
+            const response = await axios.post(`${API_URL}/reset-password`, {
+                resetPasswordToken,
+                newPassword,
+
+            });
+            return response.data;
+        } catch (error) {
+            throw new Error('Failed to reset password :', error);
+        }
+    }
     // Login user and retrieve JWT token
     async login(email: string, password: string): Promise<LoginResponse | null> {
         try {
@@ -19,6 +32,7 @@ class AuthService {
             return null;
         }
     }
+
 
      async forgotPassword(email: string):Promise<any> {
         try {
