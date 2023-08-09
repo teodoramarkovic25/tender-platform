@@ -3,6 +3,7 @@ import {deleteTender, getTenders} from "../../shared/services/tender.service";
 import {Formik, Form, Field, ErrorMessage} from 'formik';
 import * as Yup from 'yup';
 import {Pagination} from "../../shared/components/pagination/pagination";
+import ModalComponent from "../../modals/ModalComponent";
 
 
 function formatDate(dateString) {
@@ -35,8 +36,15 @@ export function AllTenders() {
     const [currentLimit, setCurrentLimit] = useState(10);
     const [deletedItemId, setDeletedItemId] = useState();
     const [isLoading, setIsLoading] = useState(false);
+    const [showModal, setShowModal] = useState(false);
 
+    const handleShowModal = () => {
+        setShowModal(true);
+    };
 
+    const handleHideModal = () => {
+        setShowModal(false);
+    };
     const
         handlePageChange = (newPage) => {
             setCurrentPage(newPage);
@@ -62,6 +70,7 @@ export function AllTenders() {
                 setDeletedItemId(tenderId);
                 console.log('Tender deleted successfully');
                 setIsLoading(false);
+                setShowModal(false);
             })
             .catch((error) => {
                 console.error('Error deleting tender:', error.message);
@@ -99,8 +108,7 @@ export function AllTenders() {
 
     return (
         <div>
-            <h1>All active tenders</h1>
-            <br/>
+
             <Formik
                 initialValues={{
                     dateFrom: '',
@@ -150,9 +158,11 @@ export function AllTenders() {
                     </Form>
                 )}
             </Formik>
+            <br/>
+            <br/>
             <div className="table-responsive">
                 <table className="table table-striped gy-7 gs-7  table-bordered border-4 ">
-                    <thead className=" thead-dark text-center ">
+                    <thead className="  text-center bg-primary text-white fw-bold ">
                     <th>Title</th>
                     <th>Description</th>
                     <th>Deadline</th>
@@ -170,19 +180,33 @@ export function AllTenders() {
                             <td className="text-center">{tender.description}</td>
                             <td className="text-center">{formatDate(tender.deadline)}</td>
                             <td className="text-center">{tender.criteria}</td>
-
                             <td className="text-center">{ tender.weightage + '$' }</td>
 
+                            <ModalComponent show={showModal} onHide={() => setShowModal(false)}>
+                                <div className="text-center">
+                                    <h3>Delete Tender</h3>
+                                    <p>Do you want to delete tender?</p>
+                                    <button className="btn btn-primary me-3" onClick={() => handleDeleteTender(tender.id)}>
+                                        Delete Tender
+                                    </button>
+                                    <button className="btn btn-secondary" onClick={() => setShowModal(false)}>
+                                        Cancel
+                                    </button>
+                                </div>
+                            </ModalComponent>
                             <td className="d-flex justify-content-center align-items-center">
                                 <button
-                                    className={`btn btn-lg d-flex justify-content-center align-items-center  ${isLoading && 'disabled'}`}
-                                    style={{ background: '#ef1a07',width: '50px',
-                                        height: '35px', }}
-                                    onClick={() => handleDeleteTender(tender.id)}
+                                    className={`btn btn-lg d-flex justify-content-center align-items-center ${isLoading && 'disabled'}`}
+                                    style={{ background: '#ef1a07', width: '50px', height: '35px' }}
+                                    onClick={() => setShowModal(true)}
                                 >
-                                    {isLoading ? <span className='indicator-progress' style={{display: 'block'}}>
-                                        <span className='spinner-border spinner-border-sm align-middle '></span>
-                                </span> : <i className=" fas fa-trash justify-content-center align-items-center p-0 m-0 " ></i>}
+                                    {isLoading ? (
+                                        <span className='indicator-progress' style={{ display: 'block' }}>
+              <span className='spinner-border spinner-border-sm align-middle'></span>
+            </span>
+                                    ) : (
+                                        <i className="fas fa-trash justify-content-center align-items-center p-0 m-0"></i>
+                                    )}
                                 </button>
                             </td>
 

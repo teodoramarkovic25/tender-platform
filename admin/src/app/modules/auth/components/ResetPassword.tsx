@@ -3,31 +3,48 @@ import * as Yup from 'yup';
 import clsx from 'clsx';
 import { Link } from 'react-router-dom';
 import { useFormik } from 'formik';
-
+import AuthService from '../../../shared/services/api-client/auth.service';
+import { useQueryParam, StringParam } from 'use-query-params';
 export function ResetPassword() {
+    const [token, setToken] = useQueryParam('token', StringParam);
+    const [loading, setLoading] = useState(false);
 
-    const handleSubmit = (values, { setSubmitting }) => {
+    const authService = new AuthService();
 
+    const handleSubmit = async (values) => {
+        if (values.newPassword === values.confirmNewPassword) {
+            setLoading(true);
+            try {
+
+                await authService.resetPassword(token, values.newPassword);
+
+                setLoading(false);
+                console.log('Password successfully updated');
+            } catch (error) {
+                setLoading(false);
+                console.error('Error updating password:', error);
+            }
+        } else {
+            console.error('Passwords do not match');
+        }
     };
+
+
+
 
     const formik = useFormik({
         initialValues: {
             newPassword: '',
             confirmNewPassword: '',
         },
-
         validationSchema: Yup.object({
-            newPassword: Yup.string()
-                .min(8, 'Password must be at least 8 characters')
-                .required('Required'),
+            newPassword: Yup.string().min(8, 'Password must be at least 8 characters').required('Required'),
             confirmNewPassword: Yup.string()
                 .oneOf([Yup.ref('newPassword'), null], 'Passwords must match with new password')
                 .required('Required'),
         }),
-        onSubmit: handleSubmit,
+        onSubmit:handleSubmit,
     });
-
-    const loading = false;
 
 
     return (
@@ -103,7 +120,7 @@ export function ResetPassword() {
                 </div>
 
                 <div className='d-flex flex-wrap justify-content-center pb-lg-0'>
-                    <button type='submit' id='kt_password_reset_submit' className='btn btn-lg fw-bolder me-4'>
+                    <button type='submit' disabled={formik.isSubmitting || loading} id='kt_password_reset_submit' className='btn btn-lg fw-bolder me-4'>
                         <span className='indicator-label'>Change Password</span>
                         {loading && (
                             <span className='indicator-progress'>
