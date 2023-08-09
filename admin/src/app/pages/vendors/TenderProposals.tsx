@@ -16,7 +16,8 @@ const TenderProposals = ({tender, user}) => {
             .min(1, 'Minimum 1$')
             .required('Offer is required'),
 
-        documents: Yup.mixed().required('File is required')
+        documents: Yup.mixed().required('File is required'),
+
 
     })
 

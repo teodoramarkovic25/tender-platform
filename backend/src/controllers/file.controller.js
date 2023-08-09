@@ -8,7 +8,7 @@ const pick = require("../utils/pick");
 const uploadFile = async (req, res) => {
   try {
     let files = req.files;
-    console.log('files', req.files);
+   // console.log('files', req.files);
 
     if (!req.files || req.files.length === 0) {
       return res.status(400).json({error: 'No files were uploaded.'});
@@ -19,11 +19,11 @@ const uploadFile = async (req, res) => {
 
     const uploadedFiles = [];
 
-    console.log(req.body);
+    //console.log(req.body);
 
     for (const file of files) {
       const {originalname, filename, mimetype, size} = file;
-      console.log(file);
+    //  console.log(file);
       const savedFile = await createFile(req.body, file);
       uploadedFiles.push(savedFile);
     }

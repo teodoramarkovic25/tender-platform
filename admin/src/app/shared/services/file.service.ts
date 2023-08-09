@@ -51,3 +51,10 @@ export const getFile= async (fileId: { fileId: string }):Promise<FileModel | nul
 
 }
 
+export const getFileContent=async (fileId:{fileId:string}):Promise<Blob|null>=>{
+    return ApiClient.get(`${FILES_ENDPOINT}/${fileId}`)
+        .then(response=>new Blob([response.data],{type:'pdf'}))
+
+}
+
+
