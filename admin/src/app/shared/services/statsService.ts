@@ -7,7 +7,7 @@ export const getStats = async ()=>{
         .then(response => response.data);
 }
 
-export const getChartData = async ()=>{
-    return ApiClient.get(`${STATS_ENDPOINT}/chart`)
+export const getChartData = async (query?: any)=>{
+    return ApiClient.get(`${STATS_ENDPOINT}/chart`,query) //sending along the query params
         .then(response => response.data);
 }

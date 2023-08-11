@@ -14,8 +14,8 @@ const getStats = async ()=>{
           "offers": offers};
 }
 
-const getChartData = async ()=>{
-  const collection = await tenderService.getChartData();
+const getChartData = async (dateFrom, dateTo)=>{
+  const collection = await tenderService.getChartData(dateFrom, dateTo);
   return {"result":collection};
 }
 

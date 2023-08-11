@@ -90,7 +90,7 @@ export function AllTenders() {
                 // searchParams.set("limit", pagination.limit);
                 // searchParams.set("page", pagination.page);
                 // setSearchParams(searchParams);
-                console.log("Ulazim u fetch Tenders i postavljam paginaciju i to");
+
 
             })
             .catch((error) => {
@@ -120,8 +120,7 @@ export function AllTenders() {
     //Added for searchParams
     useEffect(() => {
         //handling page change if necessary
-        console.log(paginationData);
-        console.log("Ulazim u use effect kod promjene parametara - isto postavljanje paginacije i limita");
+
         if (searchParams.has('page')) {
             handlePageChange(searchParams.get('page'));
         }

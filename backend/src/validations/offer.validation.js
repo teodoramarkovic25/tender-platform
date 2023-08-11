@@ -6,7 +6,7 @@ const createOffer = {
     offer: Joi.number().required(),
     tender: Joi.string().required(),
     createdBy: Joi.string().required(),
-    documents: Joi.array().items(Joi.string()),
+    documents: Joi.string(),
     isSelected:Joi.boolean().required()
   }),
 };

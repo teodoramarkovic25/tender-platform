@@ -1,6 +1,7 @@
 const httpStatus = require('http-status');
 const {Tender} = require('../models');
 const ApiError = require('../utils/ApiError');
+const {any} = require("joi");
 
 /**
  * Create a Tender
@@ -67,44 +68,52 @@ const deleteTenderById = async (tenderId) => {
 };
 
 /**
-* Get count of active tenders
-* @returns : {Promise<Number>}
-* */
-const getActiveCount = async () =>{
-  const number = await Tender.countDocuments({deadline : {$gt: new Date()}});
+ * Get count of active tenders
+ * @returns : {Promise<Number>}
+ * */
+const getActiveCount = async () => {
+  const number = await Tender.countDocuments({deadline: {$gt: new Date()}});
   return number;
 }
 
-const getInactiveCount = async () =>{
-  const number = await Tender.countDocuments({deadline : {$lte: new Date()}});
+const getInactiveCount = async () => {
+  const number = await Tender.countDocuments({deadline: {$lte: new Date()}});
   return number;
 }
 
-const getChartData = async () =>{
-  let currentYear = (new Date).getFullYear();
-  const collection = await Tender.aggregate([
-    {
+const getChartData = async (dateFrom, dateTo) => {
+  const currentYear = new Date().getFullYear();
+  const pipeline = [];
+
+  if (dateFrom || dateTo) {
+    const matchStage = {
       $match: {
         createdAt: {
-          $gte: new Date(`${currentYear}-01-01`),
-          $lt: new Date(`${currentYear + 1}-01-01`)
-        }
-      }
-    },
+          $gte: dateFrom ? new Date(dateFrom) : new Date(`${currentYear}-01-01`),
+          $lt: dateTo ? new Date(dateTo) : new Date(`${currentYear + 1}-01-01`),
+        },
+      },
+    };
+    pipeline.push(matchStage);
+  }
+
+  pipeline.push(
     {
       $group: {
-        _id: { $dateToString: { format: "%Y-%m", date: "$createdAt" } },
-        count: { $sum: 1 }
-      }
+        _id: {$dateToString: {format: "%Y-%m", date: "$createdAt"}},
+        count: {$sum: 1},
+      },
     },
     {
       $sort: {
-        _id: 1
-      }
+        _id: 1,
+      },
     }
-  ]);
+  );
+
+  const collection = await Tender.aggregate(pipeline);
   return collection;
-}
+};
 module.exports = {
   createTender,
   queryTenders,
