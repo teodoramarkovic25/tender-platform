@@ -201,14 +201,15 @@ const HomeHero: FC = () => {
                 </Typography>
               </Box>
             </Box> */}
-            <Box sx={{ lineHeight: 0 }}>
+            <Box sx={{ lineHeight: 0  }}>
               <Image src="/images/world2.jpg" width={650} height={550} alt="Hero img"  style={{ borderRadius: '10%' }}/>
             </Box>
           </Grid>
         </Grid>
 
-        {/* Experience */}
-        <Box sx={{ boxShadow: 2, py: 4, px: 7, borderRadius: 4 }}>
+        {/* Experience */} 
+        <br></br>
+        <Box sx={{ boxShadow: 4, py: 4, px: 7, borderRadius: 10 }}>
           <Grid container spacing={2}>
             {exps.map((item) => (
               <Grid key={item.value} item xs={12} md={4}>
