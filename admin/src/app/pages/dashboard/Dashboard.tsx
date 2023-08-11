@@ -15,7 +15,8 @@ const statsSchema = Yup.object().shape({
 export function Dashboard() {
 
     const [activeCount, setActiveCount] = useState(0);
-    const [inactiveCount, setInactiveCount] = useState(0);
+    const [successfulTenders, setSuccessfulTenders] = useState(0);
+    const [failedTenders, setFailedTenders] = useState(0);
     const [offersCount, setOffersCount] = useState(0);
     const [chartData, setChartData] = useState(null);
     const [searchParams, setSearchParams] = useSearchParams();
@@ -32,7 +33,8 @@ export function Dashboard() {
         getStats()
             .then(data => {
                 setActiveCount(data.activeTenders);
-                setInactiveCount(data.inactiveTenders);
+                setSuccessfulTenders(data.successfulTenders);
+                setFailedTenders(data.failedTenders);
                 setOffersCount(data.offers);
             });
         getChartData({
@@ -75,15 +77,16 @@ export function Dashboard() {
                         </div>
                         <div className=" mt-auto p-auto d-flex ">
                             <button type="submit" className='btn btn-sm py-4
-                         text-dark   '>Filter Tenders
+                         text-dark   '>Filter Chart
                             </button>
                         </div>
                     </Form>
                 )}
             </Formik>
-            <div className="row row-cols-3 card-group my-4">
+            <div className="row row-cols-2 card-group my-4">
                 <DashBoardCard number={activeCount} name="Active Tenders"></DashBoardCard>
-                <DashBoardCard number={inactiveCount} name="Inactive Tenders"></DashBoardCard>
+                <DashBoardCard number={successfulTenders} name="Successful Tenders"></DashBoardCard>
+                <DashBoardCard number={failedTenders} name="Failed Tenders"></DashBoardCard>
                 <DashBoardCard number={offersCount} name="Offers"></DashBoardCard>
             </div>
             <div className="row row-cols-1 my-4">

@@ -67,18 +67,44 @@ const deleteTenderById = async (tenderId) => {
   return tender;
 };
 
-/**
- * Get count of active tenders
- * @returns : {Promise<Number>}
- * */
+/*returns: count of tenders witout contract and the deadline has not passed*/
 const getActiveCount = async () => {
-  const number = await Tender.countDocuments({deadline: {$gt: new Date()}});
-  return number;
+  const populatedTenders = await Tender.find({
+    deadline: {$gt: new Date()}
+  })
+    .populate("offers", ['id', 'offer', 'isSelected'])
+    .exec();
+  const filteredTenders = populatedTenders.filter((tender) =>
+    tender.offers.every((offer) => offer.isSelected === false)
+  );
+  return filteredTenders.length;
 }
 
-const getInactiveCount = async () => {
-  const number = await Tender.countDocuments({deadline: {$lte: new Date()}});
-  return number;
+/*returns: Count of tenders with contract*/
+const getSuccessfulTenderCount = async () => {
+  const populatedTenders = await Tender.find({})
+    .populate("offers", ['id', 'offer', 'isSelected'])
+    .exec();
+  console.log(populatedTenders);
+  console.log(populatedTenders[2]);
+  const filteredTenders = populatedTenders.filter((tender) =>
+    tender.offers.some((offer) => offer.isSelected === true)
+  );
+
+  return filteredTenders.length;
+}
+
+/*returns: count of tenders with passed deadline and witout a contract*/
+const getFailedTendersCount = async () => {
+  const populatedTenders = await Tender.find({
+    deadline: {$lte: new Date()}
+  })
+    .populate("offers", ['id', 'offer', 'isSelected'])
+    .exec();
+  const filteredTenders = populatedTenders.filter((tender) =>
+    tender.offers.every((offer) => offer.isSelected === false)
+  );
+  return filteredTenders.length;
 }
 
 const getChartData = async (dateFrom, dateTo) => {
@@ -121,7 +147,8 @@ module.exports = {
   updateTenderById,
   deleteTenderById,
   getActiveCount,
-  getInactiveCount,
+  getSuccessfulTenderCount,
   getChartData,
+  getFailedTendersCount
 };
 
