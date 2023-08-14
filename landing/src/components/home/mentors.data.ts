@@ -19,7 +19,7 @@ export const data: Array<Mentor> = [
     name: 'Tenders for 20+ countries',
     category: '',
     description:
-      'The most extensive database of public procurement from Serbia, Montenegro and Bosnia and Herzegovina, and in cooperation with European partners we provide tenders from 16 other European countries,(Croatia, Macedonia, Slovenia, Germany, Bulgaria, Greece, Poland, Portugal, Slovakia, Spain, Czech Republic , Hungary, Austria and South Tyrol, Switzerland, European Union) ',
+      'The most extensive database of public procurement from Serbia, Montenegro and Bosnia and Herzegovina, and in cooperation with European partners we provide tenders from 16 other European countries,(Croatia, Macedonia, Slovenia, Germany, Bulgaria, Greece, Poland, Portugal, Slovakia, Spain, Czech Republic , Hungary, Austria and South Tyrol, Switzerland, European Union). ',
     company: {
       name: 'Google',
       logo: '/images/companies/google.png',
