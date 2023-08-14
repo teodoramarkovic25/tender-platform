@@ -1,11 +1,12 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import {useState} from 'react'
+import React, {useState} from 'react'
 import * as Yup from 'yup'
 import clsx from 'clsx'
 import {Link, useNavigate, useLocation} from 'react-router-dom'
 import {useFormik} from 'formik'
 import {useAuth} from '../core/Auth'
 import AuthService from "../../../shared/services/api-client/auth.service";
+import favicon from "../../../../_metronic/layout/favicon/favicon.png";
 
 
 const authService = new AuthService();
@@ -64,7 +65,11 @@ export function Login() {
 
 
     return (
+        <div>
+
+
         <form
+
         style={{marginTop:'8%'}}
             className='form w-100'
             onSubmit={formik.handleSubmit}
@@ -73,6 +78,10 @@ export function Login() {
         >
             {/* begin::Heading */}
             <div className='text-center mb-10'>
+                <img alt='Logo' src={favicon} className='h-75px'/>
+                <br/>
+                <br/>
+                <br/>
                 <h1 className='text-dark mb-3'>Sign In to TenderPro</h1>
                 <div className='text-nowrap text-gray-400 fw-bold fs-4'>
                     New Here?{' '}
@@ -133,15 +142,15 @@ export function Login() {
             {/* begin::Form group */}
             <div className='fv-row mb-10'>
                 <div className='d-flex  justify-content-between mt-n5 '>
-                    <div className='d-flex text-nowrap flex-stack mb-2'>
+                    <div className='d-flex text-nowrap flex-stack mb-2   text-gray-400 fw-bold fs-4'>
                         {/* begin::Label */}
                         <label className='form-label fw-bolder text-dark fs-6 mb-0'>Password</label>
                         {/* end::Label */}
                         {/* begin::Link */}
                         <Link
                             to='/auth/forgot-password'
-                            className=' text-gray-400 fw-bold  '
-                            style={{marginLeft: '5px'}}
+                            className=' fw-bolder  '
+                            style={{ fontSize: '1rem', marginLeft: '5px' }}
                         >
                             Forgot Password ?
                         </Link>
@@ -196,5 +205,7 @@ export function Login() {
 
             </div>
         </form>
+        </div>
+
     )
 }

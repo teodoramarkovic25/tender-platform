@@ -66,11 +66,53 @@ const deleteTenderById = async (tenderId) => {
   return tender;
 };
 
+/**
+* Get count of active tenders
+* @returns : {Promise<Number>}
+* */
+const getActiveCount = async () =>{
+  const number = await Tender.countDocuments({deadline : {$gt: new Date()}});
+  return number;
+}
+
+const getInactiveCount = async () =>{
+  const number = await Tender.countDocuments({deadline : {$lte: new Date()}});
+  return number;
+}
+
+const getChartData = async () =>{
+  let currentYear = (new Date).getFullYear();
+  const collection = await Tender.aggregate([
+    {
+      $match: {
+        createdAt: {
+          $gte: new Date(`${currentYear}-01-01`),
+          $lt: new Date(`${currentYear + 1}-01-01`)
+        }
+      }
+    },
+    {
+      $group: {
+        _id: { $dateToString: { format: "%Y-%m", date: "$createdAt" } },
+        count: { $sum: 1 }
+      }
+    },
+    {
+      $sort: {
+        _id: 1
+      }
+    }
+  ]);
+  return collection;
+}
 module.exports = {
   createTender,
   queryTenders,
   getTenderById,
   updateTenderById,
   deleteTenderById,
+  getActiveCount,
+  getInactiveCount,
+  getChartData,
 };
 

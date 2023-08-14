@@ -1,14 +1,25 @@
 import axios from "axios";
 import jwtDecode from "jwt-decode";
-import {LoginResponse} from "../../interfaces/login-response.interface";
+import { LoginResponse } from "../../interfaces/login-response.interface";
 import {UserModel} from "../../models/user.model";
 import {LogoutResponse} from "../../interfaces/logout-response.interface";
-import {getUser} from "../user.service";
-
+import { getUser } from "../user.service";
 const API_URL = process.env.REACT_APP_API_URL;
 const API_VERSION = process.env.REACT_APP_API_VERSION;
-
 class AuthService {
+
+    async resetPassword (resetPasswordToken, newPassword){
+        try {
+            const response = await axios.post(`${API_URL}/reset-password`, {
+                resetPasswordToken,
+                newPassword,
+
+            });
+            return response.data;
+        } catch (error) {
+            throw new Error('Failed to reset password :', error);
+        }
+    }
     // Login user and retrieve JWT token
     async login(email: string, password: string): Promise<LoginResponse | null> {
         try {
@@ -22,6 +33,16 @@ class AuthService {
         }
     }
 
+
+     async forgotPassword(email: string):Promise<any> {
+        try {
+          await   axios.post(`${API_URL}/${API_VERSION}/auth/forgot-password`, { email });
+
+        } catch (error) {
+            console.error("Mail not send :", error);
+            return null;
+        }
+    }
     // Logout user and retrieve JWT token
     async logout(refreshToken: string): Promise<LogoutResponse | null> {
         try {
@@ -38,17 +59,14 @@ class AuthService {
     saveToken(token: string): void {
         localStorage.setItem("token", token);
     }
-
     // Retrieve the JWT token from localStorage
     getToken(): string | null {
         return localStorage.getItem("token");
     }
-
     // Remove the JWT token from localStorage
     removeToken(): void {
         localStorage.removeItem("token");
     }
-
     // // Check if the user is logged in
     // isLoggedIn(): boolean {
     //   const token = this.getToken();
@@ -65,5 +83,4 @@ class AuthService {
         return null;
     }
 }
-
 export default AuthService;

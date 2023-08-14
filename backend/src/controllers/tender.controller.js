@@ -37,10 +37,12 @@ const deleteTender = catchAsync(async (req, res) => {
   res.status(httpStatus.NO_CONTENT).send();
 });
 
+
 module.exports = {
   createTender,
   getTender,
   getTenders,
   updateTender,
-  deleteTender
+  deleteTender,
+
 };

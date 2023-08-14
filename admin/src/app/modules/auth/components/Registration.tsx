@@ -1,6 +1,5 @@
-
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import {useState, useEffect} from 'react'
+import React, {useState, useEffect} from 'react'
 import {useFormik} from 'formik'
 import * as Yup from 'yup'
 import clsx from 'clsx'
@@ -8,6 +7,7 @@ import {getUserByToken, register} from '../core/_requests'
 import {Link} from 'react-router-dom'
 import {PasswordMeterComponent} from '../../../../_metronic/assets/ts/components'
 import {useAuth} from '../core/Auth'
+import favicon from "../../../../_metronic/layout/favicon/favicon.png";
 
 //comment
 const initialValues = {
@@ -15,7 +15,7 @@ const initialValues = {
     lastname: '',
     email: '',
     password: '',
-    changepassword: '',
+   changePassword: '',
     acceptTerms: false,
 }
 
@@ -37,7 +37,7 @@ const registrationSchema = Yup.object().shape({
         .min(3, 'Minimum 3 symbols')
         .max(50, 'Maximum 50 symbols')
         .required('Password is required'),
-    changepassword: Yup.string()
+    changePassword: Yup.string()
         .required('Password confirmation is required')
         .when('password', {
             is: (val: string) => (val && val.length > 0 ? true : false),
@@ -66,7 +66,8 @@ export function Registration() {
                     values.email,
                     values.firstname,
                     values.lastname,
-                    values.password
+                    values.password,
+
                 )
                 console.log("registration successful")
                 saveAuth(auth)
@@ -89,6 +90,8 @@ export function Registration() {
 
     return (
 
+    <div>
+
         <form
 
             className='form w-100 fv-plugins-bootstrap5 fv-plugins-framework'
@@ -99,6 +102,10 @@ export function Registration() {
             {/* begin::Heading */}
             <div className='mb-10 text-center'>
                 {/* begin::Title */}
+                <img alt='Logo' src={favicon} className='h-75px'/>
+                <br/>
+                <br/>
+                <br/>
                 <h1 className='text-dark mb-3'>Create an Account</h1>
                 {/* end::Title */}
 
@@ -291,21 +298,21 @@ export function Registration() {
                     type='password'
                     placeholder='Password confirmation'
                     autoComplete='off'
-                    {...formik.getFieldProps('changepassword')}
+                    {...formik.getFieldProps('changePassword')}
                     className={clsx(
                         'form-control form-control-lg form-control-solid border-gray-400',
                         {
-                            'is-invalid': formik.touched.changepassword && formik.errors.changepassword,
+                            'is-invalid': formik.touched.changePassword && formik.errors.changePassword,
                         },
                         {
-                            'is-valid': formik.touched.changepassword && !formik.errors.changepassword,
+                            'is-valid': formik.touched.changePassword && !formik.errors.changePassword,
                         }
                     )}
                 />
-                {formik.touched.changepassword && formik.errors.changepassword && (
+                {formik.touched.changePassword && formik.errors.changePassword && (
                     <div className='fv-plugins-message-container'>
                         <div className='fv-help-block'>
-                            <span role='alert'>{formik.errors.changepassword}</span>
+                            <span role='alert'>{formik.errors.changePassword}</span>
                         </div>
                     </div>
                 )}
@@ -370,6 +377,6 @@ export function Registration() {
             </div>
             {/* end::Form group */}
         </form>
+</div>
     )
 }
-
