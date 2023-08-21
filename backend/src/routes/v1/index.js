@@ -8,6 +8,8 @@ const evaluationRoute = require('./evaluation.route');
 const companyRoute = require('./company.route');
 const fileRoute = require('./file.route');
 const tenderRoute = require('./tender.route');
+const fileContentRoute=require('./fileContent.route');
+//const emailRoute=require('./email.route');
 
 const router = express.Router();
 
@@ -39,6 +41,10 @@ const defaultRoutes = [
   {
     path: '/uploads',
     route: fileRoute
+  },
+  {
+    path:'/fileContent',
+    route:fileContentRoute
   }
 
 ];

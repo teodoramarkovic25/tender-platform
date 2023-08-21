@@ -12,6 +12,7 @@
     "rtl": "webpack --config webpack-rtl.config.js"
   },
   "dependencies": {
+    "@cyntler/react-doc-viewer": "^1.13.0",
     "@formatjs/intl-pluralrules": "4.3.3",
     "@formatjs/intl-relativetimeformat": "10.0.1",
     "@fortawesome/fontawesome-free": "6.1.1",
@@ -22,6 +23,8 @@
     "animate.css": "4.1.1",
     "apexcharts": "3.35.0",
     "axios": "0.26.1",
+    "bcrypt": "^5.1.1",
+    "bcryptjs": "^2.4.3",
     "bootstrap": "5.2.0-beta1",
     "bootstrap-icons": "^1.5.0",
     "chart.js": "3.7.1",

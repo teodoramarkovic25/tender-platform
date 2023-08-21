@@ -44,17 +44,25 @@ export const getFiles = async (query?: any): Promise<FileModel[] | null> => {
     }
 };
 
-export const getFile= async (fileId: { fileId: string }):Promise<FileModel | null>=>{
+export const getFile = async ( fileId: string ): Promise<FileModel | null> => {
     return ApiClient.get(`${FILES_ENDPOINT}/${fileId}`)
-        .then(response=>response.data)
-        .then(data=>new FileModel(data))
+        .then(response => response.data)
+        .then(data => new FileModel(data))
 
 }
-
-export const getFileContent=async (fileId:{fileId:string}):Promise<Blob|null>=>{
+/*
+export const getFileContent = async (fileId: string ): Promise<Blob | null> => {
     return ApiClient.get(`${FILES_ENDPOINT}/${fileId}`)
-        .then(response=>new Blob([response.data],{type:'pdf'}))
+        .then(response => new Blob([response.data], {}))
 
 }
+*/
+
+/*export const getFileContent = async (fileId: string ): Promise<Blob | null> => {
+    return ApiClient.get(`${FILES_ENDPOINT}/${fileId}`)
+        .then(response => new Blob([response.data], {}))
+
+}*/
+
 
 

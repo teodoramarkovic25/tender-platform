@@ -9,7 +9,8 @@ const allRoles = {
     'getEvaluator', 'manageEvaluator'],
   vendor: ['getOffers', 'manageOffers'
     , 'getTenders', 'manageTenders',
-    'getFiles', 'manageFiles'
+    'getFiles', 'manageFiles',
+    'getCompanies'
   ],
 
 

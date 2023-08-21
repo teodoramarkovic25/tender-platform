@@ -23,9 +23,6 @@ const tenderSchema = mongoose.Schema(
         required: [true, 'A Tender must have a document!'],
         trim: true
       },
-
-
-
     criteria: {
       type: String,
       required: true,
@@ -35,7 +32,12 @@ const tenderSchema = mongoose.Schema(
       type: Number,
       required: true,
       trim: true,
-    }
+    },
+      createdBy:{
+        type: mongoose.SchemaTypes.ObjectId,
+        required: [true, 'Created By is required'],
+        trim: true
+      }
   },
   {
     toJSON: {virtuals: true},

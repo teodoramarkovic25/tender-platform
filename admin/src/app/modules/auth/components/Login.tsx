@@ -51,6 +51,7 @@ export function Login() {
             try {
                 const {tokens: auth, user} = await authService.login(values.email, values.password)
                 saveAuth(auth)
+                // @ts-ignore
                 setCurrentUser(user)
             } catch (error) {
                 // setError(intl.formatMessage({id: 'AUTH.LOGIN.MESSAGE.ERROR'}));
@@ -112,7 +113,7 @@ export function Login() {
                     placeholder='Email'
                     {...formik.getFieldProps('email')}
                     className={clsx(
-                        'form-control form-control-lg form-control-solid',
+                        'form-control form-control-lg',
                         {'is-invalid': formik.touched.email && formik.errors.email},
                         {
                             'is-valid': formik.touched.email && !formik.errors.email,
@@ -157,7 +158,7 @@ export function Login() {
                     autoComplete='off'
                     {...formik.getFieldProps('password')}
                     className={clsx(
-                        'form-control form-control-lg form-control-solid',
+                        'form-control form-control-lg',
                         {
                             'is-invalid': formik.touched.password && formik.errors.password,
                         },

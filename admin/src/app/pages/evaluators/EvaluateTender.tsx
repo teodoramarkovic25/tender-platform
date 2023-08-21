@@ -2,22 +2,26 @@ import React, {useState, useEffect} from "react";
 import clsx from "clsx";
 import {useFormik} from "formik";
 import * as Yup from "yup";
-import { createEvaluator } from "../../shared/services/evaluator.service";
-import { EvaluatorModel } from "../../shared/models/evaluator.model";
+import {createEvaluator} from "../../shared/services/evaluator.service";
+import {EvaluatorModel} from "../../shared/models/evaluator.model";
+import {showSuccessMessage} from "../../shared/components/messages/success-createtender-message";
+import {showErrorMessage} from "../../shared/components/messages/error-createtender-message";
+import {toast} from "react-toastify";
 
-const EvaluateTender = ({offerId}) => {
-  const [isSubmissionAllowed, setIsSubmissionAllowed] = useState(true);
-  const [evaluations, setEvaluations] = useState([]);
-  const [remainingTime, setRemainingTime] = useState(0);
 
-  const evaluationSchema = Yup.object().shape({
-    rating: Yup.number()
-      .min(1, "Rating should be at least 1")
-      .max(5, "Rating should not exceed 5")
-      .required("Rating is required"),
-    comment: Yup.string().required("Comment is required"),
-    collaborators: Yup.string().required("Collaborators are required"),
-  });
+const EvaluateTender = ({offer}) => {
+    const [isSubmissionAllowed, setIsSubmissionAllowed] = useState(true);
+    const [evaluations, setEvaluations] = useState([]);
+    const [remainingTime, setRemainingTime] = useState(0);
+
+    const evaluationSchema = Yup.object().shape({
+        rating: Yup.number()
+            .min(1, "Rating should be at least 1")
+            .max(5, "Rating should not exceed 5")
+            .required("Rating is required"),
+        comment: Yup.string().required("Comment is required"),
+        collaborators: Yup.string().required("Collaborators are required"),
+    });
 
     const formik = useFormik({
         initialValues: {
@@ -29,13 +33,17 @@ const EvaluateTender = ({offerId}) => {
         validationSchema: evaluationSchema,
         onSubmit: async (values) => {
             try {
+                const offerId=offer.id;
+
                 const newEvaluation = new EvaluatorModel({...values, offer: offerId});
 
                 // @ts-ignore
                 const createdEvaluation = await createEvaluator(newEvaluation);
                 console.log(createdEvaluation);
-            }catch(error){
+                showSuccessMessage('Evaluation successfully created!')
+            } catch (error) {
                 console.error(error);
+                showErrorMessage('Failed to create evaluation!')
             }
         },
     });
@@ -60,77 +68,102 @@ const EvaluateTender = ({offerId}) => {
 
     return (
         <div className="d-flex justify-content-center">
-            <div className="mx-auto col-10 col-md-8 col-lg-6">
-                <form className="card p-3" onSubmit={formik.handleSubmit}>
+            <div className="col-lg-12">
+                <form
+                    className="form"
+                    onSubmit={formik.handleSubmit}>
+
                     <h1 className="text-center text-dark">Evaluate Offer</h1>
-                    <div className="fv-row mb-10">
-                        <label className="form-label fs-6 fw-bolder text-dark required ">
-                            Rating:
-                        </label>
-                        <br/>
-                        <input
-                            type="number"
-                            id="rating"
-                            name="rating"
-                            min="1"
-                            max="5"
-                            className={clsx(
-                                "form-control form-control-lg form-control-solid"
+                    <hr/>
+
+                    <div className='text-center'>
+                        <h2>Offer Details</h2>
+                        <b>Offer Value</b> $ {offer.offer} <br/>
+                        <b>Offer Selected</b> {offer.isSelected? 'YES':'NO'}
+                    </div>
+
+                    <div>
+                        <div className="fv-row mb-10">
+                            <label className="form-label fs-6 fw-bolder text-dark">
+                                Rating:
+                            </label>
+                            <br/>
+                            <input
+                                type="number"
+                                id="rating"
+                                name="rating"
+                                min="1"
+                                max="5"
+                                className={clsx('form-control form-control-lg',
+                                    {'is-invalid': formik.touched.rating && formik.errors.rating},
+                                    {'is-valid': formik.touched.rating && !formik.errors.rating}
+                                )}
+                                onChange={formik.handleChange}
+                                onBlur={formik.handleBlur}
+                                value={formik.values.rating}
+                            />
+                            {formik.errors.rating && formik.touched.rating && (
+                                <div className='fv-plugins-message-container'>
+                                    <span className='text-danger' role='alert'>{formik.errors.rating}</span>
+                                </div>
                             )}
-                            onChange={formik.handleChange}
-                            onBlur={formik.handleBlur}
-                            value={formik.values.rating}
-                        />
-                        {formik.errors.rating && formik.touched.rating && (
-                            <div className="error">{formik.errors.rating}</div>
-                        )}
-                    </div>
+                        </div>
 
-                    <div className="fv-row mb-10">
-                        <label className="form-label fs-6 fw-bolder text-dark required">
-                            Comment:
-                        </label>
-                        <br/>
-                        <textarea
-                            id="comment"
-                            name="comment"
-                            className="form-control"
-                            onChange={formik.handleChange}
-                            onBlur={formik.handleBlur}
-                            value={formik.values.comment}
-                        />
-                        {formik.errors.comment && formik.touched.comment && (
-                            <div className="error">{formik.errors.comment}</div>
-                        )}
-                    </div>
-
-                    <div className="fv-row mb-10">
-                        <label className="form-label fs-6 fw-bolder text-dark required ">
-                            Collaborators:
-                        </label>
-                        <br/>
-                        <input
-                            type="text"
-                            id="collaborators"
-                            name="collaborators"
-                            className={clsx(
-                                "form-control form-control-lg form-control-solid"
+                        <div className="fv-row mb-10">
+                            <label className="form-label fs-6 fw-bolder text-dark required">
+                                Comment:
+                            </label>
+                            <br/>
+                            <textarea
+                                id="comment"
+                                name="comment"
+                                onChange={formik.handleChange}
+                                onBlur={formik.handleBlur}
+                                value={formik.values.comment}
+                                className={clsx('form-control form-control-lg',
+                                    {'is-invalid border border-danger': formik.touched.comment && formik.errors.comment},
+                                    {'is-valid': formik.touched.comment && !formik.errors.comment}
+                                )}
+                                    />
+                            {formik.errors.comment && formik.touched.comment && (
+                                <div className='fv-plugins-message-container'>
+                                    <span className='text-danger' role='alert'>{formik.errors.comment}</span>
+                                </div>
                             )}
-                            onChange={formik.handleChange}
-                            onBlur={formik.handleBlur}
-                            value={formik.values.collaborators}
-                        />
-                        {formik.errors.collaborators && formik.touched.collaborators && (
-                            <div className="error">{formik.errors.collaborators}</div>
-                        )}
+                        </div>
+
+                        <div className="fv-row mb-10">
+                            <label className="form-label fs-6 fw-bolder text-dark required ">
+                                Collaborators:
+                            </label>
+                            <br/>
+                            <input
+                                type="text"
+                                id="collaborators"
+                                name="collaborators"
+                                className={clsx('form-control form-control-lg',
+                                    {'is-invalid': formik.touched.collaborators && formik.errors.collaborators},
+                                    {'is-valid': formik.touched.collaborators && !formik.errors.collaborators}
+                                )}
+                                onChange={formik.handleChange}
+                                onBlur={formik.handleBlur}
+                                value={formik.values.collaborators}
+                            />
+                            {formik.errors.collaborators && formik.touched.collaborators && (
+                                <div className='fv-plugins-message-container'>
+                                    <span className='text-danger' role='alert'>{formik.errors.collaborators}</span>
+                                </div>
+                            )}
+                        </div>
+
+                        <button
+                            type="submit"
+                            className="btn btn-lg w-100 mb-5"
+                        >
+                            Submit Evaluation
+                        </button>
                     </div>
 
-                    <button
-                        type="submit"
-                        className="btn btn-lg w-100 mb-5"
-                    >
-                        Submit Evaluation
-                    </button>
                 </form>
 
                 {remainingTime > 0 && (

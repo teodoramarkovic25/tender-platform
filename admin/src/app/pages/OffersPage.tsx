@@ -4,6 +4,7 @@ import ModalComponent from "../modals/ModalComponent";
 import TenderProposals from "./vendors/TenderProposals";
 import {useAuth} from "../modules/auth/core/Auth";
 
+
 export function OffersPage() {
     const [tenders, setTenders] = useState([]);
     const [isOpen, setIsOpen] = useState(false);
@@ -30,7 +31,7 @@ export function OffersPage() {
 
     const fetchTenders = async () => {
         try {
-            const [pagination,allTenders] = await getTenders();
+            const [pagination, allTenders] = await getTenders();
             setTenders(allTenders);
             {
                 // eslint-disable-next-line @typescript-eslint/no-unused-expressions
@@ -48,39 +49,42 @@ export function OffersPage() {
     return (
         <div>
             <h1>All active tenders</h1>
-            <table className="table table-striped table-hover">
-                <thead className="bg-primary text-white">
-                <tr className="fw-bold fs-6 border-bottom border-gray-200">
-                    <th className="text-white">Title</th>
-                    <th className="text-white">Description</th>
-                    <th className="text-white">Deadline date</th>
-                    <th className="text-white">Evaluation criteria</th>
-                    <th className="text-white">Weightage</th>
-                    <th></th>
-                </tr>
-                </thead>
-                <tbody className="table-striped border table-hover">
-                {tenders.map((tender) => (
-                    <tr key={tender.id}>
-                        <td>{tender.title}</td>
-                        <td>{tender.description}</td>
-                        <td>{formatDate(tender.deadline)}</td>
-                        <td>{tender.criteria}</td>
-                        <td>{tender.weightage}</td>
-                        <td>
-                            <button className='mb-3 btn btn-sm w-70' onClick={() => handleShow(tender)}>Create
-                                offer
-                            </button>
-                        </td>
+            <div className='table-responsive'>
+                <table className="table table-striped gy-7 gs-7 table-bordered border-4">
+                    <thead className="text-center bg-primary text-white fw-bold">
+                    <tr className="fw-bold fs-6 border-bottom border-gray-200">
+                        <th className="text-white">Title</th>
+                        <th className="text-white">Description</th>
+                        <th className="text-white">Deadline date</th>
+                        <th className="text-white">Evaluation criteria</th>
+                        <th className="text-white">Weightage</th>
+                        <th></th>
                     </tr>
-                ))}
-                </tbody>
-            </table>
-            <ModalComponent show={isOpen} onHide={toggle}>
+                    </thead>
+                    <tbody className="table-striped border table-hover">
+                    {tenders.map((tender) => (
+                        <tr key={tender.id}>
+                            <td>{tender.title}</td>
+                            <td>{tender.description}</td>
+                            <td>{formatDate(tender.deadline)}</td>
+                            <td>{tender.criteria}</td>
+                            <td>{tender.weightage}</td>
+                            <td>
+                                <ModalComponent show={isOpen} onHide={toggle}>
+                                    <TenderProposals tender={selectedRow} user={currentUser}/>
+                                </ModalComponent>
 
-                <TenderProposals tender={selectedRow} user={currentUser}/>
+                                <button className='mb-3 btn btn-sm w-70' onClick={() => handleShow(tender)}>Create
+                                    offer
+                                </button>
 
-            </ModalComponent>
+                            </td>
+                        </tr>
+                    ))}
+                    </tbody>
+                </table>
+            </div>
+
         </div>
     );
 }

@@ -9,7 +9,8 @@ const router = express.Router();
 
 router
   .route('/')
-  .post(auth('manageOffers'),uploadMiddleware.array('documents', 3), validate(offerValidation.createOffer), offerController.createOffer)
+
+  .post(auth('manageOffers'), uploadMiddleware.single('documents'), validate(offerValidation.createOffer), offerController.createOffer)
   .get(auth('getOffers'), validate(offerValidation.getOffers), offerController.getOffers)
 
 router
@@ -17,7 +18,11 @@ router
   .get(auth('getOffers'), validate(offerValidation.getOffer), offerController.getOffer)
   .patch(auth('manageOffers'), validate(offerValidation.updateOffer), offerController.updateOffer)
   .delete(auth('manageOffers'), validate(offerValidation.deleteOffer), offerController.deleteOffer)
-.put(auth('manageOffers'),validate(offerValidation.updateOffer),offerController.updateOffer)
+  .put(auth('manageOffers'), validate(offerValidation.updateOffer), offerController.updateOffer)
+
+router
+  .route('/send-email')
+  .post(auth('manageOffers'), offerController.sendEmail);
 
 module.exports = router;
 
