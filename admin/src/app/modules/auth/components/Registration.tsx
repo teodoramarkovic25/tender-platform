@@ -150,7 +150,7 @@ export function Registration() {
                         autoComplete='off'
                         {...formik.getFieldProps('firstname')}
                         className={clsx(
-                            'form-control form-control-lg form-control-solid border-gray-400',
+                            'form-control form-control-lg',
                             {
                                 'is-invalid': formik.touched.firstname && formik.errors.firstname,
                             },
@@ -183,7 +183,7 @@ export function Registration() {
                             autoComplete='off'
                             {...formik.getFieldProps('lastname')}
                             className={clsx(
-                                'form-control form-control-lg form-control-solid border-gray-400',
+                                'form-control form-control-lg',
 
                                 {
                                     'is-invalid': formik.touched.lastname && formik.errors.lastname,
@@ -220,7 +220,7 @@ export function Registration() {
                     autoComplete='off'
                     {...formik.getFieldProps('email')}
                     className={clsx(
-                        'form-control form-control-lg form-control-solid border-gray-400',
+                        'form-control form-control-lg',
                         {'is-invalid': formik.touched.email && formik.errors.email},
                         {
                             'is-valid': formik.touched.email && !formik.errors.email,
@@ -252,7 +252,7 @@ export function Registration() {
                             autoComplete='off'
                             {...formik.getFieldProps('password')}
                             className={clsx(
-                                'form-control form-control-lg form-control-solid border-gray-400',
+                                'form-control form-control-lg',
                                 {
                                     'is-invalid': formik.touched.password && formik.errors.password,
                                 },
@@ -300,7 +300,7 @@ export function Registration() {
                     autoComplete='off'
                     {...formik.getFieldProps('changePassword')}
                     className={clsx(
-                        'form-control form-control-lg form-control-solid border-gray-400',
+                        'form-control form-control-lg',
                         {
                             'is-invalid': formik.touched.changePassword && formik.errors.changePassword,
                         },
@@ -321,7 +321,7 @@ export function Registration() {
 
             {/* begin::Form group */}
             <div className='fv-row mb-10'>
-                <div className='form-check form-check-custom form-check-solid'>
+                <div className='form-check form-check-custom'>
                     <input
                         className='form-check-input'
                         type='checkbox'

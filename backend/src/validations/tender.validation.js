@@ -9,7 +9,7 @@ const createTender = {
     documents: Joi.string(),
     criteria: Joi.string().required(),
     weightage: Joi.number().required(),
-
+    createdBy: Joi.string()
   }),
 };
 const updateTender = {
@@ -46,11 +46,11 @@ const deleteTender = {
 const getTenders = {
   query: Joi.object().keys({
     //name: Joi.string(),
-   // role: Joi.string(),
+    // role: Joi.string(),
     dateFrom: Joi.date(),
     dateTo: Joi.date(),
-    weightageFrom:Joi.number(),
-    weightageTo:Joi.number(),
+    weightageFrom: Joi.number(),
+    weightageTo: Joi.number(),
     sortBy: Joi.string(),
     limit: Joi.number().integer(),
     page: Joi.number().integer(),

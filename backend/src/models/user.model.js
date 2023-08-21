@@ -52,6 +52,10 @@ const userSchema = mongoose.Schema(
     company: {
       type: mongoose.SchemaTypes.ObjectId,
       ref: 'Company'
+    },
+    documents: {
+      type: mongoose.SchemaTypes.ObjectId,
+      trim: true
     }
   },
   {
