@@ -12,6 +12,7 @@ import {ErrorsPage} from '../modules/errors/ErrorsPage'
 import {Logout, AuthPage, useAuth} from '../modules/auth'
 import {App} from '../App'
 import {ResetPassword} from "../modules/auth/components/ResetPassword";
+import VerifyEmail from "../modules/auth/components/VerifyEmail";
 
 
 /**
@@ -39,8 +40,10 @@ const AppRoutes: FC = () => {
                     ) : (
                         <>
                             <Route path='/reset-password' element={<ResetPassword/>}/>
+
                             <Route path='auth/*' element={<AuthPage/>}/>
                             <Route path='*' element={<Navigate to='/auth'/>}/>
+                            <Route path='/verify-email' element={<VerifyEmail/>}/>
 
                         </>
                     )}

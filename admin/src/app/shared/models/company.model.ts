@@ -8,4 +8,9 @@ export class CompanyModel extends BaseModel {
     website: string;
     companySize: number;
 
+    constructor(attributes?: any) {
+        super();
+        this.setAttributes(attributes);
+    }
+
 }

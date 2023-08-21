@@ -4,44 +4,48 @@ const catchAsync = require("../utils/catchAsync");
 const ApiError = require("../utils/ApiError");
 const httpStatus = require("http-status");
 const pick = require("../utils/pick");
+const fs = require("fs");
+const path = require("path");
 
 const uploadFile = async (req, res) => {
   try {
-    let files = req.files;
-    console.log('files', req.files);
+    console.log('req.body:', req.body);
+    console.log('req.file:', req.file);
+    const file = req.file;
 
-    if (!req.files || req.files.length === 0) {
-      return res.status(400).json({error: 'No files were uploaded.'});
-    }
-    if (!Array.isArray(files)) {
-      files = [files];
-    }
+    if (!file) {
+      // return res.status(400).json({ error: 'No file was uploaded.' });
 
-    const uploadedFiles = [];
-
-    console.log(req.body);
-
-    for (const file of files) {
-      const {originalname, filename, mimetype, size} = file;
-      console.log(file);
-      const savedFile = await createFile(req.body, file);
-      uploadedFiles.push(savedFile);
+      console.log('no file was uploaded');
     }
 
-    return res.status(200).json(uploadedFiles);
+    const {originalname, filename, mimetype, size} = file;
+
+    /*if (mimetype !== 'text/plain' || mimetype!=='application/pdf') {
+      fs.unlinkSync(file.path);
+      return res.status(400).json({error: 'Invalid file type. Only .txt files are allowed.'});
+    }*/
+    const savedFile = await createFile(req.body, file);
+
+    return res.status(200).json(savedFile);
   } catch (error) {
-    console.error('Error occurred while saving files:', error);
-    return res.status(500).json({error: 'Error occurred while saving files'});
+    console.error('Error occurred while saving file:', error);
+    // return res.status(500).json({ error: 'Error occurred while saving file' });
   }
 };
 
 
 const getFile = catchAsync(async (req, res) => {
   const file = await fileService.getFileById(req.params.fileId);
+  console.log('file: ',file);
+
+  console.log('fileName: ', file.fileName);
   if (!file) {
     throw new ApiError(httpStatus.NOT_FOUND, 'File not found');
   }
   res.send(file);
+ /* const read = fs.createReadStream(path.resolve(__dirname, `../../file/${file.fileName}`));
+  read.pipe(res);*/
 });
 
 const getFiles = catchAsync(async (req, res) => {

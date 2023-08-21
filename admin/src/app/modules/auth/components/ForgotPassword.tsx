@@ -79,7 +79,7 @@ export function ForgotPassword() {501
                 autoComplete='off'
                 {...formik.getFieldProps('email')}
                 className={clsx(
-                    'form-control form-control-lg form-control-solid border-gray-400',
+                    'form-control form-control-lg',
                     {'is-invalid': formik.touched.email && formik.errors.email},
                     {
                       'is-valid': formik.touched.email && !formik.errors.email,

@@ -1,12 +1,22 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import {FC} from 'react'
+import {FC, useEffect, useState} from 'react'
 import {Link} from 'react-router-dom'
 import {useAuth} from '../../../../app/modules/auth'
 import {Languages} from './Languages'
 import {toAbsoluteUrl} from '../../../helpers'
-
+import UserInformation from "../../../../app/pages/userInformation/UserInformation";
+import {getProfilePicture} from "../../../../app/pages/userInformation/UserInformation";
 const HeaderUserMenu: FC = () => {
-    const {currentUser, logout} = useAuth()
+    const {currentUser, logout} = useAuth();
+    const [picture,setPicture]=useState(null);
+
+    useEffect(()=>{
+        getProfilePicture(currentUser.documents)
+            .then((profilePictureData) => {
+                setPicture(profilePictureData);
+            });
+    })
+
     return (
         <div
             className='menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-600 menu-state-bg menu-state-primary fw-bold py-4 fs-6 w-275px'
@@ -15,7 +25,7 @@ const HeaderUserMenu: FC = () => {
             <div className='menu-item px-3'>
                 <div className='menu-content d-flex align-items-center px-3'>
                     <div className='symbol symbol-50px me-5'>
-                        <img alt='Logo' src={toAbsoluteUrl('/media/icons/duotune/communication/com006.svg')}/>
+                        <img alt='Profile photo' src={picture}/>
                     </div>
 
                     <div className='d-flex flex-column'>
