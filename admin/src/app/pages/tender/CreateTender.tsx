@@ -14,27 +14,29 @@ import {useAuth} from "../../modules/auth";
 
 export function CreateTender() {
     const [loading, setLoading] = useState(false);
-    const [isFormSubmitted, setFormSubmitted] = useState(false);
-    const {currentUser, logout} = useAuth();
-
+    const [isFormSubmitted, setIsFormSubmitted] = useState(false);
+    const { currentUser } = useAuth();
     const navigate = useNavigate();
+    const formik = useFormikContext();
 
+    const handleSubmit = async (values, formikHelpers) => {
 
-   /* const handleSubmit = async (values) => {
         try {
+
             setLoading(true);
 
             const formData = new FormData();
             Array.from(values.documents).forEach((file) => {
-                formData.append('documents', file);
+                // @ts-ignore
+                return formData.append('documents', file);
             });
-            // @ts-ignore
-            formData.append('createdBy',  currentUser?.id);
+
+            formData.append('createdBy', String(currentUser?.id));
+
             const savedFiles = await createFile(formData);
 
             const files = await getFiles();
             const lastUploadedFile = files[files.length - 1];
-
             if (lastUploadedFile) {
                 const newTender = new TenderModel({
                     title: values.title,
@@ -50,6 +52,7 @@ export function CreateTender() {
                 console.log(createdTender);
 
                 setLoading(false);
+                setIsFormSubmitted(true);
                 showSuccessMessage('Tender successfully created');
                 navigate('/all-tenders');
             } else {
@@ -62,62 +65,13 @@ export function CreateTender() {
             showErrorMessage('Incorrect data entered');
         }
     };
-*/
-   /* const formData = new FormData();
-    Array.from(values.documents).forEach((file) => {
-        formData.append('documents', file);
-    });
-    formData.append('createdBy', user.id);
-    const savedFiles = await createFile(formData);
-    const files = await getFiles();
-    console.log(files);
-    const lastUploadedFile = files[files.length - 1];
-    console.log('Last Uploaded File:', lastUploadedFile);
-    if (lastUploadedFile) {
-        const newOffer = new TenderModel({
-            offer: values.offer,
-            tender: this.tender.id,
-            createdBy: user.id,
-            documents: lastUploadedFile.id,
-        });
-        const createdOffer = await createTender(newOffer);
-        console.log(createdTender());
-    }
-}
-catch (error) {
-    console.error(error);
-    setStatus('Incorrect data entered');
 
-
-
-*/
-
-
-
-
-   const handleSubmit = async (values) => {
-       setLoading(true);
-   }
-       /*
-
-              const tender = new TenderModel(values);
-
-              const createdTender = await createTender(values).catch((error) => {
-
-                  showErrorMessage('You have not successfully created a tender!');
-                  setLoading(false);
-              });
-
-              showSuccessMessage('Tender successfully created ');
-              navigate('/all-tenders')
-          };
-      */
 
     const validationSchema = Yup.object({
         title: Yup.string().required('Title is required'),
         description: Yup.string().required('Description is required'),
         deadline: Yup.date().required('Deadline is required'),
-        documents: Yup.mixed().required('File is required'),
+        documents: Yup.array().min(1, 'At least one file is required').required('File is required'),
         criteria: Yup.string().required('Criteria are required'),
         weightage: Yup.number()
             .required('Weightage is required')
@@ -128,21 +82,25 @@ catch (error) {
         title: '',
         description: '',
         deadline: '',
-         documents: '',
+       documents:[],
         criteria: '',
         weightage: '100',
     };
 
+
     return (
         <div className="d-flex justify-content-center align-items-center">
             <div className="col-10 col-md-8 col-lg-6">
+
                 <Formik
+
                     initialValues={initialValues}
                     validationSchema={validationSchema}
-onSubmit={handleSubmit}
+                    onSubmit={handleSubmit}
                 >
-                    {({errors, touched, values, handleChange}) => (
-                        <Form className="form card p-3"  encType='multipart/form-data'>
+                    {({ errors, touched, values, handleChange, setFieldValue }) => (
+
+                        <Form className="form card p-3" encType="multipart/form-data">
                             <h1 className="text-center text-dark p-4 mt-1">Create Tender</h1>
 
                             <div className="mb-3">
@@ -209,39 +167,37 @@ onSubmit={handleSubmit}
                             </div>
 
 
-                            <div className="mb-3">
-                                <label className="form-label fs-6 fw-bolder text-dark">
-                                    Documents<span className="required"></span>
-                                </label>
-                                <Field
-                                    type="file"
-                                    id="documents"
-                                    name="documents"
-                                    multiple={true}
 
-                                    onChange={(event) => {
+                                <div className="mb-3">
+                                    <label className="form-label fs-6 fw-bolder text-dark">
+                                        Documents<span className="required"></span>
+                                    </label>
+                                    <Field
+                                        type="file"
+                                        id="documents"
+                                        name="documents"
 
-                                        {/*Formik.setFieldValue('documents', event.currentTarget.files)*/}
-                                    }}
-                                    className={`form-control form-control-lg form-control-solid ${
-                                        (touched.documents || isFormSubmitted) && errors.documents
-                                            ? 'is-invalid border border-danger'
-                                            : touched.documents
-                                                ? 'is-valid'
-                                                : ''
-                                    }`}
-                                />
-                                <ErrorMessage name="documents" component="div" className="error text-sm text-danger"/>
-                            </div>
+                                        className={`form-control form-control-lg form-control-solid ${
+                                            (touched.documents || false) && errors.documents
+                                                ? 'is-invalid border border-danger'
+                                                : touched.documents
+                                                    ? 'is-valid'
+                                                    : ''
+                                        }`}
+                                        onChange={(event) => {
+                                            const files = event.currentTarget.files;
+                                            setFieldValue("documents", files);
+                                        }}
+                                    />
 
 
+                                    <ErrorMessage
+                                        name="documents"
+                                        component="div"
+                                        className="error text-sm text-danger"
+                                    />
 
-
-
-
-
-
-
+                                </div>
 
 
                             <div className="mb-3">
@@ -318,6 +274,7 @@ onSubmit={handleSubmit}
             </div>
 
         </div>
+
     );
 }
 
