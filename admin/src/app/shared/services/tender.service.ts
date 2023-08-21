@@ -26,8 +26,16 @@ export const createTender = async (tender: TenderModel): Promise<TenderModel | n
 export const deleteTender = async (tenderId) => {
     return ApiClient.remove(`${TENDER_ENDPOINT}/${tenderId}`)
         .then(response => response.data)
+        .then()
 
 }
+
+// export const getTenderCount = async (status) => {
+//     return ApiClient.get(`${TENDER_ENDPOINT}/${status}/count`)
+//         .then(response => response.data)
+//         .then(data => data.result);
+//
+// }
 
 
 

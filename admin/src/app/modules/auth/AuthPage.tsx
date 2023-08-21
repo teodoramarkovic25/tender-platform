@@ -25,25 +25,23 @@ const AuthLayout = () => {
                 }}
             >
             </div>
-            <div className='col-sm-12 col-md-7 col-lg-5' style={{marginRight: "10rem"}}>{/* begin::Content */}
+               <div className='col-sm-12 col-md-7 col-lg-5' style={{marginRight: "10rem"}}>
                 <div className='d-flex flex-center flex-column flex-column-fluid p-10 pb-lg-20'>
-                    {/* begin::Logo */}
+
 
                     <a href='#' className='mb-12'>
-                        <img alt='Logo' src={favicon} className='h-75px'/>
+                        {/*<img alt='Logo' src={favicon} className='h-75px'/>*/}
                     </a>
-                    {/* end::Logo */}
-                    {/* begin::Wrapper */}
+
+
 
                     <div className='w-lg-500px  shadow-sm rounded p-10 p-lg-15 bg-body mx-auto'>
                         <Outlet/>
                     </div>
-                    {/* end::Wrapper */}
                 </div>
-                {/* end::Content */}
-                {/* begin::Footer */}
+        </div>
 
-                {/* end::Footer */}</div>
+
         </div>
     )
 }

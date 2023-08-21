@@ -3,7 +3,8 @@ import {deleteTender, getTenders} from "../../shared/services/tender.service";
 import {Formik, Form, Field, ErrorMessage} from 'formik';
 import * as Yup from 'yup';
 import {Pagination} from "../../shared/components/pagination/pagination";
-
+import {useSearchParams} from "react-router-dom";
+import ModalComponent from "../../modals/ModalComponent";
 
 function formatDate(dateString) {
     const date = new Date(dateString);
@@ -11,11 +12,9 @@ function formatDate(dateString) {
     const month = String(date.getMonth() + 1).padStart(2, '0');
     const day = String(date.getDate()).padStart(2, '0');
 
-
     const formattedDate = `${month}/${day}/${year}`;
     return formattedDate;
 }
-
 
 
 const tenderSchema = Yup.object().shape({
@@ -35,11 +34,21 @@ export function AllTenders() {
     const [currentLimit, setCurrentLimit] = useState(10);
     const [deletedItemId, setDeletedItemId] = useState();
     const [isLoading, setIsLoading] = useState(false);
-
+    const [searchParams, setSearchParams] = useSearchParams();
+    const [currentParams, setCurrentParams] = useState({});
+    const [showModal, setShowModal] = useState(false);
+    const handleShowModal = () => {
+        setShowModal(true);
+    };
+    const handleHideModal = () => {
+        setShowModal(false);
+    };
 
     const
         handlePageChange = (newPage) => {
             setCurrentPage(newPage);
+            // searchParams.set("page",newPage);
+            // setSearchParams(searchParams);
             fetchTenders({
                 page: newPage,
                 limit: currentLimit,
@@ -48,12 +57,13 @@ export function AllTenders() {
 
     const handleLimitChange = (newValue) => {
         setCurrentLimit(newValue);
+        // searchParams.set("limit",newValue);
+        // setSearchParams(searchParams);
         fetchTenders({
             limit: newValue,
             page: 1,
         });
     };
-
 
     const handleDeleteTender = (tenderId) => {
         setIsLoading(true);
@@ -62,6 +72,7 @@ export function AllTenders() {
                 setDeletedItemId(tenderId);
                 console.log('Tender deleted successfully');
                 setIsLoading(false);
+                setShowModal(false);
             })
             .catch((error) => {
                 console.error('Error deleting tender:', error.message);
@@ -82,6 +93,12 @@ export function AllTenders() {
             .then(([pagination, allTenders]) => {
                 setTenders(allTenders);
                 setPaginationData(pagination)
+                //change url parameters
+                // searchParams.set("limit", pagination.limit);
+                // searchParams.set("page", pagination.page);
+                // setSearchParams(searchParams);
+                console.log("Ulazim u fetch Tenders i postavljam paginaciju i to");
+
             })
             .catch((error) => {
                 console.error(error);
@@ -89,24 +106,47 @@ export function AllTenders() {
     };
 
     useEffect(() => {
-        fetchTenders({});
+        //check for searchparams
+        fetchTenders({
+            dateFrom: searchParams.has('dateFrom') ? searchParams.get('dateFrom') : '',
+            dateTo: searchParams.has('dateTo') ? searchParams.get('dateTo') : '',
+            weightageFrom: searchParams.has('weightageFrom') ? searchParams.get('weightageFrom') : '',
+            weightageTo: searchParams.has('weightageTo') ? searchParams.get('weightageTo') : ''
+        });
     }, []);
 
     const handleFilterSubmit = (values) => {
+        searchParams.set("dateFrom", values.dateFrom);
+        searchParams.set("dateTo", values.dateTo);
+        searchParams.set("weightageFrom", values.weightageFrom);
+        searchParams.set("weightageTo", values.weightageTo);
+        setSearchParams(searchParams);
         fetchTenders(values);
     };
 
+    //Added for searchParams
+    useEffect(() => {
+        //handling page change if necessary
+        console.log(paginationData);
+        console.log("Ulazim u use effect kod promjene parametara - isto postavljanje paginacije i limita");
+        if (searchParams.has('page')) {
+            handlePageChange(searchParams.get('page'));
+        }
+        if (searchParams.has('limit')) {
+            handleLimitChange(searchParams.get('limit'));
+        }
+    }, [searchParams]);
 
     return (
         <div>
-            <h1>All active tenders</h1>
-            <br/>
+
             <Formik
                 initialValues={{
-                    dateFrom: '',
-                    dateTo: '',
-                    weightageFrom: '',
-                    weightageTo: '',
+                    //corrected for automatic filter
+                    dateFrom: searchParams.has('dateFrom') ? searchParams.get('dateFrom') : '',
+                    dateTo: searchParams.has('dateTo') ? searchParams.get('dateTo') : '',
+                    weightageFrom: searchParams.has('weightageFrom') ? searchParams.get('weightageFrom') : '',
+                    weightageTo: searchParams.has('weightageTo') ? searchParams.get('weightageTo') : '',
                 }}
                 validationSchema={tenderSchema}
                 onSubmit={handleFilterSubmit}
@@ -150,16 +190,17 @@ export function AllTenders() {
                     </Form>
                 )}
             </Formik>
+            <br/>
+            <br/>
             <div className="table-responsive">
                 <table className="table table-striped gy-7 gs-7  table-bordered border-4 ">
-                    <thead className=" thead-dark text-center ">
+                    <thead className="  text-center bg-primary text-white fw-bold ">
                     <th>Title</th>
                     <th>Description</th>
                     <th>Deadline</th>
                     <th>Criteria</th>
                     <th>Weightage</th>
                     <th>Delete tender</th>
-
 
                     </thead>
                     <tbody className="table-striped border table-hover">
@@ -171,23 +212,35 @@ export function AllTenders() {
                             <td className="text-center">{formatDate(tender.deadline)}</td>
                             <td className="text-center">{tender.criteria}</td>
 
-                            <td className="text-center">{ tender.weightage + '$' }</td>
+                            <td className="text-center">{tender.weightage + '$'}</td>
+                            <ModalComponent show={showModal} onHide={() => setShowModal(false)}>
+                                <div className="text-center">
+                                    <h3>Delete Tender</h3>
+                                    <p>Do you want to delete tender?</p>
+                                    <button className="btn btn-primary me-3" onClick={() => handleDeleteTender(tender.id)}>
+                                        Delete Tender
+                                    </button>
+                                    <button className="btn btn-secondary" onClick={() => setShowModal(false)}>
+                                        Cancel
+                                    </button>
+                                </div>
+                            </ModalComponent>
 
                             <td className="d-flex justify-content-center align-items-center">
                                 <button
-                                    className={`btn btn-lg d-flex justify-content-center align-items-center  ${isLoading && 'disabled'}`}
-                                    style={{ background: '#ef1a07',width: '50px',
-                                        height: '35px', }}
-                                    onClick={() => handleDeleteTender(tender.id)}
+                                    className={`btn btn-lg d-flex justify-content-center align-items-center ${isLoading && 'disabled'}`}
+                                    style={{ background: '#ef1a07', width: '50px', height: '35px' }}
+                                    onClick={() => setShowModal(true)}
                                 >
-                                    {isLoading ? <span className='indicator-progress' style={{display: 'block'}}>
-                                        <span className='spinner-border spinner-border-sm align-middle '></span>
-                                </span> : <i className=" fas fa-trash justify-content-center align-items-center p-0 m-0 " ></i>}
+                                    {isLoading ? (
+                                        <span className='indicator-progress' style={{ display: 'block' }}>
+              <span className='spinner-border spinner-border-sm align-middle'></span>
+            </span>
+                                    ) : (
+                                        <i className="fas fa-trash justify-content-center align-items-center p-0 m-0"></i>
+                                    )}
                                 </button>
                             </td>
-
-
-
                         </tr>
                     ))}
                     </tbody>

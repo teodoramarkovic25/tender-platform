@@ -15,15 +15,15 @@ export const getOffers = () => {
 }*/
 
 export const getOffers = (filters: { createdBy?: string, tender?: string }): Promise<OfferModel[] | null> => {
- let path =OFFERS_ENDPOINT;
+    let path = OFFERS_ENDPOINT;
 
-    if(filters.createdBy){
-        path+=`?createdBy=${filters.createdBy}`
+    if (filters.createdBy) {
+        path += `?createdBy=${filters.createdBy}`
     }
 
- if(filters.tender){
-     path+=`?tender=${filters.tender}`
- }
+    if (filters.tender) {
+        path += `?tender=${filters.tender}`
+    }
 
     return ApiClient.get(path)
         .then(response => response.data)

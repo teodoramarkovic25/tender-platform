@@ -4,6 +4,7 @@ import clsx from 'clsx'
 import {Link} from 'react-router-dom'
 import {useFormik} from 'formik'
 import AuthService from "../../../shared/services/api-client/auth.service";
+import favicon from "../../../../_metronic/layout/favicon/favicon.png";
 
 const authService = new AuthService();
 
@@ -39,6 +40,10 @@ export function ForgotPassword() {
               onSubmit={formik.handleSubmit}
         >
           <div className='text-center mb-10'>
+            <img alt='Logo' src={favicon} className='h-75px'/>
+            <br/>
+            <br/>
+            <br/>
             {/* begin::Title */}
             <h1 className='text-dark mb-3'>Forgot Password ?</h1>
             {/* end::Title */}

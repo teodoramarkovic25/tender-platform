@@ -13,6 +13,7 @@ router
   .post(auth('manageOffers'), uploadMiddleware.single('documents'), validate(offerValidation.createOffer), offerController.createOffer)
   .get(auth('getOffers'), validate(offerValidation.getOffers), offerController.getOffers)
 
+
 router
   .route('/:offerId')
   .get(auth('getOffers'), validate(offerValidation.getOffer), offerController.getOffer)
@@ -23,6 +24,8 @@ router
 router
   .route('/send-email')
   .post(auth('manageOffers'), offerController.sendEmail);
+
+
 
 module.exports = router;
 

@@ -1,5 +1,5 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import {useState, useEffect} from 'react'
+import React, {useState, useEffect} from 'react'
 import {useFormik} from 'formik'
 import * as Yup from 'yup'
 import clsx from 'clsx'
@@ -7,6 +7,7 @@ import {getUserByToken, register} from '../core/_requests'
 import {Link} from 'react-router-dom'
 import {PasswordMeterComponent} from '../../../../_metronic/assets/ts/components'
 import {useAuth} from '../core/Auth'
+import favicon from "../../../../_metronic/layout/favicon/favicon.png";
 
 //comment
 const initialValues = {
@@ -89,6 +90,8 @@ export function Registration() {
 
     return (
 
+    <div>
+
         <form
 
             className='form w-100 fv-plugins-bootstrap5 fv-plugins-framework'
@@ -99,6 +102,10 @@ export function Registration() {
             {/* begin::Heading */}
             <div className='mb-10 text-center'>
                 {/* begin::Title */}
+                <img alt='Logo' src={favicon} className='h-75px'/>
+                <br/>
+                <br/>
+                <br/>
                 <h1 className='text-dark mb-3'>Create an Account</h1>
                 {/* end::Title */}
 
@@ -370,5 +377,6 @@ export function Registration() {
             </div>
             {/* end::Form group */}
         </form>
+</div>
     )
 }

@@ -17,6 +17,8 @@ router
   .patch(auth('manageTenders'), validate(tenderValidation.updateTender), tenderController.updateTender)
   .delete(auth('manageTenders'), validate(tenderValidation.deleteTender), tenderController.deleteTender);
 
+
+
 module.exports = router;
 
 /**
