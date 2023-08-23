@@ -12,6 +12,10 @@ import {getFiles} from "../../shared/services/file.service";
 import {useAuth} from "../../modules/auth";
 import clsx from "clsx";
 
+import CoinAnimation from "./CoinAnimation";
+
+import CoinFlip from "./CoinFlip";
+
 export function CreateTender() {
     const [loading, setLoading] = useState(false);
     const [isFormSubmitted, setFormSubmitted] = useState(false);
@@ -83,7 +87,7 @@ export function CreateTender() {
                         createdBy: currentUser.id.toString()
                     });
                     const createdTender = await createTender(newTender);
-                    showSuccessMessage('Offer successfully created!');
+                    showSuccessMessage('Tender successfully created!');
                     navigate('/all-tenders');
 
                     console.log(createdTender);
@@ -104,6 +108,7 @@ export function CreateTender() {
     });
     return (
         <div className='d-flex justify-content-center align-items-center'>
+
             <div className="col-10 col-md-8 col-lg-6">
                 <form
                     className='form card p-3'
@@ -304,6 +309,7 @@ export function CreateTender() {
             </div>
 
         </div>
+
     );
 }
 

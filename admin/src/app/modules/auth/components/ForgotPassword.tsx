@@ -21,7 +21,7 @@ const forgotPasswordSchema = Yup.object().shape({
       .required('Email is required'),
 })
 
-export function ForgotPassword() {501
+export function ForgotPassword() {
   const [loading, setLoading] = useState(false)
   const [hasErrors, setHasErrors] = useState<boolean | undefined>(undefined)
   const formik = useFormik({
