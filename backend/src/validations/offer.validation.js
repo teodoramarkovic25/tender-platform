@@ -33,13 +33,14 @@ const deleteOffer = {
 const getOffers = {
   query: Joi.object().keys({
     offer: Joi.string(),
-    createdBy:Joi.string(),
+    createdBy: Joi.string(),
     // company: Joi.string(),
     tender: Joi.string(),
     sortBy: Joi.string(),
     limit: Joi.number().integer(),
     page: Joi.number().integer(),
-    populate: Joi.string()
+    populate: Joi.string(),
+    isSelected: Joi.boolean()
   }),
 };
 module.exports = {
