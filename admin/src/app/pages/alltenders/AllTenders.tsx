@@ -44,6 +44,9 @@ export function AllTenders() {
         setShowModal(false);
     };
 
+
+
+
     const
         handlePageChange = (newPage) => {
             setCurrentPage(newPage);
