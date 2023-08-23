@@ -11,7 +11,8 @@ const getStats = catchAsync(async(req,res) => {
 });
 
 const getChartData = catchAsync(async(req,res)=>{
-  const chartData = await statService.getChartData();
+  console.log(req.query);
+  const chartData = await statService.getChartData(req.query.dateFrom, req.query.dateTo);
   res.send(chartData);
 })
 module.exports = {

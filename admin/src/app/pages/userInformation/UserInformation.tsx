@@ -10,7 +10,8 @@ import clsx from 'clsx';
 import {getFile, getFiles} from "../../shared/services/file.service";
 import {createFile} from "../../shared/services/file.service";
 import {getOffers} from "../../shared/services/offer.service";
-import {getTender, getTenders} from "../../shared/services/tender.service";
+import {getTender} from "../../shared/services/tender.service";
+import BlockUi from "react-block-ui";
 
 const getProfilePicture = async (profilePictureId) => {
     const picture = await getFile(profilePictureId);
@@ -27,6 +28,8 @@ const UserInformation = () => {
     const [isPictureUploaded, setIsPictureUploaded] = useState(false);
     const [offersList, setOffersList] = useState(null);
     const [tenderInfo, setTenderInfo] = useState({});
+    const [isBlocking, setIsBlocking] = useState(currentUser.isBlocked);
+
 
     const userSchema = Yup.object().shape({
         firstName: Yup.string(),
@@ -45,6 +48,8 @@ const UserInformation = () => {
     });
 
     useEffect(() => {
+
+        setIsBlocking(currentUser.isBlocked);
         fetchOffers();
         if (currentUser.role === "vendor") {
             fetchCompanyData();
@@ -61,8 +66,10 @@ const UserInformation = () => {
             const imageURL = URL.createObjectURL(uploadedPicture);
             setPicture(imageURL);
         }
-        console.log('offerslist effect',offersList);
-    }, []);
+        console.log('offerslist effect', offersList);
+        console.log('blocked', currentUser.isBlocked)
+    }, [currentUser.isBlocked]);
+
 
     const fetchOffers = async () => {
         const filters = {
@@ -97,29 +104,34 @@ const UserInformation = () => {
             email: currentUser.email,
             password: currentUser.password,
             role: currentUser.role,
-            documents: currentUser.documents
+            documents: currentUser.documents,
+            isBlocked: currentUser.isBlocked
         },
         validationSchema: userSchema,
         onSubmit: async (values, {setSubmitting}) => {
             try {
-                const formData = new FormData();
-                formData.append('documents', uploadedPicture);
-                const userId = currentUser.id.toString();
-                formData.append('createdBy', userId);
+                console.log('current picture', values.documents);
+                if (uploadedPicture) {
+                    const formData = new FormData();
+                    formData.append('documents', uploadedPicture);
+                    formData.append('createdBy', currentUser.id.toString());
 
-                await createFile(formData);
+                    await createFile(formData);
 
-                setPicture(URL.createObjectURL(uploadedPicture));
+                    setPicture(URL.createObjectURL(uploadedPicture));
 
-                const files = await getFiles();
-                const lastUploadedFile = files[files.length - 1];
+                    const files = await getFiles();
+                    const lastUploadedFile = files[files.length - 1];
 
-                await updateUser(userId, {
+                    values.documents = lastUploadedFile.id;
+                }
+                console.log('picture now', values.documents);
+                await updateUser(currentUser.id.toString(), {
                     firstName: values.firstName,
                     lastName: values.lastName,
                     email: values.email,
                     password: values.password,
-                    documents: lastUploadedFile.id
+                    documents: values.documents
                 });
 
                 setIsEditMode(false);
@@ -163,182 +175,194 @@ const UserInformation = () => {
     };
 
 
+    if (isBlocking) {
+        return <div>
+            <h1 className='text-center text-primary text-lg-center'>Your account is suspended!!!</h1>
+            <p className='text-center text-lg-center'>Contact Admin about more details!</p>
+        </div>
+    }
+
     return (
         <div className='d-flex justify-content-center align-items-center'>
-            <div className="col-10 col-md-8 col-lg-6">
-                <form className='form card p-3' onSubmit={formik.handleSubmit}>
-                    <div className='gy-2 gs-2 card p-3'>
-                        <div className='d-flex justify-content-between'>
-                            <div>
-                                <h1 className='text-center mb-3'>Edit Information</h1><br/>
-                            </div>
-                            <div>
-                                <FontAwesomeIcon icon={faPencilSquare} className='fa-2x text-black'
-                                                 onClick={() => setIsEditMode(true)}/>
-                            </div>
-                        </div>
-
-                        <div className='fv-row d-flex justify-content-center align-items-center'>
-                            <label></label>
-
-                            {isEditMode ? (
-                                <div className='d-flex justify-content-between'>
-                                    <img className='rounded-circle img-fluid' src={picture} alt='Profile Picture'/>
-                                    <br/>
-                                    <div className='d-flex justify-content-center align-items-center'>
-                                        <label className='upload-icon'>
-                                            <FontAwesomeIcon className='mx-5' icon={faUpload}/>
-                                            <input
-                                                type='file'
-                                                accept='.jpg,.jpeg,.png'
-                                                onChange={handlePictureChange}
-                                                onClick={handleEditPicture}
-                                            />
-                                        </label>
-                                    </div>
+            <BlockUi tag='div' blocking={isBlocking}>
+                <div className="col-10 col-md-8 col-lg-6">
+                    <form className='form card p-3' onSubmit={formik.handleSubmit}>
+                        <div className='gy-2 gs-2 card p-3'>
+                            <div className='d-flex justify-content-between'>
+                                <div>
+                                    <h1 className='text-center mb-3'>Edit Information</h1><br/>
                                 </div>
-                            ) : (
-                                <img className='rounded-circle img-fluid' src={picture} alt='Profile Picture'/>
-                            )}
+                                <div>
+                                    <FontAwesomeIcon icon={faPencilSquare} className='fa-2x text-black'
+                                                     onClick={() => setIsEditMode(true)}/>
+                                </div>
+                            </div>
 
-                        </div>
+                            <div className='fv-row d-flex justify-content-center align-items-center'>
+                                <label></label>
 
-                        <div className='fv-row'>
-                            <label className='form-label fs-6 fw-bolder text-dark'>First Name</label><br/>
-                            <label>{currentUser.firstName}</label>
-                        </div>
-                        <br/>
-
-                        <div className='fv-row'>
-                            <label className='form-label fs-6 fw-bolder text-dark'>Last Name</label><br/>
-                            <label>{currentUser.lastName}</label>
-                        </div>
-                        <br/>
-
-                        <div className='fv-row'>
-                            <label className='form-label fs-6 fw-bolder text-dark'>
-                                Email
-                                {(currentUser as any).isEmailVerified ? (
-                                    <span className="badge bg-success ms-2">Verified</span>
-                                ):(
-                                    <span className="badge bg-danger ms-2">Not Verified</span>
+                                {isEditMode ? (
+                                    <div className='d-flex justify-content-between'>
+                                        <img className='rounded-circle img-fluid' src={picture} alt='Profile Picture'/>
+                                        <br/>
+                                        <div className='d-flex justify-content-center align-items-center'>
+                                            <label className='upload-icon'>
+                                                <FontAwesomeIcon className='mx-5' icon={faUpload}/>
+                                                <input
+                                                    type='file'
+                                                    accept='.jpg,.jpeg,.png'
+                                                    onChange={handlePictureChange}
+                                                    onClick={handleEditPicture}
+                                                />
+                                            </label>
+                                        </div>
+                                    </div>
+                                ) : (
+                                    <img className='rounded-circle img-fluid' src={picture} alt='Profile Picture'/>
                                 )}
 
-                            </label>
+                            </div>
 
+                            <div className='fv-row'>
+                                <label className='form-label fs-6 fw-bolder text-dark'>First Name</label><br/>
+                                <label>{currentUser.firstName}</label>
+                            </div>
                             <br/>
-                            {isEditMode ? (
-                                <div>
-                                    <input
-                                        type='text'
-                                        id='email'
-                                        value={formik.values.email}
-                                        onChange={formik.handleChange}
-                                        onBlur={formik.handleBlur}
-                                        className={clsx('form-control form-control-lg',
-                                            {'is-invalid': (formik.touched.email) && formik.errors.email},
-                                            {'is-valid': (formik.touched.email) && !formik.errors.email}
-                                        )}
-                                    />
-                                    {formik.touched.email && formik.errors.email && (
-                                        <div className='fv-plugins-message-container'>
-                                            <span className='text-danger' role='alert'>{formik.errors.email}</span>
-                                        </div>
-                                    )}
-                                </div>
-                            ) : (
-                                <label>{formik.values.email}</label>
-                            )}
-                        </div>
-                        <br/>
 
-                        <div className='fv-row'>
-                            <label className='form-label fs-6 fw-bolder text-dark'>Password</label><br/>
-                            {
-                                isEditMode ? (
+                            <div className='fv-row'>
+                                <label className='form-label fs-6 fw-bolder text-dark'>Last Name</label><br/>
+                                <label>{currentUser.lastName}</label>
+                            </div>
+                            <br/>
+
+                            <div className='fv-row'>
+                                <label className='form-label fs-6 fw-bolder text-dark'>
+                                    Email
+                                    {(currentUser as any).isEmailVerified ? (
+                                        <span className="badge bg-success ms-2">Verified</span>
+                                    ) : (
+                                        <span className="badge bg-danger ms-2">Not Verified</span>
+                                    )}
+
+                                </label>
+
+                                <br/>
+                                {isEditMode ? (
                                     <div>
                                         <input
-                                            type='password'
-                                            id='password'
-                                            value={formik.values.password}
+                                            type='text'
+                                            id='email'
+                                            value={formik.values.email}
                                             onChange={formik.handleChange}
                                             onBlur={formik.handleBlur}
                                             className={clsx('form-control form-control-lg',
-                                                {'is-invalid': (formik.touched.password) && formik.errors.password},
-                                                {'is-valid': (formik.touched.password) && !formik.errors.password}
+                                                {'is-invalid': (formik.touched.email) && formik.errors.email},
+                                                {'is-valid': (formik.touched.email) && !formik.errors.email}
                                             )}
                                         />
-                                        {formik.touched.password && formik.errors.password && (
+                                        {formik.touched.email && formik.errors.email && (
                                             <div className='fv-plugins-message-container'>
-                                            <span className='text-danger'
-                                                  role='alert'>{formik.errors.password}</span>
+                                                <span className='text-danger' role='alert'>{formik.errors.email}</span>
                                             </div>
                                         )}
                                     </div>
                                 ) : (
-                                    <label></label>
+                                    <label>{formik.values.email}</label>
                                 )}
+                            </div>
+                            <br/>
 
-                        </div>
-
-                        <br/>
-
-                        {currentUser.role === 'vendor' && (
                             <div className='fv-row'>
-                                <label className='form-label fs-6 fw-bolder text-dark'>My company</label><br/>
-                                <label>{company ? company.name : 'N/A'}</label>
+                                <label className='form-label fs-6 fw-bolder text-dark'>Password</label><br/>
+                                {
+                                    isEditMode ? (
+                                        <div>
+                                            <input
+                                                type='password'
+                                                id='password'
+                                                value={formik.values.password}
+                                                onChange={formik.handleChange}
+                                                onBlur={formik.handleBlur}
+                                                className={clsx('form-control form-control-lg',
+                                                    {'is-invalid': (formik.touched.password) && formik.errors.password},
+                                                    {'is-valid': (formik.touched.password) && !formik.errors.password}
+                                                )}
+                                            />
+                                            {formik.touched.password && formik.errors.password && (
+                                                <div className='fv-plugins-message-container'>
+                                            <span className='text-danger'
+                                                  role='alert'>{formik.errors.password}</span>
+                                                </div>
+                                            )}
+                                        </div>
+                                    ) : (
+                                        <label></label>
+                                    )}
+
                             </div>
-                        )}
 
-                        {isEditMode && (
-                            <div className='d-flex justify-content-between mt-3'>
-                                <div>
-                                    <button className='btn btn-lg' type="submit">Save changes</button>
+                            <br/>
+
+                            {currentUser.role === 'vendor' && (
+                                <div className='fv-row'>
+                                    <label className='form-label fs-6 fw-bolder text-dark'>My company</label><br/>
+                                    <label>{company ? company.name : 'N/A'}</label>
                                 </div>
-                                <div>
-                                    <button className='btn btn-lg btn-secondary' onClick={handleConfirmNo}>Cancel
-                                    </button>
-                                </div>
-                            </div>
-                        )}
+                            )}
 
-                        {offersList &&
-                            offersList.map((offer) => (
-
-                                <div key={offer.id} className='card p-3 border border-black border-5 mb-3 text-center'>
-                                    <h1>My offers </h1>
-                                    <div className='card-title'>
-                                        <label className='form-label fs-6 fw-bolder text-dark'>Offer Details: </label><br/>
+                            {isEditMode && (
+                                <div className='d-flex justify-content-between mt-3'>
+                                    <div>
+                                        <button className='btn btn-lg' type="submit">Save changes</button>
                                     </div>
                                     <div>
-                                        <label>Offered Money: </label>
-                                        {offer.offer} $
+                                        <button className='btn btn-lg btn-secondary' onClick={handleConfirmNo}>Cancel
+                                        </button>
                                     </div>
+                                </div>
+                            )}
+
+                            <h1>My offers </h1>
+                            {offersList &&
+                                offersList.map((offer) => (
+
+                                    <div key={offer.id}
+                                         className='card p-3 border border-black border-5 mb-3 text-center'>
+                                        <div className='card-title'>
+                                            <label className='form-label fs-6 fw-bolder text-dark'>Offer
+                                                Details: </label><br/>
+                                        </div>
+                                        <div>
+                                            <label>Offered Money: </label>
+                                            {offer.offer} $
+                                        </div>
 
 
-                                    <div>
-                                        {offer.isSelected ? (
-                                            <div className='fw-bold text-success'>Offer Won!</div>
-                                        ) : (
-                                            <div className='fw-bold text-primary'>Offer Did Not Win!</div>
+                                        <div>
+                                            {offer.isSelected ? (
+                                                <div className='fw-bold text-success'>Offer Won!</div>
+                                            ) : (
+                                                <div className='fw-bold text-primary'>Offer Did Not Win!</div>
+                                            )}
+                                        </div>
+                                        <br/>
+                                        {offer.tender && (
+                                            <div>
+                                                <label className='form-label fs-6 fw-bolder text-dark'>Tender
+                                                    Details: </label><br/>
+                                                <div>Title: {tenderInfo[offer.tender]?.title}</div>
+                                                <div>Description: {tenderInfo[offer.tender]?.description}</div>
+                                                <div>Criteria: {tenderInfo[offer.tender]?.criteria}</div>
+                                                <div>Weightage: {tenderInfo[offer.tender]?.weightage}</div>
+                                            </div>
                                         )}
                                     </div>
-                                    <br/>
-                                    {offer.tender && (
-                                        <div>
-                                            <label className='form-label fs-6 fw-bolder text-dark'>Tender Details: </label><br/>
-                                            <div>Title: {tenderInfo[offer.tender]?.title}</div>
-                                            <div>Description: {tenderInfo[offer.tender]?.description}</div>
-                                            <div>Criteria: {tenderInfo[offer.tender]?.criteria}</div>
-                                            <div>Weightage: {tenderInfo[offer.tender]?.weightage}</div>
-                                        </div>
-                                    )}
-                                </div>
-                            ))}
+                                ))}
 
-                    </div>
-                </form>
-            </div>
+                        </div>
+                    </form>
+                </div>
+            </BlockUi>
         </div>
     );
 };

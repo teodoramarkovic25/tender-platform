@@ -4,19 +4,23 @@ const {Offer} = require('../models');
 const offerService = require("../services/offer.service");
 const tenderService = require("../services/tender.service");
 
-const getStats = async ()=>{
+const getStats = async () => {
   const activeTenders = await tenderService.getActiveCount();
-  const inactiveTenders = await tenderService.getInactiveCount();
+  const successfulTenders = await tenderService.getSuccessfulTenderCount();
+  const failedTenders = await tenderService.getFailedTendersCount();
   const offers = await offerService.getCount();
 
-  return {"activeTenders": activeTenders,
-          "inactiveTenders": inactiveTenders,
-          "offers": offers};
+  return {
+    "activeTenders": activeTenders,
+    "successfulTenders": successfulTenders,
+    "failedTenders": failedTenders,
+    "offers": offers
+  };
 }
 
-const getChartData = async ()=>{
-  const collection = await tenderService.getChartData();
-  return {"result":collection};
+const getChartData = async (dateFrom, dateTo) => {
+  const collection = await tenderService.getChartData(dateFrom, dateTo);
+  return {"result": collection};
 }
 
 module.exports = {

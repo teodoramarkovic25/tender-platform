@@ -9,7 +9,8 @@ const register = {
     lastName: Joi.string().required(),
     role: Joi.string().valid('user', 'admin', 'vendor'),
     company: Joi.string().optional(),
-    documents: Joi.string()
+    documents: Joi.string(),
+    isBlocked: Joi.boolean()
   }),
 };
 

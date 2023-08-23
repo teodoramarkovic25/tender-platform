@@ -25,7 +25,11 @@ export const updateUser = async (userId: string, updateData: any): Promise<UserM
         .then(data => new UserModel(data))
 };
 
-
+export const deleteUser = async (userId) => {
+    return ApiClient.remove(`${USERS_ENDPOINT}/${userId}`)
+        .then(response => response.data)
+        .then()
+}
 
 
 
