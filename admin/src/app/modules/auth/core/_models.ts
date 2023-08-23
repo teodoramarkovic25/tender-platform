@@ -62,6 +62,7 @@ export interface UserSocialNetworksModel {
 //   socialNetworks?: UserSocialNetworksModel
 // }
 export interface UserModel {
+  documents: any;
   id: number
   username?: string
   password?: string | undefined

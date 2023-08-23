@@ -4,6 +4,8 @@ import clsx from 'clsx'
 import {Link} from 'react-router-dom'
 import {useFormik} from 'formik'
 import AuthService from "../../../shared/services/api-client/auth.service";
+import favicon from "../../../../_metronic/layout/favicon/favicon.png";
+
 
 const authService = new AuthService();
 
@@ -19,7 +21,7 @@ const forgotPasswordSchema = Yup.object().shape({
       .required('Email is required'),
 })
 
-export function ForgotPassword() {
+export function ForgotPassword() {501
   const [loading, setLoading] = useState(false)
   const [hasErrors, setHasErrors] = useState<boolean | undefined>(undefined)
   const formik = useFormik({
@@ -39,6 +41,10 @@ export function ForgotPassword() {
               onSubmit={formik.handleSubmit}
         >
           <div className='text-center mb-10'>
+            <img alt='Logo' src={favicon} className='h-75px'/>
+            <br/>
+            <br/>
+            <br/>
             {/* begin::Title */}
             <h1 className='text-dark mb-3'>Forgot Password ?</h1>
             {/* end::Title */}
@@ -73,7 +79,7 @@ export function ForgotPassword() {
                 autoComplete='off'
                 {...formik.getFieldProps('email')}
                 className={clsx(
-                    'form-control form-control-lg form-control-solid border-gray-400',
+                    'form-control form-control-lg',
                     {'is-invalid': formik.touched.email && formik.errors.email},
                     {
                       'is-valid': formik.touched.email && !formik.errors.email,

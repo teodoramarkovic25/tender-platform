@@ -7,9 +7,8 @@ const ModalComponent = ({children, show, onHide}) => {
 
     return (
         <div>
-            <Modal show={show} onHide={onHide}>
+            <Modal show={show} onHide={onHide} className='d-flex justify-content-center align-items-center'>
                 <Modal.Header closeButton>
-                    <Modal.Title>Please fill in the form</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                     {children}

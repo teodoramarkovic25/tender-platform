@@ -8,10 +8,13 @@ const fileSchema = new mongoose.Schema({
     fileName: {type: String, required: true},
     fileType: {type: String, required: true},
     fileSize: {type: Number, required: true},
-    createdBy: {type: Schema.Types.ObjectId, ref: 'User', required: true},
+    createdBy: {type: Schema.Types.ObjectId, ref: 'User'},
 
   },
-  {timestamps: true}
+  {
+    toJSON: {virtuals: true},
+    toObject: {virtuals: true},
+    timestamps: true}
 );
 
 
