@@ -12,6 +12,7 @@ export class UserModel extends BaseModel {
     company: CompanyModel;
     password: string;
     documents: FileModel;
+    isBlocked: boolean;
 
     constructor(attributes?: any) {
         super();

@@ -56,6 +56,10 @@ const userSchema = mongoose.Schema(
     documents: {
       type: mongoose.SchemaTypes.ObjectId,
       trim: true
+    },
+    isBlocked: {
+      type: Boolean,
+      // default: false
     }
   },
   {

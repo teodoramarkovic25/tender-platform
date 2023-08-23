@@ -14,7 +14,7 @@ export const getOffers = () => {
         .then(response => response.data)
 }*/
 
-export const getOffers = (filters: { createdBy?: string, tender?: string }): Promise<OfferModel[] | null> => {
+export const getOffers = (filters: { createdBy?: string, tender?: string, isSelected?: any }): Promise<OfferModel[] | null> => {
     let path = OFFERS_ENDPOINT;
 
     if (filters.createdBy) {
@@ -22,7 +22,19 @@ export const getOffers = (filters: { createdBy?: string, tender?: string }): Pro
     }
 
     if (filters.tender) {
-        path += `?tender=${filters.tender}`
+        if (path.includes('?')) {
+            path += `&tender=${filters.tender}`;
+        } else {
+            path += `?tender=${filters.tender}`;
+        }
+    }
+
+    if (filters.isSelected) {
+        if (path.includes('?')) {
+            path += `&isSelected=${filters.isSelected}`;
+        } else {
+            path += `?isSelected=${filters.isSelected}`;
+        }
     }
 
     return ApiClient.get(path)

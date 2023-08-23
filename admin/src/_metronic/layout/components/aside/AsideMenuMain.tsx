@@ -18,21 +18,22 @@ export function AsideMenuMain() {
             />
 
 
+            <AsideMenuItemWithSub to={"*"} title="Tenders">
+                <AsideMenuItem to="/create-tender" title="Create tender"/>
+                <AsideMenuItem to={"/all-tenders"} title={"All tenders"}/>
+                <AsideMenuItem to={"/offers-page"} title={"Create offer"}/>
+                <AsideMenuItem to={"/evaluations"} title={"Create evaluation"}/>
+                <AsideMenuItem to={"/users"} title={"Users"}/>
+                <AsideMenuItem to={"/my-profile"} title={"My profile"}/>
+            </AsideMenuItemWithSub>
 
-    <AsideMenuItemWithSub to={"*"} title="Tenders">
-        <AsideMenuItem to="/create-tender" title="Create tender" />
-        <AsideMenuItem to={"/all-tenders"} title={"All tenders"}/>
-        <AsideMenuItem to={"/offers-page"} title={"Create offer"}/>
-        <AsideMenuItem to={"/evaluations"} title={"Create evaluation"}/>
-    </AsideMenuItemWithSub>
-
-{/*<div className='menu-item'>
+            {/*<div className='menu-item'>
                 <div className='menu-content pt-8 pb-2'>
                     <span className='menu-section text-muted text-uppercase fs-8 ls-1'>Crafted</span>
                 </div>
             </div>
             */}
-{/*<AsideMenuItemWithSub
+            {/*<AsideMenuItemWithSub
                 to='/crafted/pages'
                 title='Pages'
                 fontIcon='bi-archive'
@@ -59,7 +60,7 @@ export function AsideMenuMain() {
                     <AsideMenuItem to='/crafted/pages/wizards/vertical' title='Vertical' hasBullet={true}/>
                 </AsideMenuItemWithSub>
             </AsideMenuItemWithSub>*/
-}
-</>
-)
+            }
+        </>
+    )
 }

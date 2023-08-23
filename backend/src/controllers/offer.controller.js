@@ -54,7 +54,7 @@ const createOffer = catchAsync(async (req, res) => {
 });
 
 const getOffers = catchAsync(async (req, res) => {
-  const filter = pick(req.query, ['tender', 'company','createdBy']);
+  const filter = pick(req.query, ['tender', 'company', 'createdBy', 'isSelected']);
   const options = pick(req.query, ['sortBy', 'limit', 'page', 'populate']);
   const result = await offerService.queryOffers(filter, options);
   res.send(result);
