@@ -11,6 +11,7 @@ body {
 // Font color from Content background color
 .text-page-bg {
 	color: $page-bg;
+	font-weight: bold;
 }
 
 // Desktop Mode
@@ -26,6 +27,7 @@ body {
 	.wrapper {
 		transition: padding-left get($aside-config, transition-speed) ease,  margin-right get($aside-config, transition-speed) ease;
 
+
 		// Aside default enabled and aside fixed modes
 		.aside-enabled.aside-fixed & {
 			transition: padding-left get($aside-config, transition-speed) ease;
@@ -36,16 +38,19 @@ body {
 		.aside-enabled.aside-fixed[data-kt-aside-minimize="on"] & {
 			transition: padding-left get($aside-config, transition-speed) ease;
 			padding-left: get($aside-config, minimized-width);
+			font-weight: bold;
 		}
 
 		// Fixed header mode
 		.header-fixed & {
 			padding-top: get($header-config, fixed, height, desktop);
+			font-weight: bold;
 		}
 
 		// Fixed header & fixed toolbar modes
 		.header-fixed.toolbar-fixed & {
 			padding-top: calc(#{get($header-config, fixed, height, desktop)} + var(--kt-toolbar-height));
+			font-weight: bold;
 		}
 	}
 }
