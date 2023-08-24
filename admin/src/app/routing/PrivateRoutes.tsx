@@ -13,6 +13,10 @@ import {ResetPassword} from "../modules/auth/components/ResetPassword";
 import OffersPage from "../pages/OffersPage";
 import EvaluateOffers from "../pages/EvaluateOffers";
 import EvaluationPage from "../pages/EvaluationPage";
+import UserInformation from "../pages/userInformation/UserInformation";
+import Users from "../pages/userInformation/Users";
+import UserCard from "../pages/userInformation/UserCard";
+
 const PrivateRoutes = () => {
     //const UsersPage = lazy(() => import('../modules/apps/user-management/UsersPage'))
 
@@ -36,10 +40,12 @@ const PrivateRoutes = () => {
 
                 <Route path='create-tender' element={<CreateTender/>}/>
                 <Route path='all-tenders' element={<AllTenders/>}/>
-                   <Route path='offers-page' element={<OffersPage/>}/>
-                <Route path='evaluate-offers/:offerId' element={<EvaluateOffers />} />
-              <Route path='evaluations' element={<EvaluationPage/>}/>
-
+                <Route path='offers-page' element={<OffersPage/>}/>
+                <Route path='evaluate-offers/:offerId' element={<EvaluateOffers/>}/>
+                <Route path='evaluations' element={<EvaluationPage/>}/>
+                <Route path='my-profile' element={<UserInformation/>}/>
+                <Route path='users' element={<Users/>}/>
+                <Route path='users/:userId' element={<UserCard/>}/>
                 {/* Page Not Found */}
                 <Route path='*' element={<Navigate to='/error/404'/>}/>
             </Route>

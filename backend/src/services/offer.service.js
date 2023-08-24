@@ -18,8 +18,8 @@ const getOfferById = async (id) => {
     .exec();
 };
 
-const getOfferByCompany = async (companyName) => {
-  return Offer.findOne({companyName})
+const getOfferByUser = async (userId) => {
+  return Offer.findOne({userId})
 };
 
 const updateOfferById = async (offerId, updateBody) => {
@@ -42,7 +42,7 @@ const deleteOfferById = async (offerId) => {
   return offer;
 };
 
-const getCount = async () =>{
+const getCount = async () => {
   const number = await Offer.countDocuments({});
   return number
 };
@@ -51,7 +51,7 @@ module.exports = {
   createOffer,
   queryOffers,
   getOfferById,
-  getOfferByCompany,
+  getOfferByUser,
   updateOfferById,
   deleteOfferById,
   getCount,

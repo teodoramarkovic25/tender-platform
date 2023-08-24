@@ -9,7 +9,7 @@ const router = express.Router();
 
 router
   .route('/')
-  .post(auth('manageFiles'), uploadMiddleware.array('documents', 3), validate(fileValidation.createFile), fileController.uploadFile)
+  .post(auth('manageFiles'), uploadMiddleware.single('documents'), validate(fileValidation.createFile), fileController.uploadFile)
   .get(auth('getFiles'), validate(fileValidation.getFiles), fileController.getFiles)
 router
   .route('/:fileId')

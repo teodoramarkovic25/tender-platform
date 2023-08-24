@@ -6,8 +6,8 @@ const createOffer = {
     offer: Joi.number().required(),
     tender: Joi.string().required(),
     createdBy: Joi.string().required(),
-    documents: Joi.array().items(Joi.string()),
-    isSelected:Joi.boolean().required()
+    documents: Joi.string(),
+    isSelected: Joi.boolean()
   }),
 };
 const updateOffer = {
@@ -16,7 +16,7 @@ const updateOffer = {
   }),
   body: Joi.object()
     .keys({
-      isSelected:Joi.boolean()
+      isSelected: Joi.boolean()
     })
     .min(1),
 };
@@ -33,12 +33,14 @@ const deleteOffer = {
 const getOffers = {
   query: Joi.object().keys({
     offer: Joi.string(),
+    createdBy: Joi.string(),
     // company: Joi.string(),
     tender: Joi.string(),
     sortBy: Joi.string(),
     limit: Joi.number().integer(),
     page: Joi.number().integer(),
-    populate: Joi.string()
+    populate: Joi.string(),
+    isSelected: Joi.boolean()
   }),
 };
 module.exports = {

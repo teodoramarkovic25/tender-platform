@@ -6,7 +6,7 @@ import {Pagination} from "../../shared/components/pagination/pagination";
 import {useSearchParams} from "react-router-dom";
 import ModalComponent from "../../modals/ModalComponent";
 
-function formatDate(dateString) {
+export function formatDate(dateString) {
     const date = new Date(dateString);
     const year = date.getFullYear();
     const month = String(date.getMonth() + 1).padStart(2, '0');
@@ -97,7 +97,7 @@ export function AllTenders() {
                 // searchParams.set("limit", pagination.limit);
                 // searchParams.set("page", pagination.page);
                 // setSearchParams(searchParams);
-                console.log("Ulazim u fetch Tenders i postavljam paginaciju i to");
+
 
             })
             .catch((error) => {
@@ -127,8 +127,7 @@ export function AllTenders() {
     //Added for searchParams
     useEffect(() => {
         //handling page change if necessary
-        console.log(paginationData);
-        console.log("Ulazim u use effect kod promjene parametara - isto postavljanje paginacije i limita");
+
         if (searchParams.has('page')) {
             handlePageChange(searchParams.get('page'));
         }
@@ -217,7 +216,8 @@ export function AllTenders() {
                                 <div className="text-center">
                                     <h3>Delete Tender</h3>
                                     <p>Do you want to delete tender?</p>
-                                    <button className="btn btn-primary me-3" onClick={() => handleDeleteTender(tender.id)}>
+                                    <button className="btn btn-primary me-3"
+                                            onClick={() => handleDeleteTender(tender.id)}>
                                         Delete Tender
                                     </button>
                                     <button className="btn btn-secondary" onClick={() => setShowModal(false)}>
@@ -229,11 +229,11 @@ export function AllTenders() {
                             <td className="d-flex justify-content-center align-items-center">
                                 <button
                                     className={`btn btn-lg d-flex justify-content-center align-items-center ${isLoading && 'disabled'}`}
-                                    style={{ background: '#ef1a07', width: '50px', height: '35px' }}
+                                    style={{background: '#ef1a07', width: '50px', height: '35px'}}
                                     onClick={() => setShowModal(true)}
                                 >
                                     {isLoading ? (
-                                        <span className='indicator-progress' style={{ display: 'block' }}>
+                                        <span className='indicator-progress' style={{display: 'block'}}>
               <span className='spinner-border spinner-border-sm align-middle'></span>
             </span>
                                     ) : (

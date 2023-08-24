@@ -6,6 +6,7 @@ import {useFormik} from 'formik'
 import AuthService from "../../../shared/services/api-client/auth.service";
 import favicon from "../../../../_metronic/layout/favicon/favicon.png";
 
+
 const authService = new AuthService();
 
 const initialValues = {
@@ -20,7 +21,7 @@ const forgotPasswordSchema = Yup.object().shape({
       .required('Email is required'),
 })
 
-export function ForgotPassword() {
+export function ForgotPassword() {501
   const [loading, setLoading] = useState(false)
   const [hasErrors, setHasErrors] = useState<boolean | undefined>(undefined)
   const formik = useFormik({
@@ -78,7 +79,7 @@ export function ForgotPassword() {
                 autoComplete='off'
                 {...formik.getFieldProps('email')}
                 className={clsx(
-                    'form-control form-control-lg form-control-solid border-gray-400',
+                    'form-control form-control-lg',
                     {'is-invalid': formik.touched.email && formik.errors.email},
                     {
                       'is-valid': formik.touched.email && !formik.errors.email,

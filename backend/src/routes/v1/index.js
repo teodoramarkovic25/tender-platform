@@ -8,6 +8,7 @@ const evaluationRoute = require('./evaluation.route');
 const companyRoute = require('./company.route');
 const fileRoute = require('./file.route');
 const tenderRoute = require('./tender.route');
+const fileContentRoute=require('./fileContent.route');
 const statsRoute = require("./stat.route");
 
 const router = express.Router();
@@ -44,6 +45,10 @@ const defaultRoutes = [
   {
     path: '/stats',
     route: statsRoute
+  },
+  {
+    path:'/fileContent',
+    route:fileContentRoute
   }
 
 ];

@@ -9,6 +9,7 @@ export class OfferModel extends BaseModel {
     tender: TenderModel;
     documents: FileModel;
     createdBy: UserModel;
+    isSelected:boolean;
 
     constructor(attributes?: any) {
         super();
