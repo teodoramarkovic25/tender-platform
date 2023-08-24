@@ -95,10 +95,9 @@ class AuthService {
         try {
             const token = this.getToken();
             if (token) {
-                const response = await axios.post(`${API_URL}/${API_VERSION}auth//send-verification-email`, {
+                const response = await axios.post(`${API_URL}/${API_VERSION}/auth/send-verification-email`, {
                     token
                 });
-
                 return response.data
             } else {
                 throw new Error("No token found!");
@@ -106,6 +105,23 @@ class AuthService {
 
         } catch (error) {
             console.error("Sending verification email failed:", error);
+        }
+    }
+
+    async verifyEmail(token: string): Promise<boolean> {
+        try {
+            console.log("Token being sent:", token);
+            const response = await axios.post(`${API_URL}/${API_VERSION}/auth/verify-email`, {
+                token
+            });
+            if (response.status === 204)
+                return true;
+            else
+                return false;
+
+        } catch (error) {
+            console.error("Email verification failed:", error);
+            return false;
         }
     }
 
