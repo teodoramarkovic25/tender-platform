@@ -24,6 +24,8 @@ const Chart = (props) => {
 
     console.log(data[1]);
     useEffect(() => {
+        console.log('Chart data updated:', data);
+
         // Update the data state when props.data changes
         //This function adds additional data to display
         if (props.data && Array.isArray(props.data)) {
@@ -32,8 +34,14 @@ const Chart = (props) => {
                 const newData = [];
 
                 for (var i = 0; i <= props.data.length - 1; i++) {
+                    const item = props.data[i];
+                    if (!item.id) {
+                        // Skip items without a valid _id property
+                        continue;
+                    }
+
                     newData.push(props.data[i]);
-                    var dateParts = props.data[i]._id.split("-");
+                    var dateParts = props.data[i].id.split("-");
                     var year = dateParts[0] * 1;
                     var month = dateParts[1] * 1;
 
@@ -41,7 +49,7 @@ const Chart = (props) => {
                         break;
                     }
 
-                    var nextItemDate = props.data[i + 1]._id.split("-");
+                    var nextItemDate = props.data[i + 1].id.split("-");
                     var nextYear = nextItemDate[0] * 1;
                     var nextMonth = nextItemDate[1] * 1;
                     //these have already been added
