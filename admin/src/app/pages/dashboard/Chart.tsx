@@ -22,8 +22,11 @@ const Chart = (props) => {
         }
     }
 
-    console.log(data[1]);
+    console.log('data1', data[1]);
     useEffect(() => {
+        console.log('Chart data updated:', data);
+
+        console.log('Data received in Chart:', props.data);
         // Update the data state when props.data changes
         //This function adds additional data to display
         if (props.data && Array.isArray(props.data)) {
@@ -32,6 +35,13 @@ const Chart = (props) => {
                 const newData = [];
 
                 for (var i = 0; i <= props.data.length - 1; i++) {
+                    //dodato da ne puca app pregledati
+                    const item = props.data[i];
+                    if (!item._id) {
+                        // Skip items without a valid _id property
+                        continue;
+                    }
+
                     newData.push(props.data[i]);
                     var dateParts = props.data[i]._id.split("-");
                     var year = dateParts[0] * 1;
@@ -67,7 +77,7 @@ const Chart = (props) => {
             </div>
             <ResponsiveContainer width="90%" height={500} className="row justify-content-center">
                 <BarChart data={data}>
-                    <XAxis dataKey="_id" />
+                    <XAxis dataKey="_id"/>
                     <YAxis/>
                     <CartesianGrid stroke="#ccc"/>
                     <Bar type="monotone" fill="#EF1A07" dataKey="count" stroke="#EF1A07" strokeWidth={2}/>
