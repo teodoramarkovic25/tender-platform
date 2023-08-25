@@ -77,7 +77,7 @@ const Chart = (props) => {
             </div>
             <ResponsiveContainer width="90%" height={500} className="row justify-content-center">
                 <BarChart data={data}>
-                    <XAxis dataKey="_id"/>
+                    <XAxis dataKey="_id" />
                     <YAxis/>
                     <CartesianGrid stroke="#ccc"/>
                     <Bar type="monotone" fill="#EF1A07" dataKey="count" stroke="#EF1A07" strokeWidth={2}/>
