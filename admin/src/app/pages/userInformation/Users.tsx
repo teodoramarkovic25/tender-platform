@@ -10,6 +10,7 @@ import {createFile, getFiles} from "../../shared/services/file.service";
 import {getCompanies, getCompany} from "../../shared/services/company.service";
 import {Card} from "react-bootstrap";
 import {getProfilePicture} from "./UserInformation";
+import {Pagination} from "../../shared/components/pagination/pagination";
 
 const Users = () => {
 
@@ -38,7 +39,6 @@ const Users = () => {
         //  console.log('user: ',user);
         navigate(`/users/${user.id}`, {state: {user}});
     }
-
 
     const userSchema = Yup.object().shape({
         firstName: Yup.string(),
@@ -78,7 +78,6 @@ const Users = () => {
             : null;
     };
 
-
     useEffect(() => {
 
         if (!isPictureUploaded) {
@@ -91,7 +90,6 @@ const Users = () => {
         console.log(users);
         setUserEditModes(new Array(users.length).fill(false));
     }, []);
-
 
     const handlePageChange = (newPage) => {
         setCurrentPage(newPage);
@@ -228,231 +226,242 @@ const Users = () => {
 
     // @ts-ignore
     return (
-        <Card className='bg-yellow'>
-            <div className='d-flex flex-wrap justify-content-between'>
-                {users && (
-                    users.map((user, index) => (
+        <div>
+            <Card className='bg-yellow'>
+                <div className='d-flex flex-wrap justify-content-between'>
+                    {users && (
+                        users.map((user, index) => (
 
 
-                        <Card
-                            key={user.id}
-                            className='card p-3 border border-black border-5 mb-3 col-10 col-md-8 col-lg-6 mr-2'
-                            style={{flex: '0 0 calc(50% - 0.5rem)'}}
-                        >
-                            {editedCardIndex === index ? (
-                                    <form
-                                        onSubmit={formik.handleSubmit}>
+                            <Card
+                                key={user.id}
+                                className='card p-3 border border-black border-5 mb-3 col-10 col-md-8 col-lg-6 mr-2'
+                                style={{flex: '0 0 calc(50% - 0.5rem)'}}
+                            >
+                                {editedCardIndex === index ? (
+                                        <form
+                                            onSubmit={formik.handleSubmit}>
 
-                                        <Card.Body>
+                                            <Card.Body>
 
-                                            <UserProfilePicture profilePictureId={user.documents}/><br/>
+                                                <UserProfilePicture profilePictureId={user.documents}/><br/>
 
-                                            <label className='form-label fs-6 fw-bolder text-dark'>First Name: </label>
-                                            <input
-                                                type='text'
-                                                id='firstName'
-                                                name='firstName'
-                                                value={formik.values.firstName}
-                                                onChange={formik.handleChange}
-                                                onBlur={formik.handleBlur}
-                                                className={clsx('form-control form-control-lg',
-                                                    {'is-invalid': (formik.touched.firstName) && formik.errors.firstName},
-                                                    {'is-valid': (formik.touched.firstName) && !formik.errors.firstName}
-                                                )}/>
+                                                <label className='form-label fs-6 fw-bolder text-dark'>First Name: </label>
+                                                <input
+                                                    type='text'
+                                                    id='firstName'
+                                                    name='firstName'
+                                                    value={formik.values.firstName}
+                                                    onChange={formik.handleChange}
+                                                    onBlur={formik.handleBlur}
+                                                    className={clsx('form-control form-control-lg',
+                                                        {'is-invalid': (formik.touched.firstName) && formik.errors.firstName},
+                                                        {'is-valid': (formik.touched.firstName) && !formik.errors.firstName}
+                                                    )}/>
 
-                                            {formik.touched.lastName && formik.errors.lastName && (
-                                                <div className='fv-plugins-message-container'>
+                                                {formik.touched.lastName && formik.errors.lastName && (
+                                                    <div className='fv-plugins-message-container'>
     <span className='text-danger' role='alert'>
         {formik.errors.firstName as React.ReactNode}
     </span>
-                                                </div>
-                                            )}
+                                                    </div>
+                                                )}
 
 
-                                            <br/>
-                                            <label className='form-label fs-6 fw-bolder text-dark'>Last Name: </label>
-                                            <input
-                                                type='text'
-                                                id='lastName'
-                                                name='lastName'
-                                                value={formik.values.lastName}
-                                                onChange={formik.handleChange}
-                                                onBlur={formik.handleBlur}
-                                                className={clsx('form-control form-control-lg',
-                                                    {'is-invalid': (formik.touched.lastName) && formik.errors.lastName},
-                                                    {'is-valid': (formik.touched.lastName) && !formik.errors.lastName}
-                                                )}/>
+                                                <br/>
+                                                <label className='form-label fs-6 fw-bolder text-dark'>Last Name: </label>
+                                                <input
+                                                    type='text'
+                                                    id='lastName'
+                                                    name='lastName'
+                                                    value={formik.values.lastName}
+                                                    onChange={formik.handleChange}
+                                                    onBlur={formik.handleBlur}
+                                                    className={clsx('form-control form-control-lg',
+                                                        {'is-invalid': (formik.touched.lastName) && formik.errors.lastName},
+                                                        {'is-valid': (formik.touched.lastName) && !formik.errors.lastName}
+                                                    )}/>
 
 
-                                            {formik.touched.lastName && formik.errors.lastName && (
-                                                <div className='fv-plugins-message-container'>
+                                                {formik.touched.lastName && formik.errors.lastName && (
+                                                    <div className='fv-plugins-message-container'>
         <span className='text-danger' role='alert'>
             {formik.errors.lastName as React.ReactNode}
         </span>
-                                                </div>
-                                            )}
+                                                    </div>
+                                                )}
 
 
-                                            <div>
+                                                <div>
 
-                                                <br/>
-                                                <label className='form-label fs-6 fw-bolder text-dark'>Email: </label>
+                                                    <br/>
+                                                    <label className='form-label fs-6 fw-bolder text-dark'>Email: </label>
 
-                                                <input
-                                                    type='text'
-                                                    id='email'
-                                                    value={formik.values.email}
-                                                    onChange={formik.handleChange}
-                                                    onBlur={formik.handleBlur}
-                                                    className={clsx('form-control form-control-lg',
-                                                        {'is-invalid': (formik.touched.email) && formik.errors.email},
-                                                        {'is-valid': (formik.touched.email) && !formik.errors.email}
-                                                    )}
-                                                />
-                                                {formik.touched.email && formik.errors.email && (
-                                                    <div className='fv-plugins-message-container'>
+                                                    <input
+                                                        type='text'
+                                                        id='email'
+                                                        value={formik.values.email}
+                                                        onChange={formik.handleChange}
+                                                        onBlur={formik.handleBlur}
+                                                        className={clsx('form-control form-control-lg',
+                                                            {'is-invalid': (formik.touched.email) && formik.errors.email},
+                                                            {'is-valid': (formik.touched.email) && !formik.errors.email}
+                                                        )}
+                                                    />
+                                                    {formik.touched.email && formik.errors.email && (
+                                                        <div className='fv-plugins-message-container'>
         <span className='text-danger' role='alert'>
             {formik.errors.email as React.ReactNode}
         </span>
-                                                    </div>
-                                                )}
-
-                                            </div>
-
-                                            <div>
-                                                <br/>
-                                                <label className='form-label fs-6 fw-bolder text-dark'>Password: </label>
-                                                <input
-                                                    type='password'
-                                                    id='text'
-                                                    value={formik.values.password}
-                                                    onChange={formik.handleChange}
-                                                    onBlur={formik.handleBlur}
-                                                    className={clsx('form-control form-control-lg',
-                                                        {'is-invalid': (formik.touched.password) && formik.errors.password},
-                                                        {'is-valid': (formik.touched.password) && !formik.errors.password}
+                                                        </div>
                                                     )}
-                                                />
-                                                {formik.touched.password && formik.errors.password && (
-                                                    <div className='fv-plugins-message-container'>
+
+                                                </div>
+
+                                                <div>
+                                                    <br/>
+                                                    <label
+                                                        className='form-label fs-6 fw-bolder text-dark'>Password: </label>
+                                                    <input
+                                                        type='password'
+                                                        id='text'
+                                                        value={formik.values.password}
+                                                        onChange={formik.handleChange}
+                                                        onBlur={formik.handleBlur}
+                                                        className={clsx('form-control form-control-lg',
+                                                            {'is-invalid': (formik.touched.password) && formik.errors.password},
+                                                            {'is-valid': (formik.touched.password) && !formik.errors.password}
+                                                        )}
+                                                    />
+                                                    {formik.touched.password && formik.errors.password && (
+                                                        <div className='fv-plugins-message-container'>
                                                     <span className='text-danger'
                                                           role='alert'>{formik.errors.password as React.ReactNode}</span>
-                                                    </div>
-                                                )}
-                                            </div>
-
-                                            <div>
-                                                <br/>
-                                                <label className='form-label fs-6 fw-bolder text-dark'>Role: </label>
-                                                <input
-                                                    type='text'
-                                                    id='role'
-                                                    value={formik.values.role}
-                                                    onChange={formik.handleChange}
-                                                    onBlur={formik.handleBlur}
-                                                    className={clsx('form-control form-control-lg',
-                                                        {'is-invalid': (formik.touched.role) && formik.errors.role},
-                                                        {'is-valid': (formik.touched.role) && !formik.errors.role}
+                                                        </div>
                                                     )}
-                                                />
-                                                {formik.touched.role && formik.errors.role && (
-                                                    <div className='fv-plugins-message-container'>
+                                                </div>
+
+                                                <div>
+                                                    <br/>
+                                                    <label className='form-label fs-6 fw-bolder text-dark'>Role: </label>
+                                                    <input
+                                                        type='text'
+                                                        id='role'
+                                                        value={formik.values.role}
+                                                        onChange={formik.handleChange}
+                                                        onBlur={formik.handleBlur}
+                                                        className={clsx('form-control form-control-lg',
+                                                            {'is-invalid': (formik.touched.role) && formik.errors.role},
+                                                            {'is-valid': (formik.touched.role) && !formik.errors.role}
+                                                        )}
+                                                    />
+                                                    {formik.touched.role && formik.errors.role && (
+                                                        <div className='fv-plugins-message-container'>
         <span className='text-danger' role='alert'>
             {formik.errors.role as React.ReactNode}
         </span>
+                                                        </div>
+                                                    )}
+
+                                                </div>
+                                                <div className='d-flex justify-content-between mt-3'>
+                                                    <div>
+                                                        <button
+                                                            className='btn btn-lg'
+                                                            type='submit'>
+                                                            Save Changes
+                                                        </button>
+                                                    </div>
+                                                    <div>
+                                                        <button
+                                                            className='btn btn- btn-secondary'
+                                                            onClick={() => {
+                                                                setIsEditMode(false);
+                                                                setEditedCardIndex(-1);
+                                                            }}>
+                                                            Cancel
+                                                        </button>
+                                                    </div>
+                                                </div>
+
+                                            </Card.Body>
+
+                                        </form>
+
+                                    )
+                                    :
+
+                                    (
+                                        <div>
+                                            <div className='d-flex justify-content-between'>
+                                                <div>
+                                                    <button className='btn btn-sm btn-info'
+                                                            onClick={() => enterEditMode(index)}
+                                                    >
+                                                        Edit User
+                                                    </button>
+                                                </div>
+                                                <div>
+                                                    <button className='btn btn-sm'
+                                                            onClick={() => {
+                                                                navigateToUser(user);
+                                                            }}
+                                                    >
+                                                        Remove User
+                                                    </button>
+                                                </div>
+                                            </div>
+
+
+                                            <br/>
+
+                                            <UserProfilePicture profilePictureId={user.documents}/><br/>
+
+                                            <Card.Title className='text-center'>
+                                                <label>{user.firstName} {user.lastName}</label>
+                                                <br/>
+                                            </Card.Title>
+                                            <label className='form-label fs-6 fw-bolder text-dark'>{user.email}</label>
+                                            <label>{formik.values.password}</label>
+                                            <div>
+                                                {user.isEmailVerified ? (
+                                                    <span
+                                                        className='form-label fs-6 fw-bolder text-success'>Verified</span>
+                                                ) : (
+                                                    <span className='form-label fs-6 fw-bolder text-danger'>Not
+                                                    verified </span>
+                                                )}
+                                            </div>
+                                            <label
+                                                className='form-label fs-6 fw-bolder text-dark'>role: {user.role}</label>
+                                            <div>
+
+                                                {user.role === 'vendor' && (
+                                                    <div className='fv-row'>
+                                                        <label
+                                                            className='form-label fs-6 fw-bolder text-dark'>company: </label><br/>
+
                                                     </div>
                                                 )}
-
-                                            </div>
-                                            <div className='d-flex justify-content-between mt-3'>
-                                                <div>
-                                                    <button
-                                                        className='btn btn-lg'
-                                                        type='submit'>
-                                                        Save Changes
-                                                    </button>
-                                                </div>
-                                                <div>
-                                                    <button
-                                                        className='btn btn- btn-secondary'
-                                                        onClick={() => {
-                                                            setIsEditMode(false);
-                                                            setEditedCardIndex(-1);
-                                                        }}>
-                                                        Cancel
-                                                    </button>
-                                                </div>
-                                            </div>
-
-                                        </Card.Body>
-
-                                    </form>
-
-                                )
-                                :
-
-                                (
-                                    <div>
-                                        <div className='d-flex justify-content-between'>
-                                            <div>
-                                                <button className='btn btn-sm'
-                                                        onClick={() => enterEditMode(index)}
-                                                >
-                                                    Edit User
-                                                </button>
-                                            </div>
-                                            <div>
-                                                <button className='btn btn-sm'
-                                                        onClick={() => {
-                                                            navigateToUser(user);
-                                                        }}
-                                                >
-                                                    Remove User
-                                                </button>
                                             </div>
                                         </div>
+                                    )
+                                }
 
 
-                                        <br/>
+                            </Card>
+                        ))
+                    )}
 
-                                        <UserProfilePicture profilePictureId={user.documents}/><br/>
-
-                                        <Card.Title className='text-center'>
-                                            <label>{user.firstName} {user.lastName}</label>
-                                        </Card.Title>
-                                        <label>{user.email}</label>
-                                        <label>{formik.values.password}</label>
-                                        <div>
-                                            {user.isEmailVerified ? (
-                                                <label
-                                                    className='form-label fs-6 fw-bolder text-success'>Verified</label>
-                                            ) : (
-                                                <label className='form-label fs-6 fw-bolder text-danger'>Not
-                                                    verified </label>
-                                            )}
-                                        </div>
-                                        <label className='form-label fs-6 fw-bolder text-dark'>role:</label>
-                                        <div>
-                                            <label>{user.role}</label><br/>
-                                            {user.role === 'vendor' && (
-                                                <div className='fv-row'>
-                                                    <label
-                                                        className='form-label fs-6 fw-bolder text-dark'>company:</label><br/>
-
-                                                </div>
-                                            )}
-                                        </div>
-                                    </div>
-                                )
-                            }
-
-
-                        </Card>
-                    ))
-                )}
-
-            </div>
-        </Card>
+                </div>
+            </Card>
+            <br/>
+            <Pagination
+                paginationData={paginationData}
+                onPageChange={handlePageChange}
+                onLimitChange={handleLimitChange}
+            />
+        </div>
 
 
     )

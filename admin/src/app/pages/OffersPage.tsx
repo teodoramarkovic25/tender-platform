@@ -4,7 +4,7 @@ import ModalComponent from "../modals/ModalComponent";
 import TenderProposals from "./vendors/TenderProposals";
 import {useAuth} from "../modules/auth/core/Auth";
 import BlockUi from "react-block-ui";
-
+import {Pagination} from "../shared/components/pagination/pagination";
 
 export function OffersPage() {
     const [tenders, setTenders] = useState([]);
@@ -13,6 +13,9 @@ export function OffersPage() {
     const toggle = () => setIsOpen(!isOpen);
     const {currentUser, logout} = useAuth();
     const [isBlocking, setIsBlocking] = useState(currentUser.isBlocked);
+    const [currentPage, setCurrentPage] = useState(1);
+    const [paginationData, setPaginationData] = useState({});
+    const [currentLimit, setCurrentLimit] = useState(10);
 
     function formatDate(dateString) {
         const date = new Date(dateString);
@@ -31,7 +34,7 @@ export function OffersPage() {
         setIsOpen(true);
     };
 
-    const fetchTenders = async () => {
+    const fetchTenders = async (customQuery = {}) => {
         try {
             const [pagination, allTenders] = await getTenders();
             setTenders(allTenders);
@@ -56,6 +59,23 @@ export function OffersPage() {
             <p className='text-center text-lg-center'>Contact Admin about more details!</p>
         </div>
     }
+
+    const handlePageChange = (newPage) => {
+        setCurrentPage(newPage);
+        fetchTenders({
+            page: newPage,
+            limit: currentLimit,
+        });
+    };
+
+    const handleLimitChange = (newValue) => {
+        setCurrentLimit(newValue);
+        fetchTenders({
+            limit: newValue,
+            page: 1,
+        });
+    };
+
 
     return (
         <div>
@@ -95,6 +115,12 @@ export function OffersPage() {
                         ))}
                         </tbody>
                     </table>
+                    <br/>
+                    <Pagination
+                        paginationData={paginationData}
+                        onPageChange={handlePageChange}
+                        onLimitChange={handleLimitChange}
+                    />
                 </div>
             </BlockUi>
         </div>
