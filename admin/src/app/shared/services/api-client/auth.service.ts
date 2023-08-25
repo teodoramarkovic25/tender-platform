@@ -4,6 +4,7 @@ import {LoginResponse} from "../../interfaces/login-response.interface";
 import {UserModel} from "../../models/user.model";
 import {LogoutResponse} from "../../interfaces/logout-response.interface";
 import {getUser} from "../user.service";
+import {RegisterResponse} from "../../interfaces/register-response.interface";
 
 const API_URL = process.env.REACT_APP_API_URL;
 const API_VERSION = process.env.REACT_APP_API_VERSION;
@@ -32,6 +33,22 @@ class AuthService {
             return response.data;
         } catch (error) {
             console.error("Login failed:", error);
+            return null;
+        }
+    }
+
+    async register(email: string, firstName: string, lastName: string, password: string): Promise<RegisterResponse | null> {
+        try {
+            const response = await axios.post<RegisterResponse>(`${API_URL}/${API_VERSION}/auth/register`, {
+                email,
+                firstName,
+                lastName,
+                password
+            })
+            this.saveToken(response.data.tokens.access.token);
+            return response.data;
+        } catch (error) {
+            console.error("Registration failed:", error);
             return null;
         }
     }

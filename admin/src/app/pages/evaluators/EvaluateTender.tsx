@@ -6,8 +6,6 @@ import {createEvaluator} from "../../shared/services/evaluator.service";
 import {EvaluatorModel} from "../../shared/models/evaluator.model";
 import {showSuccessMessage} from "../../shared/components/messages/success-createtender-message";
 import {showErrorMessage} from "../../shared/components/messages/error-createtender-message";
-import {toast} from "react-toastify";
-
 
 const EvaluateTender = ({offer}) => {
     const [isSubmissionAllowed, setIsSubmissionAllowed] = useState(true);
@@ -33,7 +31,7 @@ const EvaluateTender = ({offer}) => {
         validationSchema: evaluationSchema,
         onSubmit: async (values) => {
             try {
-                const offerId=offer.id;
+                const offerId = offer.id;
 
                 const newEvaluation = new EvaluatorModel({...values, offer: offerId});
 
@@ -68,18 +66,15 @@ const EvaluateTender = ({offer}) => {
 
     return (
         <div className="d-flex justify-content-center">
-            <div className="col-lg-12">
+            <div className="col-lg-12 col-md-12 col-md-12">
                 <form
                     className="form"
                     onSubmit={formik.handleSubmit}>
 
-                    <h1 className="text-center text-dark">Evaluate Offer</h1>
-                    <hr/>
-
                     <div className='text-center'>
                         <h2>Offer Details</h2>
-                        <b>Offer Value</b> $ {offer.offer} <br/>
-                        <b>Offer Selected</b> {offer.isSelected? 'YES':'NO'}
+                        <b>Offer Value:</b> $ {offer.offer} <br/>
+                        <b>Offer Won:</b> {offer.isSelected ? 'YES' : 'NO'}
                     </div>
 
                     <div>
@@ -124,7 +119,7 @@ const EvaluateTender = ({offer}) => {
                                     {'is-invalid border border-danger': formik.touched.comment && formik.errors.comment},
                                     {'is-valid': formik.touched.comment && !formik.errors.comment}
                                 )}
-                                    />
+                            />
                             {formik.errors.comment && formik.touched.comment && (
                                 <div className='fv-plugins-message-container'>
                                     <span className='text-danger' role='alert'>{formik.errors.comment}</span>
@@ -156,12 +151,21 @@ const EvaluateTender = ({offer}) => {
                             )}
                         </div>
 
-                        <button
-                            type="submit"
-                            className="btn btn-lg w-100 mb-5"
-                        >
-                            Submit Evaluation
-                        </button>
+                        <div className='d-flex justify-content-between'>
+                            <div>
+                                <button
+                                    type="submit"
+                                    className="btn btn-md"
+                                >
+                                    Submit Evaluation
+                                </button>
+                            </div>
+                            <div>
+                                <button className='btn btn-md btn-secondary'>
+                                    Close
+                                </button>
+                            </div>
+                        </div>
                     </div>
 
                 </form>

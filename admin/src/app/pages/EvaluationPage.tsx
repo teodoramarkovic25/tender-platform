@@ -8,6 +8,9 @@ import {getUser} from "../shared/services/user.service";
 import {getTender} from "../shared/services/tender.service";
 import {getOffers} from "../shared/services/offer.service";
 import {getCompany} from "../shared/services/company.service";
+import {Pagination} from "../shared/components/pagination/pagination";
+import {showErrorMessage} from "../shared/components/messages/error-createtender-message";
+import {showSuccessMessage} from "../shared/components/messages/success-createtender-message";
 
 export function EvaluationPage() {
     const [tenders, setTenders] = useState([]);
@@ -17,6 +20,10 @@ export function EvaluationPage() {
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
     const [company, setCompany] = useState('');
+    const [currentPage, setCurrentPage] = useState(1);
+    const [paginationData, setPaginationData] = useState({});
+    const [currentLimit, setCurrentLimit] = useState(10);
+
 
     const toggle = () => setIsOpen(!isOpen);
     const navigateToOffer = (offer) => {
@@ -66,12 +73,14 @@ export function EvaluationPage() {
                         console.log('tender checking', offers[i].tender, ' tender id: ', tender);
 
                         if (offers[i].isSelected === true) {
+                            showErrorMessage('There is already a winning offer for this tender.');
                             break;
                         } else if (offers[i].isSelected === false && offers[i].id === selectedOffer.id) {
                             const updateOfferData = {
                                 isSelected: true
                             };
                             await updateOffer(offers[i].id, updateOfferData);
+                            showSuccessMessage('Winning offer successfully chosen!');
                         }
                     }
                 }
@@ -107,20 +116,54 @@ export function EvaluationPage() {
     }
 
 
-    const fetchTenders = async () => {
+    const fetchTenders = async (customQuery = {}) => {
         try {
-            const query = {populate: 'offers'};
+            const query = {populate: 'offers', ...customQuery = {}};
             const [pagination, allTenders] = await getTenders(query);
+
+
             setTenders(allTenders);
             //    console.log(allTenders);
+
+
         } catch (error) {
             console.error(error);
         }
     };
     useEffect(() => {
-        console.log('evaluationpage');
+        // console.log('evaluationpage');
         fetchTenders();
     }, []);
+
+
+    const toggleOffers = (tenderId) => {
+        setTenders((prevTenders) => {
+            return prevTenders.map((tender) => {
+                if (tender.id === tenderId) {
+                    return {...tender, isShowingOffers: !tender.isShowingOffers};
+                }
+                return tender;
+            });
+        });
+    };
+
+    const handlePageChange = (newPage) => {
+        setCurrentPage(newPage);
+        fetchTenders({
+            page: newPage,
+            limit: currentLimit,
+        });
+    };
+
+    const handleLimitChange = (newValue) => {
+        setCurrentLimit(newValue);
+        fetchTenders({
+            limit: newValue,
+            page: 1,
+        });
+    };
+
+
     return (
         <div>
             <div className='table-responsive'>
@@ -137,90 +180,115 @@ export function EvaluationPage() {
                     </thead>
                     <tbody className="table-striped border table-hover">
                     {tenders.map((tender) => (
-                        <tr key={tender.id}>
-                            <td>{tender.title}</td>
-                            <td>{tender.description}</td>
-                            <td>{formatDate(tender.deadline)}</td>
-                            <td>{tender.criteria}</td>
-                            <td>{tender.weightage}</td>
-                            <td className=''>
-                                {tender.offers.length > 0 ? (
-                                    tender.offers.map((offer) => (
-                                        <div>
-                                            <div className='border-4'>
-                                                <div key={offer.id}>
-                                                    <div className='d-flex flex-column flex-column-fluid '>
-                                                        <span className='text-center'>{offer.offer}$</span>
-                                                    </div>
-                                                    <div className='d-flex flex-column flex-column-fluid '>
-                                                        <button
-                                                            className=' d-flex flex-column flex-column-fluid  mb-3 btn btn-sm w-70'
-                                                            onClick={() => {
-                                                                navigateToOffer(offer);
-                                                            }}
-                                                        >
-                                                            Evaluate
-                                                        </button>
-                                                    </div>
-                                                </div>
+                        <React.Fragment key={tender.id}>
+                            <tr>
+                                <td>{tender.title}</td>
+                                <td>{tender.description}</td>
+                                <td>{formatDate(tender.deadline)}</td>
+                                <td>{tender.criteria}</td>
+                                <td>{tender.weightage}</td>
+                                <td colSpan={6}>
+                                    {tender.offers.length > 0 ? (
+                                        <button
+                                            onClick={() => toggleOffers(tender.id)}
+                                            className='btn btn-md'
+                                        >
+                                            See offers!
+                                        </button>
+                                    ) : (
+                                        <p>No offers</p>
+                                    )}
+                                </td>
+                            </tr>
+                            {tender.offers.length > 0 && tender.isShowingOffers && (
+                                <tr className='mt-4'>
+                                    <td colSpan={6}>
+                                        <div className='row'>
+                                            {tender.offers.map((offer) => (
 
-                                                <div className='d-flex flex-column flex-column-fluid '>
-                                                    <button
-                                                        className='d-flex flex-column flex-column-fluid mb-3 btn btn-sm w-70'
-                                                        onClick={() => {
-                                                            selectWinningOffer(offer)
-                                                        }
-                                                        }
-                                                    >Select winning offer!
-                                                    </button>
-                                                    <br/>
-                                                    <hr/>
-                                                </div>
-                                                <ModalComponent
-                                                    show={isOpen}
-                                                    onHide={toggle}
+                                                <div
+                                                    key={offer.id}
+                                                    className='col-md-4 mb-4'
                                                 >
-                                                    <div className='text-center'>
-                                                        <h1>Select winning offer!</h1>
-                                                        <hr/>
+                                                    <div
+                                                        className='card p-3 border border-black border-5 text-center'
+                                                    >
+                                                        <h1>{offer.offer} $</h1>
+                                                        <br/>
+
                                                         <div>
-                                                            <h2 className='text-primary'>Tender Details</h2>
-                                                            <b>Tender Title:</b> {tender.title} <br/>
-                                                            <b>Tender Description:</b> {tender.description} <br/>
-                                                            <b>Tender Criteria:</b> {tender.criteria} <br/>
-                                                            <b>Tender Weightage:</b> {tender.weightage} <br/>
-                                                            <hr/>
-                                                            <h2 className='text-primary'>Offer Details</h2>
-                                                            <b>Offered Money: </b> {offer.offer} $ <br/>
-                                                            <b>Vendor: </b> {firstName} {lastName} <br/>
-                                                            <b>Company: </b> {company}
+                                                            <div className='d-flex justify-content-between'>
+                                                                <button
+                                                                    className='btn btn-sm btn-success'
+                                                                    onClick={() => {
+                                                                        navigateToOffer(offer);
+                                                                    }}
+                                                                >
+                                                                    Evaluate
+                                                                </button>
+                                                                <button
+                                                                    className='btn btn-sm btn-info'
+                                                                    onClick={() => {
+                                                                        selectWinningOffer(offer);
+                                                                    }}
+                                                                >
+                                                                    Select winning offer
+                                                                </button>
+                                                            </div>
+                                                            <ModalComponent
+                                                                show={isOpen}
+                                                                onHide={toggle}
+                                                            >
+                                                                <div className='text-center'>
+                                                                    <h1>Select winning offer!</h1>
+                                                                    <hr/>
+                                                                    <div>
+                                                                        <h2 className='text-primary'>Tender Details</h2>
+                                                                        <b>Tender Title:</b> {tender.title} <br/>
+                                                                        <b>Tender Description:</b> {tender.description}
+                                                                        <br/>
+                                                                        <b>Tender Criteria:</b> {tender.criteria} <br/>
+                                                                        <b>Tender Weightage:</b> {tender.weightage}
+                                                                        <br/>
+                                                                        <hr/>
+                                                                        <h2 className='text-primary'>Offer Details</h2>
+                                                                        <b>Offered Money: </b> {offer.offer} $ <br/>
+                                                                        <b>Vendor: </b> {firstName} {lastName} <br/>
+                                                                        <b>Company: </b> {company}
+                                                                    </div>
+                                                                    <br/>
+                                                                    <h6> Are you sure you want to select this offer for
+                                                                        the
+                                                                        winner?</h6>
+                                                                    <br/>
+                                                                    <button className='btn me-3'
+                                                                            onClick={() => confirmSelectOffer(selectedOffer)}>Yes
+                                                                    </button>
+                                                                    <button
+                                                                        className='btn btn-secondary'
+                                                                        onClick={toggle}>No
+                                                                    </button>
+                                                                </div>
+                                                            </ModalComponent>
                                                         </div>
-                                                        <br/>
-                                                        <h6> Are you sure you want to select this offer for the
-                                                            winner?</h6>
-                                                        <br/>
-                                                        <button className='btn me-3'
-                                                                onClick={() => confirmSelectOffer(selectedOffer)}>Yes
-                                                        </button>
-                                                        <button
-                                                            className='btn btn-secondary'
-                                                            onClick={toggle}>No
-                                                        </button>
                                                     </div>
-                                                </ModalComponent>
-                                            </div>
+                                                </div>
+                                            ))}
                                         </div>
-                                    ))
-                                ) : (
-                                    <div className='border flex'>
-                                        <h4 className='text-center'>No offers</h4>
-                                    </div>
-                                )}
-                            </td>
-                        </tr>
+                                    </td>
+                                </tr>
+                            )}
+                        </React.Fragment>
                     ))}
                     </tbody>
+
                 </table>
+                <br/>
+                <Pagination
+                    paginationData={paginationData}
+                    onPageChange={handlePageChange}
+                    onLimitChange={handleLimitChange}
+                />
             </div>
         </div>
     );

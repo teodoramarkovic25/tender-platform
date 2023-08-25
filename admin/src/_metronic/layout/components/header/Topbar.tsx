@@ -1,6 +1,5 @@
 import clsx from 'clsx'
-import React, {FC} from 'react'
-import {KTSVG, toAbsoluteUrl} from '../../../helpers'
+import React, {FC, useEffect, useState} from 'react'
 import {
     HeaderNotificationsMenu,
     HeaderUserMenu,
@@ -9,6 +8,9 @@ import {
     ThemeModeSwitcher,
 } from '../../../partials'
 import {useLayout} from '../../core'
+import {getProfilePicture} from "../../../../app/pages/userInformation/UserInformation";
+import {useAuth} from "../../../../app/modules/auth";
+
 
 const toolbarButtonMarginClass = 'ms-1 ms-lg-3',
     toolbarButtonHeightClass = 'w-30px h-30px w-md-40px h-md-40px',
@@ -17,6 +19,15 @@ const toolbarButtonMarginClass = 'ms-1 ms-lg-3',
 
 const Topbar: FC = () => {
     const {config} = useLayout()
+    const {currentUser, logout} = useAuth();
+    const [picture, setPicture] = useState(null);
+
+    useEffect(() => {
+        getProfilePicture(currentUser.documents)
+            .then((profilePictureData) => {
+                setPicture(profilePictureData);
+            });
+    })
 
     return (
         <div className='d-flex align-items-stretch flex-shrink-0'>
@@ -42,7 +53,7 @@ const Topbar: FC = () => {
                     data-kt-menu-placement='bottom-end'
                     data-kt-menu-flip='bottom'
                 >
-                    <img src={toAbsoluteUrl('/media/icons/duotune/communication/com006.svg')} alt='metronic'/>
+                    <img src={picture} alt='Profile picture'/>
                 </div>
                 <HeaderUserMenu/>
                 {/* end::Toggle */}

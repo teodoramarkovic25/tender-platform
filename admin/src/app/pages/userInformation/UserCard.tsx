@@ -5,8 +5,6 @@ import ModalComponent from "../../modals/ModalComponent";
 import {getProfilePicture} from "./UserInformation";
 import {Modal} from "react-bootstrap";
 import {deleteUser, updateUser} from "../../shared/services/user.service";
-import {formatDate} from "../alltenders/AllTenders";
-import {getOffers} from "../../shared/services/offer.service";
 import PieChartUserOffers from "../../shared/components/graphs/pieChartUsers";
 
 const UserCard = () => {
@@ -14,11 +12,9 @@ const UserCard = () => {
     const navigate = useNavigate();
     // @ts-ignore
     const {user} = location.state || {};
-    const [isOpen, setIsOpen] = useState(false);
     const [isConfirmationOpen, setIsConfirmationOpen] = useState(false);
     const [confirmedAction, setConfirmedAction] = useState(null);
     const [isBlocking, setIsBlocking] = useState(user.isBlocked);
-    const [timestamps, setTimestamps] = useState(null);
 
     useEffect(() => {
         console.log('Raw createdAt:', user.createdAt);
@@ -100,7 +96,6 @@ const UserCard = () => {
             <div className='d-flex justify-content-center align-items-center'>
                 <Card className='card p-3 border border-black border-5 mb-3 col-10 col-md-8 col-lg-6'>
                     <Card.Body>
-
                         {<PieChartUserOffers user={user}/>}
                     </Card.Body>
                 </Card>

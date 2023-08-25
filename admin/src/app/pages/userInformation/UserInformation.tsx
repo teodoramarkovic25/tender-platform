@@ -178,8 +178,8 @@ const UserInformation = () => {
 
     const verifyEmail = async () => {
         const email = await authService.sendVerificationEmail();
-        console.log('email', email);
 
+        // console.log('email', email);
     };
 
 
@@ -193,74 +193,78 @@ const UserInformation = () => {
     return (
         <div className='d-flex justify-content-center align-items-center'>
             <BlockUi tag='div' blocking={isBlocking}>
-                <div className="col-10 col-md-8 col-lg-6">
-                    <form className='form card p-3' onSubmit={formik.handleSubmit}>
-                        <div className='gy-2 gs-2 card p-3'>
-                            <div className='d-flex justify-content-between'>
-                                <div>
-                                    <h1 className='text-center mb-3'>Edit Information</h1><br/>
-                                </div>
-                                <div>
-                                    <FontAwesomeIcon icon={faPencilSquare} className='fa-2x text-black'
-                                                     onClick={() => setIsEditMode(true)}/>
-                                </div>
-                            </div>
-
-                            <div className='fv-row d-flex justify-content-center align-items-center'>
-                                <label></label>
-
-                                {isEditMode ? (
-                                    <div className='d-flex justify-content-between'>
-                                        <img className='rounded-circle img-fluid' src={picture} alt='Profile Picture'/>
-                                        <br/>
-                                        <div className='d-flex justify-content-center align-items-center'>
-                                            <label className='upload-icon'>
-                                                <FontAwesomeIcon className='mx-5' icon={faUpload}/>
-                                                <input
-                                                    type='file'
-                                                    accept='.jpg,.jpeg,.png'
-                                                    onChange={handlePictureChange}
-                                                    onClick={handleEditPicture}
-                                                />
-                                            </label>
-                                        </div>
+                <div className="">
+                    <div className='d-flex justify-content-between flex-column flex-md-row'>
+                        <form className='form card p-3 me-5 border border-black border-5'
+                              onSubmit={formik.handleSubmit}>
+                            <div className=''>
+                                <div className='d-flex justify-content-between '>
+                                    <div>
+                                        <h1 className='text-center mb-3'>Edit Information</h1><br/>
                                     </div>
-                                ) : (
-                                    <img className='rounded-circle img-fluid' src={picture} alt='Profile Picture'/>
-                                )}
+                                    <div>
+                                        <FontAwesomeIcon icon={faPencilSquare} className='fa-2x text-black'
+                                                         onClick={() => setIsEditMode(true)}/>
+                                    </div>
+                                </div>
 
-                            </div>
+                                <div className='fv-row d-flex justify-content-center align-items-center'>
+                                    <label></label>
 
-                            <div className='fv-row'>
-                                <label className='form-label fs-6 fw-bolder text-dark'>First Name</label><br/>
-                                <label>{currentUser.firstName}</label>
-                            </div>
-                            <br/>
-
-                            <div className='fv-row'>
-                                <label className='form-label fs-6 fw-bolder text-dark'>Last Name</label><br/>
-                                <label>{currentUser.lastName}</label>
-                            </div>
-                            <br/>
-
-                            <div className='fv-row d-flex'>
-                                <label className='form-label fs-6 fw-bolder text-dark'>
-                                    Email
-                                    {(currentUser as any).isEmailVerified ? (
-                                        <span className="badge bg-success ms-2">Verified</span>
-                                    ) : (
+                                    {isEditMode ? (
                                         <div className='d-flex justify-content-between'>
-                                            <span className="badge bg-danger ms-2">Not Verified</span>
-                                            <button
-                                                onClick={verifyEmail}
-                                                className='btn btn-sm'>Verify
-                                            </button>
+                                            <img className='rounded-circle img-fluid' src={picture}
+                                                 style={{width: '19%', height: '19%'}}
+                                                 alt='Profile Picture'/>
+                                            <br/>
+                                            <div className='d-flex justify-content-center align-items-center'>
+                                                <label className='upload-icon'>
+                                                    <input
+                                                        type='file'
+                                                        accept='.jpg,.jpeg,.png'
+                                                        onChange={handlePictureChange}
+                                                        onClick={handleEditPicture}
+                                                        className='form-control form-control-lg form-control-solid'
+                                                    />
+                                                </label>
+                                            </div>
                                         </div>
+                                    ) : (
+                                        <img className='rounded-circle img-fluid h-20' src={picture}
+                                             alt='Profile Picture'/>
                                     )}
 
-                                </label>
+                                </div>
 
+                                <div className='p-3 fv-row'>
+                                    <label className='form-label fs-6 fw-bolder text-dark'>First Name</label><br/>
+                                    <label>{currentUser.firstName}</label>
+                                </div>
                                 <br/>
+
+                                <div className='p-3 fv-row'>
+                                    <label className='form-label fs-6 fw-bolder text-dark'>Last Name</label><br/>
+                                    <label>{currentUser.lastName}</label>
+                                </div>
+                                <br/>
+
+                                <div className='p-3 fv-row'>
+                                    <label className='form-label fs-6 fw-bolder text-dark'>
+                                        Email
+                                        {(currentUser as any).isEmailVerified ? (
+                                            <span className="badge bg-success ms-2">Verified</span>
+                                        ) : (
+                                            <div className=''>
+                                                <button
+                                                    onClick={verifyEmail}
+                                                    className='btn btn-sm btn-outline'>Verify
+                                                </button>
+                                            </div>
+                                        )}
+                                    </label>
+
+                                </div>
+
                                 {isEditMode ? (
                                     <div>
                                         <input
@@ -281,100 +285,112 @@ const UserInformation = () => {
                                         )}
                                     </div>
                                 ) : (
-                                    <label>{formik.values.email}</label>
+                                    <div>
+                                        <br/>
+                                        <label>{formik.values.email}</label>
+                                    </div>
                                 )}
-                            </div>
-                            <br/>
+                                <br/>
 
-                            <div className='fv-row'>
-                                <label className='form-label fs-6 fw-bolder text-dark'>Password</label><br/>
-                                {
-                                    isEditMode ? (
-                                        <div>
-                                            <input
-                                                type='password'
-                                                id='password'
-                                                value={formik.values.password}
-                                                onChange={formik.handleChange}
-                                                onBlur={formik.handleBlur}
-                                                className={clsx('form-control form-control-lg',
-                                                    {'is-invalid': (formik.touched.password) && formik.errors.password},
-                                                    {'is-valid': (formik.touched.password) && !formik.errors.password}
-                                                )}
-                                            />
-                                            {formik.touched.password && formik.errors.password && (
-                                                <div className='fv-plugins-message-container'>
+                                <div className='fv-row'>
+                                    <label className='form-label fs-6 fw-bolder text-dark'>Password</label><br/>
+                                    {
+                                        isEditMode ? (
+                                            <div>
+                                                <input
+                                                    type='password'
+                                                    id='password'
+                                                    value={formik.values.password}
+                                                    onChange={formik.handleChange}
+                                                    onBlur={formik.handleBlur}
+                                                    className={clsx('form-control form-control-lg',
+                                                        {'is-invalid': (formik.touched.password) && formik.errors.password},
+                                                        {'is-valid': (formik.touched.password) && !formik.errors.password}
+                                                    )}
+                                                />
+                                                {formik.touched.password && formik.errors.password && (
+                                                    <div className='fv-plugins-message-container'>
                                             <span className='text-danger'
                                                   role='alert'>{formik.errors.password}</span>
+                                                    </div>
+                                                )}
+                                            </div>
+                                        ) : (
+                                            <label></label>
+                                        )}
+
+                                </div>
+
+                                <br/>
+
+                                {currentUser.role === 'vendor' && (
+                                    <div className='fv-row'>
+                                        <label className='form-label fs-6 fw-bolder text-dark'>My company</label><br/>
+                                        <label>{company ? company.name : 'N/A'}</label>
+                                    </div>
+                                )}
+
+                                {isEditMode && (
+                                    <div className='d-flex justify-content-between mt-3'>
+                                        <div>
+                                            <button className='btn btn-lg' type="submit">Save changes</button>
+                                        </div>
+                                        <div>
+                                            <button className='btn btn-lg btn-secondary'
+                                                    onClick={handleConfirmNo}>Cancel
+                                            </button>
+                                        </div>
+                                    </div>
+                                )}
+
+                            </div>
+                        </form>
+                        <div className='w-75 mx-auto'>
+                            <div style={{maxHeight: "65vh", overflowY: "auto"}}>
+                                {offersList && offersList.length > 0 ? (
+                                    offersList.map((offer) => (
+                                        <div key={offer.id}
+                                             className='card p-3 border border-black border-5 text-center '>
+                                            <h1 className='text-center'>My offers </h1>
+                                            <div className='card-title'>
+                                                <label className='form-label fs-6 fw-bolder text-dark'>Offer
+                                                    Details: </label><br/>
+                                            </div>
+                                            <div>
+                                                <label>Offered Money: </label>
+                                                {offer.offer} $
+                                            </div>
+                                            <div>
+                                                {offer.isSelected ? (
+                                                    <div className='fw-bold text-success'>Offer Won!</div>
+                                                ) : (
+                                                    <div className='fw-bold text-primary'>Offer Did Not Win!</div>
+                                                )}
+                                            </div>
+                                            <br/>
+                                            {offer.tender && (
+                                                <div>
+                                                    <label className='form-label fs-6 fw-bolder text-dark'>Tender
+                                                        Details: </label><br/>
+                                                    <div>Title: {tenderInfo[offer.tender]?.title}</div>
+                                                    <div>Description: {tenderInfo[offer.tender]?.description}</div>
+                                                    <div>Criteria: {tenderInfo[offer.tender]?.criteria}</div>
+                                                    <div>Weightage: {tenderInfo[offer.tender]?.weightage}</div>
                                                 </div>
                                             )}
                                         </div>
-                                    ) : (
-                                        <label></label>
-                                    )}
-
+                                    ))
+                                ) : (
+                                    <div>
+                                        <h1 className='text-center'>My offers </h1>
+                                        <div className='text-center'>You haven't made any offers.</div>
+                                    </div>
+                                )}
                             </div>
-
-                            <br/>
-
-                            {currentUser.role === 'vendor' && (
-                                <div className='fv-row'>
-                                    <label className='form-label fs-6 fw-bolder text-dark'>My company</label><br/>
-                                    <label>{company ? company.name : 'N/A'}</label>
-                                </div>
-                            )}
-
-                            {isEditMode && (
-                                <div className='d-flex justify-content-between mt-3'>
-                                    <div>
-                                        <button className='btn btn-lg' type="submit">Save changes</button>
-                                    </div>
-                                    <div>
-                                        <button className='btn btn-lg btn-secondary' onClick={handleConfirmNo}>Cancel
-                                        </button>
-                                    </div>
-                                </div>
-                            )}
-
-                            <h1>My offers </h1>
-                            {offersList &&
-                                offersList.map((offer) => (
-
-                                    <div key={offer.id}
-                                         className='card p-3 border border-black border-5 mb-3 text-center'>
-                                        <div className='card-title'>
-                                            <label className='form-label fs-6 fw-bolder text-dark'>Offer
-                                                Details: </label><br/>
-                                        </div>
-                                        <div>
-                                            <label>Offered Money: </label>
-                                            {offer.offer} $
-                                        </div>
-
-
-                                        <div>
-                                            {offer.isSelected ? (
-                                                <div className='fw-bold text-success'>Offer Won!</div>
-                                            ) : (
-                                                <div className='fw-bold text-primary'>Offer Did Not Win!</div>
-                                            )}
-                                        </div>
-                                        <br/>
-                                        {offer.tender && (
-                                            <div>
-                                                <label className='form-label fs-6 fw-bolder text-dark'>Tender
-                                                    Details: </label><br/>
-                                                <div>Title: {tenderInfo[offer.tender]?.title}</div>
-                                                <div>Description: {tenderInfo[offer.tender]?.description}</div>
-                                                <div>Criteria: {tenderInfo[offer.tender]?.criteria}</div>
-                                                <div>Weightage: {tenderInfo[offer.tender]?.weightage}</div>
-                                            </div>
-                                        )}
-                                    </div>
-                                ))}
-
                         </div>
-                    </form>
+
+                    </div>
+
                 </div>
             </BlockUi>
         </div>
