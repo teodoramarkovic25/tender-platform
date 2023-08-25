@@ -50,7 +50,7 @@ const resetPassword = {
 
 const verifyEmail = {
   query: Joi.object().keys({
-    token: Joi.string().required(),
+    token: Joi.string()
   }),
 };
 

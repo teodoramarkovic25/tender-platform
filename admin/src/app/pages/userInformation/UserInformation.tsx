@@ -12,6 +12,7 @@ import {createFile} from "../../shared/services/file.service";
 import {getOffers} from "../../shared/services/offer.service";
 import {getTender} from "../../shared/services/tender.service";
 import BlockUi from "react-block-ui";
+import AuthService from "../../shared/services/api-client/auth.service";
 
 const getProfilePicture = async (profilePictureId) => {
     const picture = await getFile(profilePictureId);
@@ -30,6 +31,7 @@ const UserInformation = () => {
     const [tenderInfo, setTenderInfo] = useState({});
     const [isBlocking, setIsBlocking] = useState(currentUser.isBlocked);
 
+    const authService = new AuthService();
 
     const userSchema = Yup.object().shape({
         firstName: Yup.string(),
@@ -60,14 +62,14 @@ const UserInformation = () => {
                     setPicture(pictureDisplay);
                 });
         }
-        console.log('is pic uploaded', isPictureUploaded);
-        console.log('uploaded pic', uploadedPicture);
+        //console.log('is pic uploaded', isPictureUploaded);
+        //console.log('uploaded pic', uploadedPicture);
         if (isPictureUploaded) {
             const imageURL = URL.createObjectURL(uploadedPicture);
             setPicture(imageURL);
         }
-        console.log('offerslist effect', offersList);
-        console.log('blocked', currentUser.isBlocked)
+        //console.log('offerslist effect', offersList);
+        //  console.log('blocked', currentUser.isBlocked)
     }, [currentUser.isBlocked]);
 
 
@@ -77,7 +79,7 @@ const UserInformation = () => {
             tender: ''
         }
         const offers = await getOffers(filters);
-        console.log('offers list', offers);
+        // console.log('offers list', offers);
         setOffersList(offers);
 
         offers.forEach(offer => {
@@ -110,7 +112,7 @@ const UserInformation = () => {
         validationSchema: userSchema,
         onSubmit: async (values, {setSubmitting}) => {
             try {
-                console.log('current picture', values.documents);
+                // console.log('current picture', values.documents);
                 if (uploadedPicture) {
                     const formData = new FormData();
                     formData.append('documents', uploadedPicture);
@@ -125,7 +127,7 @@ const UserInformation = () => {
 
                     values.documents = lastUploadedFile.id;
                 }
-                console.log('picture now', values.documents);
+                // console.log('picture now', values.documents);
                 await updateUser(currentUser.id.toString(), {
                     firstName: values.firstName,
                     lastName: values.lastName,
@@ -172,6 +174,12 @@ const UserInformation = () => {
                 [tenderId]: {}
             }));
         }
+    };
+
+    const verifyEmail = async () => {
+        const email = await authService.sendVerificationEmail();
+        console.log('email', email);
+
     };
 
 
@@ -235,13 +243,19 @@ const UserInformation = () => {
                             </div>
                             <br/>
 
-                            <div className='fv-row'>
+                            <div className='fv-row d-flex'>
                                 <label className='form-label fs-6 fw-bolder text-dark'>
                                     Email
                                     {(currentUser as any).isEmailVerified ? (
                                         <span className="badge bg-success ms-2">Verified</span>
                                     ) : (
-                                        <span className="badge bg-danger ms-2">Not Verified</span>
+                                        <div className='d-flex justify-content-between'>
+                                            <span className="badge bg-danger ms-2">Not Verified</span>
+                                            <button
+                                                onClick={verifyEmail}
+                                                className='btn btn-sm'>Verify
+                                            </button>
+                                        </div>
                                     )}
 
                                 </label>

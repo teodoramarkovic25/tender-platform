@@ -19,16 +19,12 @@ const UserCard = () => {
     const [confirmedAction, setConfirmedAction] = useState(null);
     const [isBlocking, setIsBlocking] = useState(user.isBlocked);
     const [timestamps, setTimestamps] = useState(null);
-    /* const [countSelected, setCountSelected] = useState(0);
-     const [countNotSelected, setCountNotSelected] = useState(0);*/
 
     useEffect(() => {
         console.log('Raw createdAt:', user.createdAt);
         console.log('Converted Date:', new Date(user.createdAt));
         console.log('Formatted:', new Date(user.createdAt).toLocaleString());
         console.log('user', user);
-        /*notSelectedOffers();
-        selectedOffers();*/
     }, [user.isBlocked]);
 
     const openConfirmationDialog = (action) => {
@@ -81,32 +77,6 @@ const UserCard = () => {
             handleDeleteUser(user);
         }
     }
-
-
-    /* const selectedOffers = async () => {
-         const filters = {
-             createdBy: user.id.toString(),
-             tender: '',
-             isSelected: 'true'
-         };
-         const offers = await getOffers(filters);
-         console.log('selected offers', offers);
-
-         setCountSelected(offers.length);
-     }
-
-     const notSelectedOffers = async () => {
-         const filters = {
-             createdBy: user.id.toString(),
-             tender: '',
-             isSelected: 'false'
-         };
-         const offers = await getOffers(filters);
-         console.log('not selected offers', offers);
-
-         setCountNotSelected(offers.length);
-     }*/
-
 
     const UserProfilePicture = ({profilePictureId}) => {
         const [picture, setPicture] = useState(null);
