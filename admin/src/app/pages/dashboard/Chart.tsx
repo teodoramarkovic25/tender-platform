@@ -1,3 +1,4 @@
+
 import React, {useState, useEffect} from "react";
 import {BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer} from 'recharts';
 
@@ -44,7 +45,7 @@ const Chart = (props) => {
                     var nextItemDate = props.data[i + 1]._id.split("-");
                     var nextYear = nextItemDate[0] * 1;
                     var nextMonth = nextItemDate[1] * 1;
-                    //these have already been added
+                   // these have already been added
                     if (month !== 12) {
                         month++;
                     } else {
