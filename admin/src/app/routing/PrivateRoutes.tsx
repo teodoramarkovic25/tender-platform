@@ -16,9 +16,13 @@ import EvaluationPage from "../pages/EvaluationPage";
 import UserInformation from "../pages/userInformation/UserInformation";
 import Users from "../pages/userInformation/Users";
 import UserCard from "../pages/userInformation/UserCard";
+import AuthService from "../shared/services/api-client/auth.service";
+import {useAuth} from "../modules/auth";
 
 const PrivateRoutes = () => {
     //const UsersPage = lazy(() => import('../modules/apps/user-management/UsersPage'))
+
+    const {currentUser, logout} = useAuth();
 
     return (
         <Routes>
@@ -38,14 +42,22 @@ const PrivateRoutes = () => {
                     }
                 />*/}
 
+
                 <Route path='create-tender' element={<CreateTender/>}/>
                 <Route path='all-tenders' element={<AllTenders/>}/>
                 <Route path='offers-page' element={<OffersPage/>}/>
                 <Route path='evaluate-offers/:offerId' element={<EvaluateOffers/>}/>
                 <Route path='evaluations' element={<EvaluationPage/>}/>
-                <Route path='my-profile' element={<UserInformation/>}/>
+
                 <Route path='users' element={<Users/>}/>
                 <Route path='users/:userId' element={<UserCard/>}/>
+
+
+                <Route path='offers-page' element={<OffersPage/>}/>
+
+                <Route path='my-profile' element={<UserInformation/>}/>
+
+
                 {/* Page Not Found */}
                 <Route path='*' element={<Navigate to='/error/404'/>}/>
             </Route>

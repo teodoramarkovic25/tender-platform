@@ -6,10 +6,11 @@ const allRoles = {
     'getOffers', 'manageOffers',
     'getCompanies', 'manageCompanies',
     'getFiles', 'manageFiles',
-    'getEvaluator', 'manageEvaluator',"getStats"],
+    'getEvaluator', 'manageEvaluator', "getStats"],
   vendor: ['getOffers', 'manageOffers'
     , 'getTenders', 'manageTenders',
-    'getFiles', 'manageFiles',"getStats"
+    'getCompanies', 'manageCompanies',
+    'getFiles', 'manageFiles', "getStats"
   ],
 
 
