@@ -8,9 +8,11 @@ import {getUser} from "../shared/services/user.service";
 import {getTender} from "../shared/services/tender.service";
 import {getOffers} from "../shared/services/offer.service";
 import {getCompany} from "../shared/services/company.service";
+import {getEvaluations} from "../shared/services/evaluator.service";
 import {Pagination} from "../shared/components/pagination/pagination";
 import {showErrorMessage} from "../shared/components/messages/error-createtender-message";
 import {showSuccessMessage} from "../shared/components/messages/success-createtender-message";
+import StarRatings from 'react-star-ratings';
 
 export function EvaluationPage() {
     const [tenders, setTenders] = useState([]);
@@ -23,7 +25,8 @@ export function EvaluationPage() {
     const [currentPage, setCurrentPage] = useState(1);
     const [paginationData, setPaginationData] = useState({});
     const [currentLimit, setCurrentLimit] = useState(10);
-
+    const [forceUpdate, setForceUpdate] = useState(false);
+    const [offerAverageRatings, setOfferAverageRatings] = useState(new Map());
 
     const toggle = () => setIsOpen(!isOpen);
     const navigateToOffer = (offer) => {
@@ -41,6 +44,19 @@ export function EvaluationPage() {
         const formattedDate = date.toLocaleDateString(options);
         return formattedDate;
     }
+
+
+    useEffect(() => {
+        const fetchAndEvaluate = async () => {
+            console.log('drugi useeffect fetchevaluate');
+            await evaluateOffers();
+            await fetchTenders();
+        }
+
+        console.log('drugi useeffect');
+        fetchAndEvaluate();
+        setForceUpdate(prev => !prev);
+    }, []);
 
     const confirmSelectOffer = async (offer) => {
         try {
@@ -93,6 +109,48 @@ export function EvaluationPage() {
     }
 
 
+    const evaluateOffers = async () => {
+        const filters = {
+            rating: 0,
+            offer: '',
+            collaborators: ''
+        };
+
+        const evaluations = await getEvaluations(filters);
+
+        const offerRatings = new Map();
+
+        for (const evaluation of evaluations) {
+            const offerId = evaluation.offer;
+
+            if (!offerRatings.has(offerId)) {
+                offerRatings.set(offerId, {
+                    sum: 0,
+                    count: 0
+                });
+            }
+
+            const ratingInfo = offerRatings.get(offerId);
+            if (ratingInfo) {
+                ratingInfo.sum += evaluation.rating;
+                ratingInfo.count++;
+            }
+        }
+
+        const averageRatings = new Map();
+
+        offerRatings.forEach((ratingInfo, offerId) => {
+            const averageRating = ratingInfo.count > 0
+                ? ratingInfo.sum / ratingInfo.count
+                : 0;
+
+            averageRatings.set(offerId, averageRating);
+        });
+
+        setOfferAverageRatings(averageRatings);
+    };
+
+
     const selectWinningOffer = async (offer) => {
         try {
             setSelectedOffer(offer);
@@ -130,22 +188,16 @@ export function EvaluationPage() {
             console.error(error);
         }
     };
-    useEffect(() => {
-        // console.log('evaluationpage');
-        fetchTenders();
-    }, []);
 
 
     const toggleOffers = (tenderId) => {
-        setTenders((prevTenders) => {
-            return prevTenders.map((tender) => {
-                if (tender.id === tenderId) {
-                    return {...tender, isShowingOffers: !tender.isShowingOffers};
-                }
-                return tender;
-            });
-        });
+        setTenders((prevTenders) =>
+            prevTenders.map((tender) =>
+                tender.id === tenderId ? {...tender, isShowingOffers: !tender.isShowingOffers} : tender
+            )
+        );
     };
+
 
     const handlePageChange = (newPage) => {
         setCurrentPage(newPage);
@@ -214,6 +266,18 @@ export function EvaluationPage() {
                                                         className='card p-3 border border-black border-5 text-center'
                                                     >
                                                         <h1>{offer.offer} $</h1>
+                                                        <p>Current Offer Rating:</p>
+                                                        <StarRatings
+
+                                                            rating={offerAverageRatings.get(offer.id) || 0}
+                                                            starRatedColor="red"
+                                                            numberOfStars={5}
+                                                            starDimension="20px"
+                                                            starSpacing="2px"
+                                                            name={`average-rating-${offer.id}`}
+                                                            readonly
+                                                        />
+
                                                         <br/>
 
                                                         <div>

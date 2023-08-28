@@ -36,7 +36,7 @@ const EvaluateOffers = () => {
         if (file) {
             const link = document.createElement('a');
             link.href = fileContent;
-            link.download = file.fileName + '.pdf';
+            link.download = file.fileName + '.txt';
             document.body.appendChild(link);
             link.click();
             document.body.removeChild(link);

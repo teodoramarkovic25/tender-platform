@@ -151,7 +151,7 @@ const EvaluateTender = ({offer}) => {
                             )}
                         </div>
 
-                        <div className='d-flex justify-content-between'>
+                        <div className='d-flex justify-content-center'>
                             <div>
                                 <button
                                     type="submit"
@@ -160,11 +160,7 @@ const EvaluateTender = ({offer}) => {
                                     Submit Evaluation
                                 </button>
                             </div>
-                            <div>
-                                <button className='btn btn-md btn-secondary'>
-                                    Close
-                                </button>
-                            </div>
+
                         </div>
                     </div>
 
