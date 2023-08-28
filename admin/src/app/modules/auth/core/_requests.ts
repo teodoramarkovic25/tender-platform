@@ -24,7 +24,7 @@ export function register(
     password: string,
 
 ) {
-    return axios.post(`${API_URL}/${API_VERSION}/auth/register`, {
+    return axios.post(REGISTER_URL, {
         email,
         firstName: firstname,
         lastName: lastname,
