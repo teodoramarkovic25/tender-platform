@@ -1,12 +1,14 @@
 import React, { useState } from 'react';
 import * as Yup from 'yup';
 import clsx from 'clsx';
-import { Link } from 'react-router-dom';
+import {Link, Route} from 'react-router-dom';
 import { useFormik } from 'formik';
 import AuthService from '../../../shared/services/api-client/auth.service';
 import { useQueryParam, StringParam } from 'use-query-params';
+import { QueryParamProvider } from 'use-query-params';
+
 export function ResetPassword() {
-   // const [token, setToken] = useQueryParam('token', StringParam);
+    const [token, setToken] = useQueryParam('token', StringParam);
     const [loading, setLoading] = useState(false);
 
     const authService = new AuthService();
@@ -16,7 +18,7 @@ export function ResetPassword() {
             setLoading(true);
             try {
 
-                //await authService.resetPassword(token, values.newPassword);
+                await authService.resetPassword(token, values.newPassword);
 
                 setLoading(false);
                 console.log('Password successfully updated');
@@ -34,6 +36,7 @@ export function ResetPassword() {
 
     const formik = useFormik({
         initialValues: {
+            token: '',
             newPassword: '',
             confirmNewPassword: '',
         },
@@ -47,7 +50,10 @@ export function ResetPassword() {
     });
 
 
+
     return (
+
+
         <div>
             <br/>
             <br/>
@@ -144,5 +150,6 @@ export function ResetPassword() {
             </form>
 
 </div>
+
     );
 }
