@@ -191,7 +191,8 @@ const UserInformation = () => {
     }
 
     return (
-        <div className='d-flex justify-content-center align-items-center'>
+        <div className='d-flex justify-content-center align-items-center bg-yellow'
+             style={{minWidth: '1000px'}}>
             <BlockUi tag='div' blocking={isBlocking}>
                 <div className="">
                     <div className='d-flex justify-content-between flex-column flex-md-row'>
@@ -215,7 +216,7 @@ const UserInformation = () => {
                                         <div className='d-flex justify-content-between'>
                                             <img className='rounded-circle img-fluid' src={picture}
                                                  style={{width: '19%', height: '19%'}}
-                                                 alt='Profile Picture'/>
+                                                 alt='No Profile Picture Uploaded'/>
                                             <br/>
                                             <div className='d-flex justify-content-center align-items-center'>
                                                 <label className='upload-icon'>
@@ -230,8 +231,20 @@ const UserInformation = () => {
                                             </div>
                                         </div>
                                     ) : (
-                                        <img className='rounded-circle img-fluid h-20' src={picture}
-                                             alt='Profile Picture'/>
+                                        <div>
+                                            <img className='rounded-circle img-fluid h-20' src={picture}
+                                                 alt='No Profile Picture Uploaded. '/>
+                                            <br/>
+                                            <div>Add a personalized touch to your profile!
+                                                Upload a profile picture to let others in the community recognize and
+                                                connect with you more easily.
+                                                It's a great way to showcase your personality and make your profile
+                                                stand out.
+                                                Click the 'Upload Picture' button to get started and enhance your
+                                                presence on the platform!
+                                            </div>
+                                            <br/>
+                                        </div>
                                     )}
 
                                 </div>
