@@ -131,11 +131,6 @@ const Users = () => {
 
     }
 
-    const handleConfirmNo = (e) => {
-        e.preventDefault();
-        setIsEditMode(false);
-    }
-
 
     const formik = useFormik({
         initialValues: {
@@ -188,20 +183,6 @@ const Users = () => {
         setShowModal(false);
     }
 
-    const handleOpenModal = (user) => {
-        setShowModal(true);
-        setSelectedUser(user);
-    }
-
-    const handleDeleteUser = async (index) => {
-        setIsEditMode(true);
-        setRemoveIndex(index);
-        const deleteItem = await deleteUser(index);
-    };
-
-    const handleBlockUser = (index) => {
-
-    }
 
     const enterEditMode = (index) => {
         setIsEditMode(true);
@@ -217,12 +198,6 @@ const Users = () => {
         })
     }
 
-    const enterBlockDeleteMode = (index) => {
-        setShowModal(true);
-        setIsBlockDeleteMode(true);
-
-
-    }
 
     // @ts-ignore
     return (
@@ -434,16 +409,20 @@ const Users = () => {
                                             </div>
                                             <label
                                                 className='form-label fs-6 fw-bolder text-dark'>role: {user.role}</label>
-                                            <div>
+
+                                            {/* <div>
 
                                                 {user.role === 'vendor' && (
                                                     <div className='fv-row'>
                                                         <label
                                                             className='form-label fs-6 fw-bolder text-dark'>company: </label><br/>
+                                                        <label>{
+
+                                                        }</label>
 
                                                     </div>
                                                 )}
-                                            </div>
+                                            </div>*/}
                                         </div>
                                     )
                                 }
