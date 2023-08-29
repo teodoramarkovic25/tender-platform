@@ -23,8 +23,11 @@ const Chart = (props) => {
         }
     }
 
-    console.log(data[1]);
+    console.log('data1', data[1]);
     useEffect(() => {
+        console.log('Chart data updated:', data);
+
+        console.log('Data received in Chart:', props.data);
         // Update the data state when props.data changes
         //This function adds additional data to display
         if (props.data && Array.isArray(props.data)) {
@@ -33,6 +36,13 @@ const Chart = (props) => {
                 const newData = [];
 
                 for (var i = 0; i <= props.data.length - 1; i++) {
+                    //dodato da ne puca app pregledati
+                    const item = props.data[i];
+                    if (!item._id) {
+                        // Skip items without a valid _id property
+                        continue;
+                    }
+
                     newData.push(props.data[i]);
                     var dateParts = props.data[i]._id.split("-");
                     var year = dateParts[0] * 1;

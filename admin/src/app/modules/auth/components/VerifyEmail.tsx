@@ -15,6 +15,10 @@ const VerifyEmail = () => {
 
     const navigate = useNavigate();
 
+    const handleCancel = () => {
+        navigate('/my-profile');
+    };
+
     const verify = async () => {
         try {
             if (token) {
@@ -41,8 +45,14 @@ const VerifyEmail = () => {
     return (
         <div className='d-flex justify-content-center align-items-center'>
             <button
-                className='btn btn-lg'
+                className='btn btn-lg me-5'
                 onClick={verify}>Verify email
+            </button>
+            <button
+                className='btn btn-secondary btn-lg'
+                onClick={handleCancel}
+            >
+                Cancel
             </button>
         </div>
     );

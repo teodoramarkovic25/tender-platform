@@ -4,10 +4,11 @@ import {useIntl} from 'react-intl'
 import {KTSVG} from '../../../helpers'
 import {AsideMenuItemWithSub} from './AsideMenuItemWithSub'
 import {AsideMenuItem} from './AsideMenuItem'
+import {useAuth} from "../../../../app/modules/auth";
 
 export function AsideMenuMain() {
     const intl = useIntl()
-
+    const {currentUser, logout} = useAuth();
     return (
         <>
             <AsideMenuItem
@@ -17,15 +18,22 @@ export function AsideMenuMain() {
                 //fontIcon='bi-app-indicator'
             />
 
+            {currentUser.role === 'vendor' ? (
+                <AsideMenuItemWithSub to='*' title='Tenders'>
+                    <AsideMenuItem to='/offers-page' title='Create offer'/>
+                    <AsideMenuItem to='/my-profile' title='My profile'/>
+                </AsideMenuItemWithSub>
+            ) : (
+                <AsideMenuItemWithSub to='*' title='Tenders'>
+                    <AsideMenuItem to='/create-tender' title='Create tender'/>
+                    <AsideMenuItem to='/all-tenders' title='All tenders'/>
+                    <AsideMenuItem to='/offers-page' title='Create offer'/>
+                    <AsideMenuItem to='/evaluations' title='Create evaluation'/>
+                    <AsideMenuItem to='/users' title='Users'/>
+                    <AsideMenuItem to='/my-profile' title='My profile'/>
+                </AsideMenuItemWithSub>
+            )}
 
-            <AsideMenuItemWithSub to={"*"} title="Tenders">
-                <AsideMenuItem to="/create-tender" title="Create tender"/>
-                <AsideMenuItem to={"/all-tenders"} title={"All tenders"}/>
-                <AsideMenuItem to={"/offers-page"} title={"Create offer"}/>
-                <AsideMenuItem to={"/evaluations"} title={"Create evaluation"}/>
-                <AsideMenuItem to={"/users"} title={"Users"}/>
-                <AsideMenuItem to={"/my-profile"} title={"My profile"}/>
-            </AsideMenuItemWithSub>
 
             {/*<div className='menu-item'>
                 <div className='menu-content pt-8 pb-2'>

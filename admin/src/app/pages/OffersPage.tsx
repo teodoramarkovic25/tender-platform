@@ -31,7 +31,7 @@ export function OffersPage() {
         setIsOpen(true);
     };
 
-    const fetchTenders = async () => {
+    const fetchTenders = async (customQuery = {}) => {
         try {
             const [pagination,allTenders] = await getTenders();
             setTenders(allTenders);
@@ -87,6 +87,12 @@ export function OffersPage() {
                 ))}
                 </tbody>
             </table>
+                    <br/>
+                    <Pagination
+                        paginationData={paginationData}
+                        onPageChange={handlePageChange}
+                        onLimitChange={handleLimitChange}
+                    />
             <ModalComponent show={isOpen} onHide={toggle}>
 
                 <TenderProposals tender={selectedRow} user={currentUser}/>
