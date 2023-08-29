@@ -397,5 +397,6 @@ const UserInformation = () => {
     );
 };
 
+
 export default UserInformation;
 export {getProfilePicture};

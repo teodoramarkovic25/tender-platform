@@ -39,7 +39,7 @@ const AsideDefault: FC = () => {
                 {/* begin::Logo */}
                 {aside.theme === 'dark' && (
                     <Link to='/dashboard'>
-                       <img alt='Logo'className='h-25px logo'src={favicon}/>
+                       <img alt='Logo'className='h-40px logo'src={favicon}/>
                     </Link>
                 )}
 
