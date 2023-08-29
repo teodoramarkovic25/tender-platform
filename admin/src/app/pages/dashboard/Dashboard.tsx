@@ -109,9 +109,9 @@ export function Dashboard() {
                 )}
             </Formik>
 
-             {/* <div className="row row-cols-1 my-4">
-                // <Chart data={chartData}></Chart>
-            </div>    */}
+              <div className="row row-cols-1 my-4">
+                 <Chart data={chartData}></Chart>
+            </div>    
       
         </div>
     );
