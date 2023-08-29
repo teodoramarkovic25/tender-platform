@@ -14,6 +14,7 @@ import {showErrorMessage} from "../shared/components/messages/error-createtender
 import {showSuccessMessage} from "../shared/components/messages/success-createtender-message";
 import StarRatings from 'react-star-ratings';
 
+
 export function EvaluationPage() {
     const [tenders, setTenders] = useState([]);
     const navigate = useNavigate();
