@@ -1,63 +1,62 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import * as Yup from 'yup';
 import clsx from 'clsx';
-import {Link, Route} from 'react-router-dom';
+import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import { useFormik } from 'formik';
 import AuthService from '../../../shared/services/api-client/auth.service';
-import { useQueryParam, StringParam } from 'use-query-params';
-import { QueryParamProvider } from 'use-query-params';
+
+const authService = new AuthService();
+
+const initialValues = {
+    newPassword: '',
+    confirmNewPassword: '',
+};
+
+const resetPasswordSchema = Yup.object().shape({
+    newPassword: Yup.string()
+        .min(3, 'Minimum 3 symbols')
+        .max(50, 'Maximum 50 symbols')
+        .required('Password is required'),
+    confirmNewPassword: Yup.string()
+        .required('Password confirmation is required')
+        .when('newPassword', {
+            is: (val) => val && val.length > 0,
+            then: Yup.string().oneOf([Yup.ref('newPassword')], "Passwords didn't match"),
+        }),
+});
 
 export function ResetPassword() {
-    const [token, setToken] = useQueryParam('token', StringParam);
     const [loading, setLoading] = useState(false);
-
-    const authService = new AuthService();
-
-    const handleSubmit = async (values) => {
-        if (values.newPassword === values.confirmNewPassword) {
-            setLoading(true);
-            try {
-
-                await authService.resetPassword(token, values.newPassword);
-
-                setLoading(false);
-                console.log('Password successfully updated');
-            } catch (error) {
-                setLoading(false);
-                console.error('Error updating password:', error);
-            }
-        } else {
-            console.error('Passwords do not match');
-        }
-    };
-
-
-
-
+    const [searchParams] = useSearchParams();
+    const token = searchParams.get('token');
+    const navigate = useNavigate();
     const formik = useFormik({
-        initialValues: {
-            token: '',
-            newPassword: '',
-            confirmNewPassword: '',
+        initialValues,
+        validationSchema: resetPasswordSchema,
+        onSubmit: async (values, { setStatus, setSubmitting }) => {
+            setLoading(true);
+            setTimeout(() => {
+                authService
+                    .resetPassword(values.newPassword, token)
+                    .then(() => {
+                        setLoading(false);
+                        navigate('/auth/login');
+                    })
+                    .catch(() => {
+                        setLoading(false);
+                        setSubmitting(false);
+                        setStatus('The password detail is incorrect');
+                    });
+            }, 1000);
         },
-        validationSchema: Yup.object({
-            newPassword: Yup.string().min(8, 'Password must be at least 8 characters').required('Required'),
-            confirmNewPassword: Yup.string()
-                .oneOf([Yup.ref('newPassword'), null], 'Passwords must match with new password')
-                .required('Required'),
-        }),
-        onSubmit:handleSubmit,
     });
 
-
+    useEffect(() => {
+        // PasswordMeterComponent.bootstrap(); // Assuming this line is correct
+    }, []);
 
     return (
-
-
         <div>
-            <br/>
-            <br/>
-
             <form
                 style={{ marginTop: '8%', maxWidth: '400px', margin: '0 auto' }}
                 className='form w-100 fv-plugins-bootstrap5 fv-plugins-framework '
@@ -70,7 +69,6 @@ export function ResetPassword() {
                     <div className='text-gray-400 fw-bold fs-4'>Enter your new password.</div>
                 </div>
 
-
                 <div className='fv-row mb-10'>
                     <label className='form-label fw-bolder text-gray-900 fs-6'>New password</label>
                     <input
@@ -78,27 +76,18 @@ export function ResetPassword() {
                         placeholder='Enter new password'
                         autoComplete='off'
                         {...formik.getFieldProps('newPassword')}
-                        className={clsx(
-                            'form-control form-control-lg form-control-solid border-gray-400',
-                            {
-                                'is-invalid': formik.touched.newPassword && formik.errors.newPassword,
-
-                            },
-                            {
-                                'is-valid': formik.touched.newPassword && !formik.errors.newPassword,
-                            }
-
-                        )}
-
+                        className={clsx('form-control form-control-lg form-control-solid border-gray-400', {
+                            'is-invalid': formik.touched.newPassword && formik.errors.newPassword,
+                            'is-valid': formik.touched.newPassword && !formik.errors.newPassword,
+                        })}
                     />
                     {formik.touched.newPassword && formik.errors.newPassword && (
                         <div className='fv-plugins-message-container'>
-                            <div className='fv-help-block'>
-
-                            </div>
+                            <div className='fv-help-block'>{formik.errors.newPassword}</div>
                         </div>
                     )}
                 </div>
+
                 <div className='fv-row mb-10'>
                     <label className='form-label fw-bolder text-gray-900 fs-6'>Confirm new password</label>
                     <input
@@ -106,33 +95,31 @@ export function ResetPassword() {
                         placeholder='Confirm new password'
                         autoComplete='off'
                         {...formik.getFieldProps('confirmNewPassword')}
-                        className={clsx(
-                            'form-control form-control-lg form-control-solid border-gray-400',
-                            {
-                                'is-invalid': formik.touched.confirmNewPassword && formik.errors.confirmNewPassword,
-                            },
-                            {
-                                'is-valid': formik.touched.confirmNewPassword && !formik.errors.confirmNewPassword,
-                            }
-                        )}
+                        className={clsx('form-control form-control-lg form-control-solid border-gray-400', {
+                            'is-invalid': formik.touched.confirmNewPassword && formik.errors.confirmNewPassword,
+                            'is-valid': formik.touched.confirmNewPassword && !formik.errors.confirmNewPassword,
+                        })}
                     />
                     {formik.touched.confirmNewPassword && formik.errors.confirmNewPassword && (
                         <div className='fv-plugins-message-container'>
-                            <div className='fv-help-block'>
-
-                            </div>
+                            <div className='fv-help-block'>{formik.errors.confirmNewPassword}</div>
                         </div>
                     )}
                 </div>
 
                 <div className='d-flex flex-wrap justify-content-center pb-lg-0'>
-                    <button type='submit' disabled={formik.isSubmitting || loading} id='kt_password_reset_submit' className='btn btn-lg fw-bolder me-4'>
+                    <button
+                        type='submit'
+                        disabled={formik.isSubmitting || loading}
+                        id='kt_password_reset_submit'
+                        className='btn btn-lg fw-bolder me-4'
+                    >
                         <span className='indicator-label'>Change Password</span>
                         {loading && (
                             <span className='indicator-progress'>
-                Please wait...
-                <span className='spinner-border spinner-border-sm align-middle ms-2'></span>
-              </span>
+                                Please wait...
+                                <span className='spinner-border spinner-border-sm align-middle ms-2'></span>
+                            </span>
                         )}
                     </button>
                     <Link to='/auth/login'>
@@ -146,10 +133,7 @@ export function ResetPassword() {
                         </button>
                     </Link>{' '}
                 </div>
-
             </form>
-
-</div>
-
+        </div>
     );
 }

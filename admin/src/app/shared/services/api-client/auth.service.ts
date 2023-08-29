@@ -11,16 +11,13 @@ const API_VERSION = process.env.REACT_APP_API_VERSION;
 
 class AuthService {
 
-    async resetPassword(resetPasswordToken, newPassword) {
+    async resetPassword(password: string, token: string): Promise<any> {
         try {
-            const response = await axios.post(`${API_URL}/reset-password`, {
-                resetPasswordToken,
-                newPassword,
-
-            });
-            return response.data;
+            await axios.post(`${API_URL}/${API_VERSION}/auth/reset-password?token=${token}`, { password });
+            return {data: {result: true}};
         } catch (error) {
-            throw new Error('Failed to reset password :', error);
+            console.error("Resetting password failed:", error);
+            return null;
         }
     }
 
