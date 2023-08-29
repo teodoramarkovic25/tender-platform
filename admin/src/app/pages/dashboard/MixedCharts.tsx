@@ -1,6 +1,6 @@
 import React,{ useState, useEffect} from 'react';
 import { Doughnut, Bar } from 'react-chartjs-2';
-import { getOffers } from '../shared/services/offer.service';
+import { getOffers } from '../../shared/services/offer.service';
 
 const MixedCharts = () => {
 
@@ -8,17 +8,49 @@ const [selected,setSelected]=useState(0);
 const [notSelected,setNotSelected]=useState(0);
 
 
-const selectedCount=()=>{
-  
-}
+
+useEffect(() => {
+ countNotSelectedOffers();
+ countSelectedOffers();
+}, [selected,notSelected]);
+
+const countSelectedOffers=async()=>{
+
+  const filters = {
+    createdBy: '',
+    tender: '',
+    isSelected: 'true'
+};
+
+const offerslist=await getOffers(filters);
+console.log('selected',offerslist);
+setSelected(offerslist.length);
+console.log('selected length',offerslist.length);
+
+};
+
+const countNotSelectedOffers=async()=>{
+
+  const filters = {
+    createdBy: '',
+    tender: '',
+    isSelected: 'false'
+};
+
+const offerslist=await getOffers(filters);
+console.log('not selected',offerslist);
+setNotSelected(offerslist.length);
+console.log('not selected length',offerslist.length);
+
+};
 
   const doughnutData = {
     labels: ['Selected Offers', 'Not Selected Offers'],
     datasets: [
       {
-        data: [20, 50],
-        backgroundColor: ['#FF6384', '#36A2EB'],
-        hoverBackgroundColor: ['#FF6384', '#36A2EB'],
+        data: [selected, notSelected],
+        backgroundColor: ['#F08080', '#36A2EB'],
+        hoverBackgroundColor: ['#F08080', '#36A2EB'],
       },
     ],
   };

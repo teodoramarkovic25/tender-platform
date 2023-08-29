@@ -11,6 +11,7 @@ import {createFile} from "../../shared/services/file.service";
 import {getFiles} from "../../shared/services/file.service";
 import {useAuth} from "../../modules/auth";
 import clsx from "clsx";
+import createtender from "./createtender.jpg";
 
 import CoinAnimation from "./CoinAnimation";
 
@@ -306,9 +307,11 @@ export function CreateTender() {
                     </button>
 
                 </form>
-            </div>
 
+            </div>
+            {/*<div> <img src={createtender} alt="tender photo" style={{ width: '50px', height: '50px' }} /></div>  */}
         </div>
+
 
     );
 }

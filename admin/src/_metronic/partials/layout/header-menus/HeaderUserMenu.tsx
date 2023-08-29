@@ -6,6 +6,8 @@ import {Languages} from './Languages'
 import {toAbsoluteUrl} from '../../../helpers'
 import UserInformation from "../../../../app/pages/userInformation/UserInformation";
 import {getProfilePicture} from "../../../../app/pages/userInformation/UserInformation";
+
+
 const HeaderUserMenu: FC = () => {
     const {currentUser, logout} = useAuth();
     const [picture,setPicture]=useState(null);
@@ -33,9 +35,10 @@ const HeaderUserMenu: FC = () => {
                             {currentUser?.firstName} {currentUser?.lastName}
                             <span className='badge badge-light-primary fw-bolder fs-8 px-2 py-1 ms-2'>{currentUser?.role}</span>
                         </div>
-                        <a href='#' className='fw-bold text-muted text-hover-primary fs-7'>
+                        <Link to='/my-profile' className='fw-bold text-muted text-hover-primary fs-7'>
                             {currentUser?.email}
-                        </a>
+                        </Link>
+
                     </div>
                 </div>
             </div>

@@ -18,21 +18,20 @@ export function AsideMenuMain() {
                 //fontIcon='bi-app-indicator'
             />
 
-            {currentUser.role === 'vendor' ? (
-                <AsideMenuItemWithSub to='*' title='Tenders'>
-                    <AsideMenuItem to='/offers-page' title='Create offer'/>
-                    <AsideMenuItem to='/my-profile' title='My profile'/>
-                </AsideMenuItemWithSub>
-            ) : (
-                <AsideMenuItemWithSub to='*' title='Tenders'>
-                    <AsideMenuItem to='/create-tender' title='Create tender'/>
-                    <AsideMenuItem to='/all-tenders' title='All tenders'/>
-                    <AsideMenuItem to='/offers-page' title='Create offer'/>
-                    <AsideMenuItem to='/evaluations' title='Create evaluation'/>
-                    <AsideMenuItem to='/users' title='Users'/>
-                    <AsideMenuItem to='/my-profile' title='My profile'/>
-                </AsideMenuItemWithSub>
-            )}
+            <AsideMenuItemWithSub to='*' title='Tenders'>
+                <AsideMenuItem to='/create-tender' title='Create tender'/>
+                <AsideMenuItem to='/all-tenders' title='All tenders'/>
+            </AsideMenuItemWithSub>
+
+            <AsideMenuItemWithSub to='*' title='Offers'>
+                <AsideMenuItem to='/offers-page' title='Create offer'/>
+                <AsideMenuItem to='/evaluations' title='Create evaluation'/>
+            </AsideMenuItemWithSub>
+
+            <AsideMenuItemWithSub to='*' title='Users'>
+                <AsideMenuItem to='/users' title='Users'/>
+                <AsideMenuItem to='/my-profile' title='My profile'/>
+            </AsideMenuItemWithSub>
 
 
             {/*<div className='menu-item'>
