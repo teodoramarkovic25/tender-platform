@@ -93,7 +93,7 @@ const UserCard = () => {
 
     return (
         <div>
-            <div className='d-flex justify-content-center align-items-center'>
+            <div className='d-flex justify-content-center align-items-center '>
                 <Card className='card p-3 border border-black border-5 mb-3 col-10 col-md-8 col-lg-6'>
                     <Card.Body>
                         {<PieChartUserOffers user={user}/>}

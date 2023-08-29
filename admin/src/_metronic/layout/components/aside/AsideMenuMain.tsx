@@ -18,19 +18,29 @@ export function AsideMenuMain() {
                 //fontIcon='bi-app-indicator'
             />
 
-            <AsideMenuItemWithSub to='*' title='Tenders'>
-                <AsideMenuItem to='/create-tender' title='Create tender'/>
-                <AsideMenuItem to='/all-tenders' title='All tenders'/>
-            </AsideMenuItemWithSub>
+            {currentUser.role === "admin" && (
+                <AsideMenuItemWithSub to='*' title='Tenders'>
+                    <AsideMenuItem to='/create-tender' title='Create tender'/>
+                    <AsideMenuItem to='/all-tenders' title='All tenders'/>
+                </AsideMenuItemWithSub>
+            )}
 
             <AsideMenuItemWithSub to='*' title='Offers'>
-                <AsideMenuItem to='/offers-page' title='Create offer'/>
-                <AsideMenuItem to='/evaluations' title='Create evaluation'/>
+                {(currentUser.role === "admin" || currentUser.role === "vendor") && (
+                    <AsideMenuItem to='/offers-page' title='Create offer'/>
+                )}
+                {currentUser.role === "admin" && (
+                    <AsideMenuItem to='/evaluations' title='Create evaluation'/>
+                )}
             </AsideMenuItemWithSub>
 
-            <AsideMenuItemWithSub to='*' title='Users'>
-                <AsideMenuItem to='/users' title='Users'/>
-                <AsideMenuItem to='/my-profile' title='My profile'/>
+            <AsideMenuItemWithSub to='*' title='User'>
+                {currentUser.role === "admin" && (
+                    <AsideMenuItem to='/users' title='Users'/>
+                )}
+                {(currentUser.role === "admin" || currentUser.role === "vendor") && (
+                    <AsideMenuItem to='/my-profile' title='My profile'/>
+                )}
             </AsideMenuItemWithSub>
 
 

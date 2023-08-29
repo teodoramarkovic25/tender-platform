@@ -49,8 +49,8 @@ export const getEvaluations = async (filters: { rating?: number, offer?: string,
             path += `?collaborators=${filters.collaborators}`;
         }
     }
-
-    return ApiClient.get(path)
+    const limit = 999999;
+    return ApiClient.get(`${path}?limit=${limit}`)
         .then(response => response.data)
         .then(data => data.results)
         .then(data => data.map(item => new EvaluatorModel(item)))

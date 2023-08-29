@@ -80,9 +80,8 @@ export function OffersPage() {
     return (
         <div>
             <BlockUi tag='div' blocking={isBlocking}>
-                <h1>Create</h1>
                 <div className='table-responsive'>
-                    <table className="table table-striped gy-7 gs-7 table-bordered border-4">
+                    <table className="table table-striped gy-7 gs-7 mt-5 table-bordered border-4">
                         <thead className="text-center bg-primary text-white fw-bold">
                         <tr className="fw-bold fs-6 border-bottom border-gray-200">
                             <th className="text-white">Title</th>

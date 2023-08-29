@@ -108,7 +108,7 @@ export function CreateTender() {
 
     });
     return (
-        <div className='d-flex justify-content-center align-items-center'>
+        <div className='d-flex justify-content-center align-items-center mt-5'>
 
             <div className="col-10 col-md-8 col-lg-6">
                 <form
